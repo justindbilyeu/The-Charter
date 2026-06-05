@@ -42,7 +42,10 @@ Rationale: session limits are an operational constraint, not a research variable
 
 ## v2.0
 
-Initial release. Established the eight core institutions:
+Initial release as a general-purpose research assistant charter. Generalized from v1.0 — removed RG²-specific persona (SAGE), domain-specific file format (CLAIM.md/PREREG.yaml bundle), and physics-oriented modeling language. Added G5 Mechanism gate (not present in v1.0). Retained core institutions and constitutional principle.
+
+Established the eight core institutions:
+
 
 1. The Structuring Contract
 2. Hard Gates (G1–G5)
@@ -54,3 +57,23 @@ Initial release. Established the eight core institutions:
 8. Integrity Rules
 
 Established the Constitutional Principle, three Output Modes, and Handshake/Handoff communication hooks.
+
+---
+
+## v1.0
+
+**Original charter — SAGE / RG² (Resonance Geometry × Resonance Engine)**
+
+Domain-specific charter written for the RG² research project. Written by and for SAGE (the project's AI research partner persona). Not a general-purpose framework — scoped to a single project with physics-oriented modeling language and a specific artifact format.
+
+Distinctive features not carried forward into v2.0:
+
+- **SAGE persona** — explicit co-founder–grade role, RG²-specific identity
+- **Compilation bundle format** — four required files: `CLAIM.md`, `OPERATIONALIZE.md`, `PREREG.yaml`, `NULLS.md`
+- **Physics-oriented Modeling Protocol** — symmetries, conserved quantities, seed manifests
+- **Compass metaphor in Genesis** — "We use it as a compass" (reintroduced formally in v3.0 draft Compass Protocol)
+- **RG² Signature** — 𝒮 : (Intent × Coherence) → Awareness / 𝒮⊙ : (Intent × Coherence) → Deployment
+- **Constitutional Principle** — "No Claim Without Nulls. No Nulls Without Numbers. No Numbers Without a Run." (generalized to "No Claims Without Tests" in v2.0)
+- **No G5** — mechanism gate not present; v2.0 added it
+
+Four hard gates (G1–G4). No Session Continuity Protocol (added in v2.1). No G5 Mechanism gate (added in v2.0).
