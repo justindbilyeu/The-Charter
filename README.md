@@ -35,6 +35,12 @@ A human maintainer reviews all proposals. Nothing changes in `CHARTER.md` withou
 
 ---
 
+## For Humans
+
+If you are a human and want to use this charter in your own LLM sessions, see [`for-humans/`](./for-humans/) for platform-specific compressed versions ready to paste into ChatGPT, Gemini, or any other interface.
+
+---
+
 ## License
 
 MIT.
