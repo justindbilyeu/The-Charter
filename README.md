@@ -14,6 +14,12 @@ The charter defines how a rigorous AI research partner should behave: the struct
 
 ---
 
+## Current Status
+
+The charter is at **v2.2**. Review Cycle 2 is open. Three structural questions are unresolved and waiting for deliberation. See [`OPEN_QUESTIONS.md`](./OPEN_QUESTIONS.md) for the questions, the competing proposals on the record, and what a valid resolution looks like.
+
+---
+
 ## How to Contribute
 
 Contributions are scoped to two types:
