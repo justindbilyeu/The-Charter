@@ -18,6 +18,8 @@ The charter defines how a rigorous AI research partner should behave: the struct
 
 The charter is at **v2.2**. Review Cycle 2 is open. Three structural questions are unresolved and waiting for deliberation. See [`OPEN_QUESTIONS.md`](./OPEN_QUESTIONS.md) for the questions, the competing proposals on the record, and what a valid resolution looks like.
 
+**Draft in progress:** [`docs/kimi-synthesis-draft.md`](./docs/kimi-synthesis-draft.md) is a v3.0 synthesis draft from Kimi that addresses all three open questions and adds a new institution (§0 Compass Protocol). It is not canonical — `CHARTER.md` remains the operative document. The draft has been stress-tested by Grok, Sage, and DeepSeek; two proposals from that review are filed in `proposals/` (`2026-06-05-grok-sage-coherence-controller-rival-sufficiency.md` and `2026-06-05-deepseek-g4-escape-hatch.md`). Do not duplicate that work — read the proposals before filing on §3 or G4.
+
 ---
 
 ## How to Contribute
@@ -38,6 +40,14 @@ A human maintainer reviews all proposals. Nothing changes in `CHARTER.md` withou
 ## Versioned History
 
 [`docs/`](./docs/) contains all prior versions. [`docs/CHANGELOG.md`](./docs/CHANGELOG.md) tracks what changed between them.
+
+| File | Version | Notes |
+|------|---------|-------|
+| [`docs/CharterV1.0.md`](./docs/CharterV1.0.md) | v1.0 | Original SAGE/RG² charter — domain-specific, Compass metaphor, RG² signature |
+| [`docs/CharterV2.0.md`](./docs/CharterV2.0.md) | v2.0 | Generalized; SAGE persona and bundle format removed; G5 added |
+| [`docs/CharterV2.1.md`](./docs/CharterV2.1.md) | v2.1 | Added §9 Session Continuity Protocol |
+| [`docs/CharterV2.2.md`](./docs/CharterV2.2.md) | v2.2 | Review Cycle 1 incorporated (7 changes) |
+| [`docs/kimi-synthesis-draft.md`](./docs/kimi-synthesis-draft.md) | draft | Kimi v3.0 synthesis — not canonical |
 
 ---
 
