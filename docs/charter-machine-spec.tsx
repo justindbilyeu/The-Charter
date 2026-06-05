@@ -1,0 +1,653 @@
+import { useState } from "react";
+
+const COLORS = {
+  bg: "#0a0c0f",
+  surface: "#111318",
+  border: "#1e2430",
+  borderBright: "#2e3a4a",
+  accent: "#00d4ff",
+  accentDim: "#0099bb",
+  warn: "#ffaa00",
+  error: "#ff4455",
+  success: "#00cc88",
+  text: "#c8d4e0",
+  textDim: "#6a7a8a",
+  textBright: "#eef4fa",
+  gate: "#7b5cf0",
+  state: "#00cc88",
+  input: "#ffaa00",
+  output: "#00d4ff",
+  gap: "#ff4455",
+};
+
+const sections = [
+  {
+    id: "overview",
+    label: "SYSTEM OVERVIEW",
+    short: "SYS",
+  },
+  {
+    id: "fsm",
+    label: "STATE MACHINE",
+    short: "FSM",
+  },
+  {
+    id: "components",
+    label: "COMPONENTS",
+    short: "CMP",
+  },
+  {
+    id: "dataflow",
+    label: "DATA FLOW",
+    short: "DFL",
+  },
+  {
+    id: "gaps",
+    label: "GAP ANALYSIS",
+    short: "GAP",
+  },
+  {
+    id: "spec",
+    label: "MACHINE SPEC",
+    short: "SPC",
+  },
+];
+
+const states = [
+  {
+    id: "INIT",
+    label: "INIT",
+    color: COLORS.warn,
+    desc: "System boot state. Charter loaded, session context empty. Awaiting first claim input.",
+    transitions: ["STRUCTURING"],
+    gap: "No initialization procedure defined in Charter. Boot state is implicit.",
+    gapSeverity: "HIGH",
+  },
+  {
+    id: "STRUCTURING",
+    label: "STRUCTURING",
+    color: COLORS.accent,
+    desc: "Incoming idea/claim is being compiled into a structured artifact. Structuring Contract (§1) active.",
+    transitions: ["GATE_CHECK", "STRUCTURING"],
+    gap: null,
+  },
+  {
+    id: "GATE_CHECK",
+    label: "GATE_CHECK",
+    color: COLORS.gate,
+    desc: "G1–G5 applied sequentially to current artifact. All must pass to proceed.",
+    transitions: ["DIVERSIFY", "CONVERGE", "RESTART"],
+    gap: "Gate failure sequencing undefined. What happens when G3 fails but G1–G2 pass? Partial state unspecified.",
+    gapSeverity: "MEDIUM",
+  },
+  {
+    id: "DIVERSIFY",
+    label: "DIVERSIFY",
+    color: COLORS.warn,
+    desc: "Inject competing explanations, skeptical probes, assumption challenges. §4 Productive Skepticism Protocol active.",
+    transitions: ["GATE_CHECK", "STRUCTURING"],
+    gap: "Trigger condition anthropomorphic ('feels obviously right'). Undefined for LLM execution. Q2 in OPEN_QUESTIONS.md.",
+    gapSeverity: "HIGH",
+  },
+  {
+    id: "CONVERGE",
+    label: "CONVERGE",
+    color: COLORS.success,
+    desc: "Exhausted scrutiny. All gates pass, all objections documented, no new untested objection in scope.",
+    transitions: ["OUTPUT", "INIT"],
+    gap: null,
+  },
+  {
+    id: "RESTART",
+    label: "RESTART",
+    color: COLORS.error,
+    desc: "Structural flaw detected. Recompile with explicit defect list. Do not patch around failure.",
+    transitions: ["STRUCTURING"],
+    gap: "No watchdog defined. Silent degradation (gradual agreement drift) has no detection mechanism.",
+    gapSeverity: "HIGH",
+  },
+  {
+    id: "OUTPUT",
+    label: "OUTPUT",
+    color: COLORS.output,
+    desc: "Artifact produced. Handoff generated. State Compression triggered if §9 conditions met.",
+    transitions: ["INIT", "STRUCTURING"],
+    gap: null,
+  },
+];
+
+const components = [
+  {
+    id: "SC",
+    name: "Structuring Contract",
+    ref: "§1",
+    type: "PROCESSOR",
+    inputs: ["raw_claim", "operator_context"],
+    outputs: ["structured_artifact"],
+    spec: "Transforms unstructured idea into artifact with: central claim (≤3 sentences), operational definitions, test specification, success/failure criteria (≥2 numeric thresholds).",
+    gaps: [],
+  },
+  {
+    id: "HG",
+    name: "Hard Gates",
+    ref: "§2",
+    type: "VALIDATOR",
+    inputs: ["structured_artifact"],
+    outputs: ["gate_result[PASS|FAIL]", "gate_id", "defect_list"],
+    spec: "G1 Numeric completeness · G2 Bounded scope · G3 Operational definitions · G4 Test rigidity · G5 Mechanism status declared",
+    gaps: [
+      "Gate failure sequencing undefined — partial pass state not specified",
+      "No defined order of gate application",
+      "No short-circuit rule: does G1 failure skip G2–G5?",
+    ],
+  },
+  {
+    id: "CC",
+    name: "Coherence Controller",
+    ref: "§3",
+    type: "STATE_CONTROLLER",
+    inputs: ["gate_result", "constraint_health", "session_context"],
+    outputs: ["state_transition[CONVERGE|DIVERSIFY|RESTART]"],
+    spec: "Monitors constraint health. Decides CONVERGE (exhausted scrutiny), DIVERSIFY (inject alternatives), or RESTART (structural flaw).",
+    gaps: [
+      "DIVERSIFY trigger undefined for LLM execution (Q2)",
+      "'Constraint health' not defined as a measurable quantity",
+      "No tie-breaking rule when multiple states are valid simultaneously",
+    ],
+  },
+  {
+    id: "PSP",
+    name: "Productive Skepticism Protocol",
+    ref: "§4",
+    type: "PROCESSOR",
+    inputs: ["current_proposal", "session_history"],
+    outputs: ["objection_set", "assumption_audit", "calibration_result"],
+    spec: "Convergence Check · Assumption Audit · Failure Mode Probe · Scope Boundary Test · Mechanism Challenge · Calibration Rule · Skepticism Termination Rule",
+    gaps: [
+      "Calibration Rule output format undefined — objections are produced but not typed or tracked",
+      "No persistent objection register defined across state transitions",
+    ],
+  },
+  {
+    id: "EH",
+    name: "Evidence Hierarchy",
+    ref: "§5",
+    type: "TYPE_SYSTEM",
+    inputs: ["claim", "supporting_material"],
+    outputs: ["evidence_level[E1-E5]"],
+    spec: "E1 Speculation · E2 Domain knowledge · E3 Reproducible experiment · E4 Methods-grade · E5 Fully reproducible",
+    gaps: [
+      "Linear ladder collapses reproducibility and empirical grounding (Q1 — Kimi)",
+      "E2 boundary criteria undefined — hallucinated citations not excluded (Q1 — Gemini)",
+      "No upgrade/downgrade protocol when evidence level changes mid-session",
+    ],
+  },
+  {
+    id: "SCP",
+    name: "Session Continuity Protocol",
+    ref: "§9",
+    type: "MEMORY_MANAGER",
+    inputs: ["session_state", "trigger_condition"],
+    outputs: ["state_compression"],
+    spec: "Serializes session state on /compress or trigger conditions: topic shift, milestone, elevated complexity.",
+    gaps: [
+      "No defined deserialization protocol — how is State Compression re-ingested?",
+      "Numeric thresholds absent — trigger conditions rely on judgment (Q3)",
+      "No checksum or integrity verification on State Compression output",
+    ],
+  },
+];
+
+const dataItems = [
+  { id: "raw_claim", label: "RAW CLAIM", type: "input", color: COLORS.input, desc: "Unstructured idea or hypothesis from operator" },
+  { id: "structured_artifact", label: "STRUCTURED ARTIFACT", type: "intermediate", color: COLORS.accent, desc: "Compiled claim with gates-ready spec" },
+  { id: "gate_result", label: "GATE RESULT", type: "intermediate", color: COLORS.gate, desc: "PASS/FAIL per gate G1–G5 with defect list" },
+  { id: "evidence_level", label: "EVIDENCE LEVEL", type: "intermediate", color: COLORS.warn, desc: "E1–E5 type tag on each claim" },
+  { id: "objection_set", label: "OBJECTION SET", type: "intermediate", color: COLORS.textDim, desc: "Structured objections from PSP — currently untyped" },
+  { id: "state_compression", label: "STATE COMPRESSION", type: "output", color: COLORS.success, desc: "Serialized session state for handoff" },
+  { id: "artifact_output", label: "ARTIFACT OUTPUT", type: "output", color: COLORS.output, desc: "Final research artifact: claim + evidence + test results" },
+];
+
+const gaps = [
+  {
+    id: "G-01",
+    severity: "HIGH",
+    component: "FSM",
+    title: "No Initialization Procedure",
+    desc: "The Charter has no defined boot state. What context is loaded at session start? What is the default state before the first claim arrives? This is implicit in the prose but undefined in any machine-executable sense.",
+    resolution: "Define an INIT state with explicit entry conditions: Charter version loaded, session ID assigned, operator context captured, objection register cleared.",
+  },
+  {
+    id: "G-02",
+    severity: "HIGH",
+    component: "Coherence Controller §3",
+    title: "DIVERSIFY Trigger Undefined for LLM Execution",
+    desc: "'This feels obviously right' is anthropomorphic. An LLM cannot introspect phenomenological states. The trigger either never fires or fires constantly. Gemini's replacement conditions are partial — 'explicitly modeled competing hypothesis' undefined.",
+    resolution: "Operationalize as structural conditions checkable from session transcript. See OPEN_QUESTIONS.md Q2.",
+  },
+  {
+    id: "G-03",
+    severity: "HIGH",
+    component: "FSM",
+    title: "No Watchdog / Degradation Detection",
+    desc: "The Charter names 'agreement drift' as a failure mode but provides no detection mechanism. A system that has drifted into mirror mode has no internal signal that it has done so. The watchdog is the human operator — but that dependency is not specified.",
+    resolution: "Define a periodic self-check: at each OUTPUT, evaluate whether the last N state transitions produced any RESTART or DIVERSIFY. If not, flag for human review.",
+  },
+  {
+    id: "G-04",
+    severity: "MEDIUM",
+    component: "Hard Gates §2",
+    title: "Gate Failure Sequencing Undefined",
+    desc: "When a gate fails, the Charter says 'restructuring required.' But which gates are prerequisites for which? Does G1 failure short-circuit G2–G5? Can G3 fail while G1–G2 pass and still proceed to partial testing? Partial gate states are unspecified.",
+    resolution: "Define gate dependency graph. Propose: G1→G2 are prerequisites (numeric + scope); G3–G5 are parallel validators. G1 or G2 failure triggers RESTART. G3–G5 failure triggers DIVERSIFY or targeted STRUCTURING.",
+  },
+  {
+    id: "G-05",
+    severity: "MEDIUM",
+    component: "Evidence Hierarchy §5",
+    title: "Type System Has Wrong Dimensionality",
+    desc: "E1–E5 collapses reproducibility and empirical grounding into one axis. A reproducible simulation with garbage boundary conditions ranks higher than a non-reproducible empirical observation. Goodhart's Law incentive: optimize for reproducibility at expense of validity.",
+    resolution: "Either declare the hierarchy a heuristic (Option C, OPEN_QUESTIONS Q1) with explicit scope note, or introduce a 2D structure. Decision gates on Q1 resolution.",
+  },
+  {
+    id: "G-06",
+    severity: "MEDIUM",
+    component: "Productive Skepticism Protocol §4",
+    title: "Objection Register Not Defined as Data Structure",
+    desc: "Objections are produced by PSP but there is no defined persistent structure for tracking them across state transitions. The Skepticism Termination Rule requires knowing which objections have been addressed — but there's no specified register to check against.",
+    resolution: "Define Objection Register as a typed data structure: {id, claim_ref, objection_text, status[OPEN|TESTED|UNTESTABLE], test_result, session_timestamp}. Required input/output of PSP and CC.",
+  },
+  {
+    id: "G-07",
+    severity: "LOW",
+    component: "Session Continuity §9",
+    title: "No Deserialization Protocol",
+    desc: "State Compression is defined as a serialization output. But the re-ingestion procedure — how a new session boots from a State Compression — is unspecified. 'Paste it in' is a human instruction, not a machine protocol.",
+    resolution: "Define State Compression as a typed schema. Define deserialization as: parse schema → load to INIT state with prior context → skip to last known gate status → resume.",
+  },
+  {
+    id: "G-08",
+    severity: "LOW",
+    component: "Coherence Controller §3",
+    title: "'Constraint Health' Not Measurable",
+    desc: "The Coherence Controller monitors 'constraint health' but this is never defined as a quantity. It cannot be computed, compared, or thresholded. It is currently a metaphor doing the work of a metric.",
+    resolution: "Define constraint health as a function of: gates passed / gates applied, objections resolved / objections raised, evidence levels of active claims. Propose a scalar or vector formulation.",
+  },
+];
+
+const severityColor = (s) =>
+  s === "HIGH" ? COLORS.error : s === "MEDIUM" ? COLORS.warn : COLORS.textDim;
+
+export default function CharterMachineSpec() {
+  const [activeSection, setActiveSection] = useState("overview");
+  const [activeState, setActiveState] = useState(null);
+  const [activeComponent, setActiveComponent] = useState(null);
+  const [activeGap, setActiveGap] = useState(null);
+
+  return (
+    <div style={{
+      fontFamily: "'JetBrains Mono', 'Fira Code', 'Courier New', monospace",
+      background: COLORS.bg,
+      color: COLORS.text,
+      minHeight: "100vh",
+      display: "flex",
+      flexDirection: "column",
+    }}>
+      {/* Header */}
+      <div style={{
+        borderBottom: `1px solid ${COLORS.border}`,
+        padding: "16px 24px",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "space-between",
+        background: COLORS.surface,
+      }}>
+        <div>
+          <div style={{ fontSize: "10px", color: COLORS.textDim, letterSpacing: "0.2em", marginBottom: "2px" }}>
+            SYSTEM SPECIFICATION · REV 0.1 · DRAFT
+          </div>
+          <div style={{ fontSize: "18px", color: COLORS.textBright, fontWeight: "700", letterSpacing: "0.05em" }}>
+            THE CHARTER <span style={{ color: COLORS.accent }}>AS MACHINE</span>
+          </div>
+        </div>
+        <div style={{ display: "flex", gap: "16px", fontSize: "10px", color: COLORS.textDim }}>
+          <span>STATES: <span style={{ color: COLORS.state }}>{states.length}</span></span>
+          <span>COMPONENTS: <span style={{ color: COLORS.accent }}>{components.length}</span></span>
+          <span>GAPS: <span style={{ color: COLORS.error }}>{gaps.length}</span></span>
+        </div>
+      </div>
+
+      {/* Nav */}
+      <div style={{
+        display: "flex",
+        borderBottom: `1px solid ${COLORS.border}`,
+        background: COLORS.surface,
+        overflowX: "auto",
+      }}>
+        {sections.map(s => (
+          <button
+            key={s.id}
+            onClick={() => setActiveSection(s.id)}
+            style={{
+              background: "none",
+              border: "none",
+              borderBottom: activeSection === s.id ? `2px solid ${COLORS.accent}` : "2px solid transparent",
+              color: activeSection === s.id ? COLORS.accent : COLORS.textDim,
+              padding: "10px 20px",
+              fontSize: "10px",
+              letterSpacing: "0.15em",
+              cursor: "pointer",
+              whiteSpace: "nowrap",
+              transition: "color 0.15s",
+            }}
+          >
+            {s.label}
+          </button>
+        ))}
+      </div>
+
+      {/* Content */}
+      <div style={{ flex: 1, padding: "24px", maxWidth: "1100px", width: "100%", margin: "0 auto" }}>
+
+        {/* OVERVIEW */}
+        {activeSection === "overview" && (
+          <div>
+            <SectionHeader label="SYSTEM OVERVIEW" sub="The Charter mapped as an executable machine" />
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "16px", marginBottom: "24px" }}>
+              {[
+                { label: "SYSTEM TYPE", value: "Finite State Machine + Type System + Memory Manager", color: COLORS.accent },
+                { label: "PRIMARY FUNCTION", value: "Transform unstructured claims into falsifiable, tested artifacts", color: COLORS.success },
+                { label: "OPERATOR INTERFACE", value: "Natural language input · /compress command · Gate results", color: COLORS.warn },
+                { label: "CRITICAL GAPS", value: "8 identified · 3 HIGH severity · No watchdog defined", color: COLORS.error },
+              ].map(item => (
+                <div key={item.label} style={{
+                  background: COLORS.surface,
+                  border: `1px solid ${COLORS.border}`,
+                  padding: "16px",
+                  borderLeft: `3px solid ${item.color}`,
+                }}>
+                  <div style={{ fontSize: "9px", color: COLORS.textDim, letterSpacing: "0.15em", marginBottom: "6px" }}>{item.label}</div>
+                  <div style={{ fontSize: "13px", color: COLORS.textBright }}>{item.value}</div>
+                </div>
+              ))}
+            </div>
+
+            <div style={{ background: COLORS.surface, border: `1px solid ${COLORS.border}`, padding: "20px", marginBottom: "16px" }}>
+              <div style={{ fontSize: "9px", color: COLORS.textDim, letterSpacing: "0.15em", marginBottom: "12px" }}>PROCESSING PIPELINE</div>
+              <div style={{ display: "flex", alignItems: "center", gap: "8px", flexWrap: "wrap" }}>
+                {["RAW CLAIM", "→", "STRUCTURING CONTRACT", "→", "HARD GATES", "→", "COHERENCE CONTROLLER", "→", "PSP", "→", "CONVERGE / DIVERSIFY / RESTART", "→", "ARTIFACT OUTPUT"].map((item, i) => (
+                  <span key={i} style={{
+                    color: item === "→" ? COLORS.textDim :
+                      item === "CONVERGE / DIVERSIFY / RESTART" ? COLORS.state :
+                      item === "RAW CLAIM" ? COLORS.input :
+                      item === "ARTIFACT OUTPUT" ? COLORS.output : COLORS.accent,
+                    fontSize: item === "→" ? "16px" : "11px",
+                    fontWeight: item !== "→" ? "600" : "normal",
+                    letterSpacing: "0.05em",
+                  }}>
+                    {item}
+                  </span>
+                ))}
+              </div>
+            </div>
+
+            <div style={{ background: COLORS.surface, border: `1px solid ${COLORS.border}`, padding: "20px" }}>
+              <div style={{ fontSize: "9px", color: COLORS.textDim, letterSpacing: "0.15em", marginBottom: "12px" }}>PURPOSE OF THIS DOCUMENT</div>
+              <p style={{ fontSize: "13px", lineHeight: "1.7", color: COLORS.text, margin: "0 0 10px 0" }}>
+                This spec translates the Charter's prose into engineering notation. Every component, state, data type, and transition is made explicit. Where the Charter is underspecified, gaps are flagged with severity ratings and proposed resolutions.
+              </p>
+              <p style={{ fontSize: "13px", lineHeight: "1.7", color: COLORS.text, margin: 0 }}>
+                The machine spec serves three purposes: <span style={{ color: COLORS.accent }}>gap revelation</span> (ambiguities that survive prose review fail under engineering notation), <span style={{ color: COLORS.warn }}>simulation readiness</span> (a sufficiently specified machine can be run against session transcripts), and <span style={{ color: COLORS.success }}>build readiness</span> (a validated spec becomes an agent architecture).
+              </p>
+            </div>
+          </div>
+        )}
+
+        {/* FSM */}
+        {activeSection === "fsm" && (
+          <div>
+            <SectionHeader label="FINITE STATE MACHINE" sub="States, transitions, and edge conditions" />
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))", gap: "12px", marginBottom: "24px" }}>
+              {states.map(s => (
+                <div
+                  key={s.id}
+                  onClick={() => setActiveState(activeState?.id === s.id ? null : s)}
+                  style={{
+                    background: COLORS.surface,
+                    border: `1px solid ${activeState?.id === s.id ? s.color : COLORS.border}`,
+                    padding: "16px",
+                    cursor: "pointer",
+                    borderLeft: `3px solid ${s.color}`,
+                    transition: "border-color 0.15s",
+                  }}
+                >
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "8px" }}>
+                    <span style={{ fontSize: "13px", fontWeight: "700", color: s.color, letterSpacing: "0.1em" }}>{s.label}</span>
+                    {s.gap && <span style={{ fontSize: "9px", color: severityColor(s.gapSeverity), letterSpacing: "0.1em" }}>⚠ {s.gapSeverity}</span>}
+                  </div>
+                  <div style={{ fontSize: "11px", color: COLORS.textDim, lineHeight: "1.5", marginBottom: "8px" }}>{s.desc}</div>
+                  <div style={{ fontSize: "10px", color: COLORS.textDim }}>
+                    → <span style={{ color: COLORS.text }}>{s.transitions.join(" | ")}</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+            {activeState && (
+              <div style={{
+                background: COLORS.surface,
+                border: `1px solid ${activeState.color}`,
+                padding: "20px",
+              }}>
+                <div style={{ fontSize: "11px", color: COLORS.textDim, letterSpacing: "0.15em", marginBottom: "4px" }}>STATE DETAIL</div>
+                <div style={{ fontSize: "16px", fontWeight: "700", color: activeState.color, marginBottom: "12px" }}>{activeState.label}</div>
+                {activeState.gap ? (
+                  <div style={{
+                    background: "#1a0a0a",
+                    border: `1px solid ${COLORS.error}`,
+                    padding: "12px",
+                    borderLeft: `3px solid ${severityColor(activeState.gapSeverity)}`,
+                  }}>
+                    <div style={{ fontSize: "9px", color: severityColor(activeState.gapSeverity), letterSpacing: "0.15em", marginBottom: "6px" }}>⚠ GAP · {activeState.gapSeverity}</div>
+                    <div style={{ fontSize: "12px", color: COLORS.text }}>{activeState.gap}</div>
+                  </div>
+                ) : (
+                  <div style={{ fontSize: "12px", color: COLORS.success }}>✓ No gaps identified for this state</div>
+                )}
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* COMPONENTS */}
+        {activeSection === "components" && (
+          <div>
+            <SectionHeader label="SYSTEM COMPONENTS" sub="Every Charter institution as an engineering component" />
+            <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+              {components.map(c => (
+                <div
+                  key={c.id}
+                  onClick={() => setActiveComponent(activeComponent?.id === c.id ? null : c)}
+                  style={{
+                    background: COLORS.surface,
+                    border: `1px solid ${activeComponent?.id === c.id ? COLORS.accent : COLORS.border}`,
+                    padding: "16px",
+                    cursor: "pointer",
+                    transition: "border-color 0.15s",
+                  }}
+                >
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "8px" }}>
+                    <div style={{ display: "flex", gap: "12px", alignItems: "center" }}>
+                      <span style={{ fontSize: "11px", color: COLORS.gate, fontWeight: "700", letterSpacing: "0.1em" }}>{c.id}</span>
+                      <span style={{ fontSize: "13px", color: COLORS.textBright }}>{c.name}</span>
+                      <span style={{ fontSize: "9px", color: COLORS.textDim }}>{c.ref}</span>
+                    </div>
+                    <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
+                      <span style={{ fontSize: "9px", color: COLORS.accent, letterSpacing: "0.1em" }}>{c.type}</span>
+                      {c.gaps.length > 0 && (
+                        <span style={{ fontSize: "9px", color: COLORS.error }}>⚠ {c.gaps.length} GAP{c.gaps.length > 1 ? "S" : ""}</span>
+                      )}
+                    </div>
+                  </div>
+                  {activeComponent?.id === c.id && (
+                    <div style={{ marginTop: "12px", borderTop: `1px solid ${COLORS.border}`, paddingTop: "12px" }}>
+                      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px", marginBottom: "12px" }}>
+                        <div>
+                          <div style={{ fontSize: "9px", color: COLORS.input, letterSpacing: "0.15em", marginBottom: "6px" }}>INPUTS</div>
+                          {c.inputs.map(i => <div key={i} style={{ fontSize: "11px", color: COLORS.text, marginBottom: "3px" }}>← {i}</div>)}
+                        </div>
+                        <div>
+                          <div style={{ fontSize: "9px", color: COLORS.output, letterSpacing: "0.15em", marginBottom: "6px" }}>OUTPUTS</div>
+                          {c.outputs.map(o => <div key={o} style={{ fontSize: "11px", color: COLORS.text, marginBottom: "3px" }}>→ {o}</div>)}
+                        </div>
+                      </div>
+                      <div style={{ fontSize: "11px", color: COLORS.textDim, lineHeight: "1.6", marginBottom: "12px" }}>{c.spec}</div>
+                      {c.gaps.length > 0 && (
+                        <div style={{ background: "#1a0a0a", border: `1px solid ${COLORS.error}30`, padding: "12px" }}>
+                          <div style={{ fontSize: "9px", color: COLORS.error, letterSpacing: "0.15em", marginBottom: "8px" }}>⚠ GAPS</div>
+                          {c.gaps.map((g, i) => (
+                            <div key={i} style={{ fontSize: "11px", color: COLORS.text, marginBottom: "6px", paddingLeft: "8px", borderLeft: `2px solid ${COLORS.error}50` }}>{g}</div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* DATA FLOW */}
+        {activeSection === "dataflow" && (
+          <div>
+            <SectionHeader label="DATA FLOW" sub="What flows through the machine and its current type status" />
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(260px, 1fr))", gap: "12px", marginBottom: "24px" }}>
+              {dataItems.map(d => (
+                <div key={d.id} style={{
+                  background: COLORS.surface,
+                  border: `1px solid ${COLORS.border}`,
+                  padding: "16px",
+                  borderTop: `3px solid ${d.color}`,
+                }}>
+                  <div style={{ fontSize: "9px", color: d.color, letterSpacing: "0.15em", marginBottom: "6px" }}>{d.type.toUpperCase()}</div>
+                  <div style={{ fontSize: "13px", color: COLORS.textBright, fontWeight: "600", marginBottom: "8px" }}>{d.label}</div>
+                  <div style={{ fontSize: "11px", color: COLORS.textDim, lineHeight: "1.5" }}>{d.desc}</div>
+                </div>
+              ))}
+            </div>
+            <div style={{ background: COLORS.surface, border: `1px solid ${COLORS.border}`, padding: "20px" }}>
+              <div style={{ fontSize: "9px", color: COLORS.textDim, letterSpacing: "0.15em", marginBottom: "12px" }}>DATA TYPE GAP</div>
+              <p style={{ fontSize: "12px", lineHeight: "1.7", color: COLORS.text, margin: 0 }}>
+                The <span style={{ color: COLORS.warn }}>OBJECTION SET</span> produced by the Productive Skepticism Protocol (§4) is untyped. The Skepticism Termination Rule requires knowing which objections are OPEN, TESTED, or UNTESTABLE — but no Objection Register schema is defined. This means the termination condition cannot be evaluated computationally. It is currently a human judgment call, not a machine-checkable condition.
+              </p>
+            </div>
+          </div>
+        )}
+
+        {/* GAPS */}
+        {activeSection === "gaps" && (
+          <div>
+            <SectionHeader label="GAP ANALYSIS" sub="Where the Charter is underspecified for machine execution" />
+            <div style={{ display: "flex", gap: "12px", marginBottom: "16px", flexWrap: "wrap" }}>
+              {["HIGH", "MEDIUM", "LOW"].map(sev => (
+                <div key={sev} style={{ display: "flex", alignItems: "center", gap: "6px", fontSize: "10px" }}>
+                  <span style={{ width: "8px", height: "8px", background: severityColor(sev), display: "inline-block" }} />
+                  <span style={{ color: COLORS.textDim }}>{sev}: {gaps.filter(g => g.severity === sev).length}</span>
+                </div>
+              ))}
+            </div>
+            <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+              {gaps.map(g => (
+                <div
+                  key={g.id}
+                  onClick={() => setActiveGap(activeGap?.id === g.id ? null : g)}
+                  style={{
+                    background: COLORS.surface,
+                    border: `1px solid ${activeGap?.id === g.id ? severityColor(g.severity) : COLORS.border}`,
+                    padding: "16px",
+                    cursor: "pointer",
+                    borderLeft: `3px solid ${severityColor(g.severity)}`,
+                    transition: "border-color 0.15s",
+                  }}
+                >
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                    <div style={{ display: "flex", gap: "12px", alignItems: "center" }}>
+                      <span style={{ fontSize: "10px", color: severityColor(g.severity), fontWeight: "700" }}>{g.id}</span>
+                      <span style={{ fontSize: "13px", color: COLORS.textBright }}>{g.title}</span>
+                    </div>
+                    <div style={{ display: "flex", gap: "12px" }}>
+                      <span style={{ fontSize: "9px", color: COLORS.textDim }}>{g.component}</span>
+                      <span style={{ fontSize: "9px", color: severityColor(g.severity), letterSpacing: "0.1em" }}>{g.severity}</span>
+                    </div>
+                  </div>
+                  {activeGap?.id === g.id && (
+                    <div style={{ marginTop: "12px", borderTop: `1px solid ${COLORS.border}`, paddingTop: "12px" }}>
+                      <p style={{ fontSize: "12px", color: COLORS.text, lineHeight: "1.7", margin: "0 0 12px 0" }}>{g.desc}</p>
+                      <div style={{ background: "#0a1a0a", border: `1px solid ${COLORS.success}30`, padding: "12px", borderLeft: `2px solid ${COLORS.success}` }}>
+                        <div style={{ fontSize: "9px", color: COLORS.success, letterSpacing: "0.15em", marginBottom: "6px" }}>PROPOSED RESOLUTION</div>
+                        <div style={{ fontSize: "12px", color: COLORS.text, lineHeight: "1.6" }}>{g.resolution}</div>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* SPEC */}
+        {activeSection === "spec" && (
+          <div>
+            <SectionHeader label="MACHINE SPEC" sub="Formal specification — export to repo as charter-as-machine.md" />
+            <div style={{ background: COLORS.surface, border: `1px solid ${COLORS.border}`, padding: "20px", fontFamily: "monospace", fontSize: "11px", lineHeight: "1.8", color: COLORS.text, whiteSpace: "pre-wrap" }}>
+{`# Charter as Machine — Specification v0.1
+
+## System Type
+Finite State Machine + Type System + Memory Manager
+
+## States
+${states.map(s => `  ${s.id.padEnd(16)} → [${s.transitions.join(", ")}]${s.gap ? "\n                   ⚠ GAP: " + s.gap.slice(0, 60) + "..." : ""}`).join("\n")}
+
+## Components
+${components.map(c => `  ${c.id} · ${c.name} (${c.ref})
+    TYPE: ${c.type}
+    IN:   ${c.inputs.join(", ")}
+    OUT:  ${c.outputs.join(", ")}
+    GAPS: ${c.gaps.length === 0 ? "none" : c.gaps.length + " identified"}`).join("\n\n")}
+
+## Data Types
+${dataItems.map(d => `  ${d.id.padEnd(24)} [${d.type.toUpperCase()}]`).join("\n")}
+
+## Gaps
+${gaps.map(g => `  ${g.id} · ${g.severity.padEnd(8)} · ${g.title}`).join("\n")}
+
+## Missing Subsystems (Not in Charter)
+  - INIT procedure
+  - Watchdog / degradation detector  
+  - Objection Register schema
+  - State Compression deserialization protocol
+  - Gate failure dependency graph
+  - Constraint health metric
+
+## Phase 1 Complete — Spec Ready for Simulation Design
+`}
+            </div>
+            <div style={{ marginTop: "12px", padding: "12px", background: "#0a1a0a", border: `1px solid ${COLORS.success}30`, fontSize: "11px", color: COLORS.textDim }}>
+              Copy the above into <span style={{ color: COLORS.accent }}>docs/charter-as-machine.md</span> in the repo to complete Phase 1. Phase 2 is simulation design — running session transcripts through the spec to surface remaining gaps.
+            </div>
+          </div>
+        )}
+
+      </div>
+    </div>
+  );
+}
+
+function SectionHeader({ label, sub }) {
+  return (
+    <div style={{ marginBottom: "20px" }}>
+      <div style={{ fontSize: "9px", color: COLORS.textDim, letterSpacing: "0.2em", marginBottom: "4px" }}>{sub}</div>
+      <div style={{ fontSize: "18px", fontWeight: "700", color: COLORS.textBright, letterSpacing: "0.05em", borderBottom: `1px solid ${COLORS.border}`, paddingBottom: "12px" }}>{label}</div>
+    </div>
+  );
+}
