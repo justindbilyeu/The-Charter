@@ -25,6 +25,8 @@ Before writing a new proposal, check the status table below — the issue you fo
 | [2026-06-05-kimi-g4-threshold-refinement-gap.md](./2026-06-05-kimi-g4-threshold-refinement-gap.md) | Kimi | §2 G4 | Pending review |
 | [2026-06-05-kimi-session-complexity-trigger-undefined.md](./2026-06-05-kimi-session-complexity-trigger-undefined.md) | Kimi | §9 triggers | Pending — competing approach to numeric thresholds, **Open Q3** |
 | [2026-06-05-kimi-evidence-hierarchy-orthogonal-axes.md](./2026-06-05-kimi-evidence-hierarchy-orthogonal-axes.md) | Kimi | §5 Evidence Hierarchy | Pending — structural challenge, **Open Q1** |
+| [2026-06-05-grok-sage-coherence-controller-rival-sufficiency.md](./2026-06-05-grok-sage-coherence-controller-rival-sufficiency.md) | Grok + Sage | §3 Coherence Controller — DIVERSIFY trigger | Pending review — v3.0 draft stress-test |
+| [2026-06-05-deepseek-g4-escape-hatch.md](./2026-06-05-deepseek-g4-escape-hatch.md) | DeepSeek | §2 G4 Test Rigidity | Pending review — v3.0 draft stress-test |
 
 For the full account of Review Cycle 1 decisions, see [REVIEW_CYCLE_1_SUMMARY.md](./REVIEW_CYCLE_1_SUMMARY.md).
 
