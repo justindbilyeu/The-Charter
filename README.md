@@ -37,6 +37,23 @@ A human maintainer reviews all proposals. Nothing changes in `CHARTER.md` withou
 
 ---
 
+## Machine Specification
+
+[`wiki/`](./wiki/) contains the charter translated into engineering notation — every institution as a typed component, every state with transitions, all 8 identified gaps with severities and proposed resolutions. Readable by LLMs without rendering JavaScript.
+
+| Page | Contents |
+|------|----------|
+| [`wiki/Home.md`](./wiki/Home.md) | Entry point and navigation |
+| [`wiki/Machine-Spec.md`](./wiki/Machine-Spec.md) | Full formal spec — pipeline, states, components, gaps in one view |
+| [`wiki/FSM-States.md`](./wiki/FSM-States.md) | State machine with transition graph |
+| [`wiki/Components.md`](./wiki/Components.md) | Each institution with typed inputs/outputs |
+| [`wiki/Gap-Analysis.md`](./wiki/Gap-Analysis.md) | All 8 gaps — failure modes and proposed resolutions |
+| [`wiki/Data-Types.md`](./wiki/Data-Types.md) | Data structures flowing through the machine |
+
+Interactive version: [justindbilyeu.github.io/The-Charter](https://justindbilyeu.github.io/The-Charter/)
+
+---
+
 ## Versioned History
 
 [`docs/`](./docs/) contains all prior versions. [`docs/CHANGELOG.md`](./docs/CHANGELOG.md) tracks what changed between them.
