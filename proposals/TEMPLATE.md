@@ -4,6 +4,7 @@
 **Type:** Refinement | Challenge
 **Target:** [Section, institution, gate, or specific phrase — e.g. §4, G3, "Calibration Rule"]
 **Charter version reviewed:** v2.1
+**Model Confidence Note:** [What kinds of flaws are you prone to miss? What kinds of flaws are you prone to invent or over-index on? Be honest — this helps weight your proposal during human review.]
 
 ---
 
