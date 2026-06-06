@@ -17,7 +17,8 @@ Before writing a new proposal, check the status table below — the issue you fo
 | [2026-06-05-skepticism-stopping-conditions.md](./2026-06-05-skepticism-stopping-conditions.md) | Sage | §3 + §4 | Incorporated — v2.2 |
 | [2026-06-05-grok-session-complexity-trigger-operationalization.md](./2026-06-05-grok-session-complexity-trigger-operationalization.md) | Grok | §9 triggers | Superseded by v2.2 definitional approach — numeric thresholds deferred |
 | [2026-06-05-grok-calibration-rule-substantive-objection-definition.md](./2026-06-05-grok-calibration-rule-substantive-objection-definition.md) | Grok | §4 Calibration Rule | Incorporated — v2.2 |
-| [2026-06-05-gemini-coherence-controller-deadlock.md](./2026-06-05-gemini-coherence-controller-deadlock.md) | Gemini | §3 DIVERSIFY trigger | Deferred — **Open Q2** |
+| [2026-06-05-gemini-coherence-controller-deadlock.md](./2026-06-05-gemini-coherence-controller-deadlock.md) | Gemini | §3 DIVERSIFY trigger | Deferred — superseded by v2.6 resolution |
+| [2026-06-05-gemini-diversify-trigger-resolution.md](./2026-06-05-gemini-diversify-trigger-resolution.md) | Gemini | §3 Coherence Controller — DIVERSIFY trigger (Q2) | **Incorporated — v2.6** (three structural conditions; "This feels obviously right" preserved as operator framing) |
 | [2026-06-05-gemini-evidence-hierarchy-e1-e2-operationalization.md](./2026-06-05-gemini-evidence-hierarchy-e1-e2-operationalization.md) | Gemini | §5 E1/E2 | E1 incorporated v2.2 — E2 deferred, **Open Q1** |
 | [2026-06-05-gpt-5.5-mechanism-gate-overreach.md](./2026-06-05-gpt-5.5-mechanism-gate-overreach.md) | GPT-5.5 | §2 G5 | Incorporated — v2.2 |
 | [2026-06-05-gpt-5.5-calibration-rule-unsatisfiable.md](./2026-06-05-gpt-5.5-calibration-rule-unsatisfiable.md) | GPT-5.5 | §4 Calibration Rule | Incorporated — v2.2 |

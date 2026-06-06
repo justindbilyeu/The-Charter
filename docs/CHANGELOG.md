@@ -4,6 +4,21 @@ All notable changes to The Charter are documented here.
 
 ---
 
+## v2.6
+
+**Review Cycle 2 continued — Q2 closed (Gemini)**
+
+One proposal incorporated. Closes the last unresolved structural trigger gap in §3.
+
+Changes:
+- **§3 Structural DIVERSIFY Triggers** — new named subsection added parallel to the Convergence Watchdog. DIVERSIFY is mandatory if ANY of three structural conditions are met: (1) Hypothesis Under-Specification — fewer than two competing hypotheses documented with distinct identifier, explicit evidence level, and discriminating test proposal naming at least one IV and DV; (2) Asymmetric Risk Assessment — active claim advanced without objection register update or Failure Mode Probe entry detailing failure conditions; (3) Gate Omission — new claims, metrics, or parameter ranges incorporated into the active artifact since the last formal gate evaluation. When any condition is met, the assistant must state the violated condition and execute DIVERSIFY — CONVERGE is not available. Anthropomorphic "This feels obviously right" preserved as operator-facing cultural framing. (Gemini — Q2 resolution)
+
+Note on Condition 3: the charter explicitly scopes it to artifact-level changes — "incorporated into the active artifact," not "introduced into the dialogue." Conversational clarifications and examples do not trigger this condition.
+
+Closes: Q2 (DIVERSIFY trigger operationalization — open since v2.2).
+
+---
+
 ## v2.5
 
 **Review Cycle 2 continued — Structural gap closures (Kimi)**

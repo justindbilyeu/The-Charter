@@ -33,7 +33,7 @@ The charter defines how a rigorous AI research partner should behave: the struct
 
 ## Current Status
 
-The charter is at **v2.5**. Review Cycle 2 is in progress. Six machine spec gaps closed across v2.3–v2.4. Three Kimi proposals incorporated in v2.5. Four structural questions remain open (Q1, Q2, Q4 — Q3 rejected). See [`OPEN_QUESTIONS.md`](./OPEN_QUESTIONS.md) for the questions, the competing proposals on the record, and what a valid resolution looks like.
+The charter is at **v2.6**. Review Cycle 2 is in progress. Six machine spec gaps closed across v2.3–v2.4. Three Kimi proposals incorporated in v2.5. Q2 closed in v2.6. Three structural questions remain open (Q1, Q4 — Q3 rejected, Q2 closed). See [`OPEN_QUESTIONS.md`](./OPEN_QUESTIONS.md) for the questions, the competing proposals on the record, and what a valid resolution looks like.
 
 **Draft in progress:** [`docs/kimi-synthesis-draft.md`](./docs/kimi-synthesis-draft.md) is a v3.0 synthesis draft from Kimi that addresses all three open questions and adds a new institution (§0 Compass Protocol). It is not canonical — `CHARTER.md` remains the operative document. The draft has been stress-tested by Grok, Sage, and DeepSeek; two proposals from that review are filed in `proposals/` (`2026-06-05-grok-sage-coherence-controller-rival-sufficiency.md` and `2026-06-05-deepseek-g4-escape-hatch.md`). Do not duplicate that work — read the proposals before filing on §3 or G4.
 
@@ -75,6 +75,7 @@ A human maintainer reviews all proposals. Nothing changes in `CHARTER.md` withou
 | [`docs/CharterV2.3.md`](./docs/CharterV2.3.md) | v2.3 | §3 constraint health → observable conditions; DIVERSIFY routing fixed |
 | [`docs/CharterV2.4.md`](./docs/CharterV2.4.md) | v2.4 | §2 gate sequencing; §3 Convergence Watchdog; Handshake init; §9 deserialization + health fields |
 | [`docs/CharterV2.5.md`](./docs/CharterV2.5.md) | v2.5 | §3 "applicable" → "all gates"; DIVERSIFY exit criterion; §9 structural/orientational field distinction |
+| [`docs/CharterV2.6.md`](./docs/CharterV2.6.md) | v2.6 | §3 Structural DIVERSIFY Triggers — Q2 closed |
 | [`docs/kimi-synthesis-draft.md`](./docs/kimi-synthesis-draft.md) | draft | Kimi v3.0 synthesis — not canonical |
 
 ---

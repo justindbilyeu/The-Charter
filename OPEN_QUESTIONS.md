@@ -44,7 +44,7 @@ Any option must pass G2–G5, produce exact proposed text or an exact scope decl
 
 **Charter target:** §3 Coherence Controller — DIVERSIFY trigger condition
 
-**Status:** One proposal filed, one key condition left undefined. Deferred from v2.2.
+**Status:** CLOSED — v2.6. Gemini's three structural conditions incorporated as named subsection "Structural DIVERSIFY Triggers." See `proposals/2026-06-05-gemini-diversify-trigger-resolution.md`.
 
 ### Challenge on the record
 
