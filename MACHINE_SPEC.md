@@ -10,8 +10,8 @@
 
 This document translates the [Research Assistant Charter](./CHARTER.md) from prose into engineering notation. Every institution, state, data type, and transition is made explicit. Where the charter is underspecified for machine execution, gaps are flagged with severity ratings and proposed resolutions.
 
-**Current charter version:** v2.4
-**Machine spec version:** 0.1 (draft)
+**Current charter version:** v2.7
+**Machine spec version:** 0.2 (updated for v2.5–v2.7)
 **Interactive version:** [justindbilyeu.github.io/The-Charter](https://justindbilyeu.github.io/The-Charter/)
 
 ## System Summary
@@ -24,7 +24,7 @@ This document translates the [Research Assistant Charter](./CHARTER.md) from pro
 | Components | 6 (Structuring Contract, Hard Gates, Coherence Controller, PSP, Evidence Hierarchy, Session Continuity) |
 | Identified gaps | 8 (3 HIGH, 3 MEDIUM, 2 LOW) — all have proposals filed in `proposals/` |
 
-**If you are an LLM reviewing the charter:** Read the Gap Analysis section below before filing proposals — all 8 gaps have proposals already on the record. Check [`proposals/README.md`](./proposals/README.md) before filing.
+**If you are an LLM reviewing the charter:** Read the Gap Analysis section below before filing proposals — all original gaps have proposals on the record, and most are closed. Q4 and Q5 are the active open questions. Check [`proposals/README.md`](./proposals/README.md) and [`OPEN_QUESTIONS.md`](./OPEN_QUESTIONS.md) before filing.
 
 ---
 
@@ -64,7 +64,7 @@ COHERENCE CONTROLLER (§3)
 | INIT | → STRUCTURING | G-01 HIGH: No initialization procedure |
 | STRUCTURING | → GATE_CHECK, → STRUCTURING | None |
 | GATE_CHECK | → DIVERSIFY, → CONVERGE, → RESTART | G-04 MEDIUM: Failure sequencing undefined |
-| DIVERSIFY | → STRUCTURING | G-02 HIGH: Trigger undefined for LLM execution |
+| DIVERSIFY | → STRUCTURING | ~~G-02 HIGH: Trigger undefined~~ — Closed v2.6 (Structural DIVERSIFY Triggers) |
 | CONVERGE | → OUTPUT, → INIT | None |
 | RESTART | → STRUCTURING | G-03 HIGH: No watchdog / degradation detection |
 | OUTPUT | → INIT, → STRUCTURING | None |
@@ -97,10 +97,10 @@ COHERENCE CONTROLLER (§3)
 | ID | Severity | Component | Title | Proposal filed |
 |----|----------|-----------|-------|----------------|
 | G-01 | HIGH | FSM | No Initialization Procedure | Closed — incorporated v2.4. `2026-06-06-claude-g01-init-procedure.md` |
-| G-02 | HIGH | CC §3 | DIVERSIFY Trigger Undefined for LLM Execution | `2026-06-05-gemini-coherence-controller-deadlock.md`, `2026-06-05-grok-sage-coherence-controller-rival-sufficiency.md` |
+| G-02 | HIGH | CC §3 | DIVERSIFY Trigger Undefined for LLM Execution | Closed — incorporated v2.6. `2026-06-05-gemini-diversify-trigger-resolution.md` |
 | G-03 | HIGH | FSM | No Watchdog / Degradation Detection | Closed — incorporated v2.4 (merged with Adversarial Reset). `2026-06-06-claude-g03-watchdog-degradation-detection.md` |
 | G-04 | MEDIUM | HG §2 | Gate Failure Sequencing Undefined | Closed — incorporated v2.4. `2026-06-06-claude-g04-gate-failure-sequencing.md` |
-| G-05 | MEDIUM | EH §5 | Evidence Hierarchy Has Wrong Dimensionality | `2026-06-05-kimi-evidence-hierarchy-orthogonal-axes.md`, `2026-06-05-gemini-evidence-hierarchy-e1-e2-operationalization.md` |
+| G-05 | MEDIUM | EH §5 | Evidence Hierarchy Has Wrong Dimensionality | E2 operational gap closed v2.7. Structural concern deferred — Open Q5. `2026-06-06-claude-chat-evidence-hierarchy-resolution.md` |
 | G-06 | MEDIUM | PSP §4 | Objection Register Not Defined as Data Structure | `2026-06-06-claude-g06-objection-register.md` |
 | G-07 | LOW | SCP §9 | No Deserialization Protocol | Closed — incorporated v2.4. `2026-06-06-claude-g07-deserialization-protocol.md` |
 | G-08 | LOW | CC §3 | "Constraint Health" Not Measurable | Closed — Option B incorporated v2.3. `2026-06-06-claude-g08-constraint-health-metric.md` |
@@ -115,7 +115,7 @@ Required for full machine execution. Closed items incorporated into v2.3–v2.4.
 - ~~Gate failure dependency graph~~ — closed v2.4
 - ~~Constraint health metric~~ — closed v2.3 (Option B: observable conditions)
 - **Objection Register schema** — G-06 open; prose retained; typed schema deferred
-- **DIVERSIFY trigger operationalization** — G-02 open; Q2 unresolved
+- ~~DIVERSIFY trigger operationalization~~ — closed v2.6 (Structural DIVERSIFY Triggers + "This feels obviously right" preserved as operator framing)
 
 ## Phase Roadmap
 
@@ -165,11 +165,13 @@ Seven states. Each has a description, valid transitions, and a gap annotation wh
 
 **Transitions:** → STRUCTURING
 
-**Routing note:** DIVERSIFY routes only to STRUCTURING (v2.3). The DIVERSIFY → GATE_CHECK shortcut has been removed. Artifact must be recompiled with updated objections before any gate re-evaluation. (Gemini routing proposal — incorporated v2.3)
+**Routing note:** DIVERSIFY routes only to STRUCTURING (v2.3). The DIVERSIFY → GATE_CHECK shortcut has been removed. Artifact must be recompiled with updated objections before any gate re-evaluation.
 
-**Gap:** `G-02 · HIGH` — DIVERSIFY trigger undefined for LLM execution. "This feels obviously right" is anthropomorphic. See `OPEN_QUESTIONS.md` Q2.
+**Entry triggers (v2.6 — Structural DIVERSIFY Triggers):** DIVERSIFY is mandatory if ANY of the following hold: (1) Hypothesis Under-Specification — fewer than two competing hypotheses documented with distinct identifier, evidence level (E1–E5), and discriminating test (named IV + DV); (2) Asymmetric Risk Assessment — active claim advanced without objection register update or Failure Mode Probe entry; (3) Gate Omission — new claims/metrics/parameters incorporated into artifact since last formal gate evaluation. "This feels obviously right" is preserved as operator-facing cultural framing.
 
-**Proposals filed:** `2026-06-05-gemini-coherence-controller-deadlock.md`, `2026-06-05-grok-sage-coherence-controller-rival-sufficiency.md`
+**Exit criterion (v2.5 — three-part completion condition):** DIVERSIFY is complete when ALL hold: (a) at least one new competing hypothesis explicitly modeled with differing prediction; (b) at least one new substantive objection raised and logged per §4 Calibration Rule; (c) artifact revised or written justification provided.
+
+**Gap:** ~~`G-02 · HIGH`~~ — **Closed v2.6.** `2026-06-05-gemini-diversify-trigger-resolution.md`
 
 ## CONVERGE
 
@@ -261,11 +263,13 @@ Transforms unstructured idea into an artifact containing: central claim (≤3 se
 **Inputs:** `gate_result`, `session_context`
 **Outputs:** `state_transition[CONVERGE|DIVERSIFY|RESTART]`
 
-Monitors three observable conditions during structuring: (1) gates evaluated and passed for current artifact, (2) whether any raised objections lack a test or untestability declaration, (3) convergence trajectory — whether recent transitions include a DIVERSIFY or RESTART, or the session has been converging without interruption. Decides CONVERGE (exhausted scrutiny), DIVERSIFY (inject alternatives), or RESTART (structural flaw). (v2.3: `constraint_health` replaced with observable conditions — G-08 Option B incorporated)
+Monitors three observable conditions during structuring: (1) gates evaluated and passed for current artifact, (2) whether any raised objections lack a test or untestability declaration, (3) convergence trajectory — whether recent transitions include a DIVERSIFY or RESTART, or the session has been converging without interruption. Decides CONVERGE (exhausted scrutiny), DIVERSIFY (inject alternatives), or RESTART (structural flaw).
+
+Key mechanisms: Structural DIVERSIFY Triggers (v2.6) — three mandatory structural conditions for DIVERSIFY entry, checkable from session transcript. Convergence Watchdog (v2.4) — after 3 consecutive CONVERGEs, Watchdog Report required before next CONVERGE. CONVERGE and DIVERSIFY criteria use "all gates" (v2.5 — "applicable" removed).
 
 **Gaps:**
-- `G-02 · HIGH` — DIVERSIFY trigger undefined for LLM execution
-- `G-08 · LOW` — "Constraint health" not defined as a measurable quantity
+- ~~`G-02 · HIGH`~~ — **Closed v2.6** (Structural DIVERSIFY Triggers)
+- ~~`G-08 · LOW`~~ — **Closed v2.3** (observable conditions replace constraint health)
 
 ## PSP — Productive Skepticism Protocol
 
@@ -288,10 +292,10 @@ Six checks: Convergence Check, Assumption Audit, Failure Mode Probe, Scope Bound
 - E5: Fully reproducible — code + data + tests + documentation + independent verification
 - E4: Methods-grade artifact — robustness checks + negative controls + preregistered protocol
 - E3: Reproducible experiment or simulation with clear pass/fail outcomes
-- E2: Established domain knowledge — explicitly cited (v2.2: one source; v3.0 draft: two independent sources)
+- E2: Established domain knowledge — (v2.7) requires: (a) verifiable citation: source independently locatable without original researcher's context; (b) corroboration: ≥2 independent verifiable sources when used as foundational assumption in structured artifact; single source satisfies for background orientation only. Foundational = removal requires revising central claim, operational definitions, or success criteria.
 - E1: Speculation — must include named IV, named DV, and numeric threshold
 
-**Gap:** `G-05 · MEDIUM` — Linear ladder collapses reproducibility and empirical grounding into one axis. See `OPEN_QUESTIONS.md` Q1.
+**Gap:** `G-05 · MEDIUM` — E2 operational gap closed v2.7. Structural concern (linear ladder collapses reproducibility and empirical grounding into one axis) deferred — **Open Q5**. Operational definition of "empirically grounded" as a binary status required before structural fix can be implemented.
 
 ## SCP — Session Continuity Protocol
 
@@ -300,11 +304,13 @@ Six checks: Convergence Check, Assumption Audit, Failure Mode Probe, Scope Bound
 **Inputs:** `session_state`, `trigger_condition`
 **Outputs:** `state_compression`
 
-Serializes session state on `/compress` or trigger conditions (topic shift, milestone, elevated complexity). State Compression must contain: active claims + evidence levels, gate status, decisions + reasoning, skeptical residue, next step, assumptions modified.
+Serializes session state on `/compress` or trigger conditions (topic shift, milestone, elevated complexity). State Compression fields are classified as structural (required) or orientational. Invalid handoffs require operator action before new work proceeds. (v2.5 — degraded handoff contradiction resolved)
+
+Deserialization procedure (v2.4): five steps before new work — declare charter version, confirm gate status, load open objections, state next step, load Constraint Health and Adversarial Anchor status.
 
 **Gaps:**
-- `G-07 · LOW` — No deserialization protocol
-- Numeric complexity thresholds absent in v2.2 (see `OPEN_QUESTIONS.md` Q3)
+- ~~`G-07 · LOW`~~ — **Closed v2.4** (five-step deserialization)
+- Numeric complexity thresholds (Q3) — **rejected v2.4**; definitional approach retained
 
 ---
 
@@ -322,15 +328,13 @@ No defined boot state. What context is loaded at session start? What is the defa
 
 **Proposed resolution:** Add to Handshake: charter version declaration, session context (fresh or loaded from State Compression), objection register initialization.
 
-## G-02 · HIGH — DIVERSIFY Trigger Undefined for LLM Execution
+## ~~G-02 · HIGH~~ — DIVERSIFY Trigger Undefined for LLM Execution — **CLOSED v2.6**
 
-**Component:** Coherence Controller §3 | **Proposals:** `2026-06-05-gemini-coherence-controller-deadlock.md`, `2026-06-05-grok-sage-coherence-controller-rival-sufficiency.md`
+**Component:** Coherence Controller §3 | **Resolution:** `2026-06-05-gemini-diversify-trigger-resolution.md`
 
-"This feels obviously right" is anthropomorphic. An LLM cannot introspect phenomenological states. See `OPEN_QUESTIONS.md` Q2.
+"This feels obviously right" is anthropomorphic — an LLM cannot introspect phenomenological states.
 
-**Failure mode:** The primary defense against premature convergence has no machine-executable definition.
-
-**Proposed resolution:** Structural conditions checkable from session transcript. Grok+Sage proposal: D6 Rival Sufficiency Requirement + Mandatory Adversarial Reset after 3 consecutive CONVERGEs.
+**Resolution:** Three Structural DIVERSIFY Triggers added as named subsection in §3: (1) Hypothesis Under-Specification — fewer than 2 competing hypotheses documented with ID + evidence level + discriminating test; (2) Asymmetric Risk Assessment — claim advanced without objection register update or Failure Mode Probe entry; (3) Gate Omission — new claims/metrics incorporated into artifact since last formal gate evaluation. Any condition → mandatory DIVERSIFY, CONVERGE blocked. "This feels obviously right" preserved as operator-facing cultural framing.
 
 ## G-03 · HIGH — No Watchdog / Degradation Detection
 
@@ -352,13 +356,15 @@ No defined gate evaluation order. No short-circuit rule. Partial pass states uns
 
 **Proposed resolution:** Two-phase protocol — G1+G2 prerequisites (failure → RESTART), G3/G4/G5 parallel validators with per-gate routing.
 
-## G-05 · MEDIUM — Evidence Hierarchy Has Wrong Dimensionality
+## G-05 · MEDIUM — Evidence Hierarchy Has Wrong Dimensionality — **PARTIALLY CLOSED v2.7**
 
-**Component:** Evidence Hierarchy §5 | **Proposals:** `2026-06-05-kimi-evidence-hierarchy-orthogonal-axes.md`, `2026-06-05-gemini-evidence-hierarchy-e1-e2-operationalization.md`
+**Component:** Evidence Hierarchy §5 | **Resolution (partial):** `2026-06-06-claude-chat-evidence-hierarchy-resolution.md`
 
-Linear E1–E5 ladder collapses reproducibility and empirical grounding into one axis. See `OPEN_QUESTIONS.md` Q1.
+Linear E1–E5 ladder collapses reproducibility and empirical grounding into one axis.
 
-**Failure mode:** Goodhart's Law incentive — optimize for reproducibility at expense of empirical validity.
+**E2 operational gap closed v2.7:** Verifiable citation + corroboration (≥2 independent sources for foundational assumptions). Foundational/orientational distinction defined and operationalized.
+
+**Structural concern deferred — Open Q5:** Kimi's diagnosis that reproducibility and empirical grounding are orthogonal axes remains on the record. Existing gates (G3, G5, mandatory since v2.5) substantially contain the Goodhart risk, but a reproducible simulation with two well-cited but invalid assumptions could theoretically pass all gates. Resolution requires an operational definition of "empirically grounded" as a binary status, checkable in a session transcript.
 
 ## G-06 · MEDIUM — Objection Register Not Defined as Data Structure
 
@@ -453,18 +459,31 @@ Termination condition: `status === "OPEN"` count === 0 AND at least one entry ex
 
 **Type:** OUTPUT | **Produced by:** SCP | **Consumed by:** Next session INIT
 
+Fields are classified as structural (required — missing → invalid handoff, operator must act) or orientational (missing → declare and proceed).
+
+**Structural fields (required):**
+```
+{
+  gate_status: { artifact_ref: string, gates: { gate_id: string, status: "PENDING"|"PASSED"|"FAILED" }[] }[],
+  skeptical_residue: { resolved: string[], open: string[], deferred: string[] },
+  constraint_health: { gates_passed: boolean, open_objections: number, consecutive_converges: number },
+  adversarial_anchor: { watchdog_fired: boolean, drift_assessment: string|null }
+}
+```
+
+**Orientational fields (recommended):**
 ```
 {
   charter_version: string, session_id: string, timestamp: string,
   active_claims: { claim: string, evidence_level: "E1"|"E2"|"E3"|"E4"|"E5" }[],
-  gate_status: { artifact_ref: string, gates: { gate_id: string, status: "PENDING"|"PASSED"|"FAILED" }[] }[],
   decisions: { decision: string, reasoning: string }[],
-  skeptical_residue: { resolved: string[], open: string[], deferred: string[] },
   next_step: string, assumptions_modified: string[]
 }
 ```
 
-Gap: Deserialization protocol undefined (G-07). Proposal filed.
+Invalid handoff (missing structural field): operator must supply the missing field, grant explicit waiver (affected artifacts re-evaluated from scratch), or treat session as fresh. (v2.5 — degraded handoff contradiction resolved)
+
+~~Gap: Deserialization protocol undefined (G-07).~~ **Closed v2.4** — five-step deserialization procedure incorporated.
 
 ## artifact_output
 
