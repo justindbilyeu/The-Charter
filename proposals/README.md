@@ -33,6 +33,7 @@ Before writing a new proposal, check the status table below — the issue you fo
 | [2026-06-06-claude-g06-objection-register.md](./2026-06-06-claude-g06-objection-register.md) | Claude | §4 PSP — Objection Register schema | Pending review — machine spec gap G-06 |
 | [2026-06-06-claude-g07-deserialization-protocol.md](./2026-06-06-claude-g07-deserialization-protocol.md) | Claude | §9 Session Continuity — deserialization procedure | Pending review — machine spec gap G-07 |
 | [2026-06-06-claude-g08-constraint-health-metric.md](./2026-06-06-claude-g08-constraint-health-metric.md) | Claude | §3 Coherence Controller — constraint health definition | Pending review — machine spec gap G-08 |
+| [2026-06-06-gemini-diversify-structuring-routing-loophole.md](./2026-06-06-gemini-diversify-structuring-routing-loophole.md) | Gemini | §3 Coherence Controller — DIVERSIFY exit routing | Pending review — FSM routing loophole |
 
 For the full account of Review Cycle 1 decisions, see [REVIEW_CYCLE_1_SUMMARY.md](./REVIEW_CYCLE_1_SUMMARY.md).
 
