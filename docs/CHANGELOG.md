@@ -4,6 +4,31 @@ All notable changes to The Charter are documented here.
 
 ---
 
+## v2.4
+
+**Review Cycle 2 continued — Gap closures (Claude, Gemini, Grok, Sage, DeepSeek)**
+
+Seven proposals incorporated. Primary work: closing machine spec gaps G-01, G-03, G-04, G-07 and integrating the Grok health fields into State Compression.
+
+Changes:
+- **§2 Gate evaluation order** — Two-phase protocol. G1+G2 are prerequisites evaluated first; failure → RESTART immediately without evaluating G3–G5. G3 and G5 failures → DIVERSIFY. G4 failure → RESTART. (Claude — G-04)
+- **§3 Convergence Watchdog** — After 3 consecutive CONVERGEs, a Watchdog Report is required before the next CONVERGE decision. Report must include: the three most recent claims and objections against each; at least one new competing hypothesis not active in the last two evaluations and the smallest discriminating test; a drift vs. exhausted scrutiny assessment. If the assessment concludes drift suspected, DIVERSIFY is mandatory regardless of standard conditions. Grok+Sage Mandatory Adversarial Reset integrated into the Watchdog structure. (Claude — G-03; Grok+Sage)
+- **Communication Hooks — Handshake** — Charter version declaration, session context (fresh/loaded), and objection register initialization added as required Handshake fields. (Claude — G-01)
+- **§9 State Compression fields** — Two new required fields: Constraint Health state (three monitoring condition values at compression time) and Adversarial Anchor status (whether the Watchdog fired and what it concluded). (Grok — health integration)
+- **§9 Deserialization Procedure** — Five-step procedure required before new work when loading a State Compression: declare charter version, confirm gate status, load open objections, state next step, load Constraint Health and Anchor status. Degraded handoffs (missing fields) must be declared before proceeding. (Claude — G-07)
+
+Rejected:
+- Kimi G4 escape hatch — G4 absolute prohibition maintained. Any escape hatch becomes the primary exploit route.
+- Grok G-08 Option A (numeric metric) — already rejected in v2.3.
+- Claude G-06 (Objection Register schema) — prose sufficient at current maturity.
+- Kimi §9 numeric thresholds — v2.2 definitional approach sufficient; numbers deferred to when calibration data is available.
+
+Deferred:
+- Grok+Sage Rival Sufficiency Requirement — accepted the Adversarial Reset component; Rival Sufficiency criteria need operationalization of "explains ≥50% of observations" before acceptance.
+- Q1 (evidence hierarchy structure), Q2 (DIVERSIFY trigger operationalization), Q3 (§9 numeric thresholds) — remain open.
+
+---
+
 ## v2.3
 
 **Review Cycle 2 — Machine spec gap analysis (Claude, Gemini)**

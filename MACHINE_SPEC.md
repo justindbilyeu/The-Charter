@@ -10,7 +10,7 @@
 
 This document translates the [Research Assistant Charter](./CHARTER.md) from prose into engineering notation. Every institution, state, data type, and transition is made explicit. Where the charter is underspecified for machine execution, gaps are flagged with severity ratings and proposed resolutions.
 
-**Current charter version:** v2.3
+**Current charter version:** v2.4
 **Machine spec version:** 0.1 (draft)
 **Interactive version:** [justindbilyeu.github.io/The-Charter](https://justindbilyeu.github.io/The-Charter/)
 
@@ -96,32 +96,33 @@ COHERENCE CONTROLLER (§3)
 
 | ID | Severity | Component | Title | Proposal filed |
 |----|----------|-----------|-------|----------------|
-| G-01 | HIGH | FSM | No Initialization Procedure | `2026-06-06-claude-g01-init-procedure.md` |
+| G-01 | HIGH | FSM | No Initialization Procedure | Closed — incorporated v2.4. `2026-06-06-claude-g01-init-procedure.md` |
 | G-02 | HIGH | CC §3 | DIVERSIFY Trigger Undefined for LLM Execution | `2026-06-05-gemini-coherence-controller-deadlock.md`, `2026-06-05-grok-sage-coherence-controller-rival-sufficiency.md` |
-| G-03 | HIGH | FSM | No Watchdog / Degradation Detection | `2026-06-06-claude-g03-watchdog-degradation-detection.md` |
-| G-04 | MEDIUM | HG §2 | Gate Failure Sequencing Undefined | `2026-06-06-claude-g04-gate-failure-sequencing.md` |
+| G-03 | HIGH | FSM | No Watchdog / Degradation Detection | Closed — incorporated v2.4 (merged with Adversarial Reset). `2026-06-06-claude-g03-watchdog-degradation-detection.md` |
+| G-04 | MEDIUM | HG §2 | Gate Failure Sequencing Undefined | Closed — incorporated v2.4. `2026-06-06-claude-g04-gate-failure-sequencing.md` |
 | G-05 | MEDIUM | EH §5 | Evidence Hierarchy Has Wrong Dimensionality | `2026-06-05-kimi-evidence-hierarchy-orthogonal-axes.md`, `2026-06-05-gemini-evidence-hierarchy-e1-e2-operationalization.md` |
 | G-06 | MEDIUM | PSP §4 | Objection Register Not Defined as Data Structure | `2026-06-06-claude-g06-objection-register.md` |
-| G-07 | LOW | SCP §9 | No Deserialization Protocol | `2026-06-06-claude-g07-deserialization-protocol.md` |
+| G-07 | LOW | SCP §9 | No Deserialization Protocol | Closed — incorporated v2.4. `2026-06-06-claude-g07-deserialization-protocol.md` |
 | G-08 | LOW | CC §3 | "Constraint Health" Not Measurable | Closed — Option B incorporated v2.3. `2026-06-06-claude-g08-constraint-health-metric.md` |
 
 ## Missing Subsystems
 
-Required for full machine execution but not yet specified in the charter:
+Required for full machine execution. Closed items incorporated into v2.3–v2.4.
 
-- INIT procedure (explicit boot sequence) — proposal G-01 filed
-- Watchdog / degradation detector (agreement drift detection) — proposal G-03 filed
-- Objection Register schema (typed, persistent, queryable) — proposal G-06 filed
-- State Compression deserialization protocol — proposal G-07 filed
-- Gate failure dependency graph — proposal G-04 filed
-- Constraint health metric — proposal G-08 filed
+- ~~INIT procedure~~ — closed v2.4
+- ~~Watchdog / degradation detector~~ — closed v2.4 (Convergence Watchdog + Adversarial Reset)
+- ~~State Compression deserialization protocol~~ — closed v2.4
+- ~~Gate failure dependency graph~~ — closed v2.4
+- ~~Constraint health metric~~ — closed v2.3 (Option B: observable conditions)
+- **Objection Register schema** — G-06 open; prose retained; typed schema deferred
+- **DIVERSIFY trigger operationalization** — G-02 open; Q2 unresolved
 
 ## Phase Roadmap
 
 | Phase | Description | Status |
 |-------|-------------|--------|
 | 1 | Gap revelation — translate prose to spec, flag underspecified elements | Complete |
-| 2 | Simulation design — run session transcripts through spec to surface remaining gaps | Not started |
+| 2 | Simulation design — run session transcripts through spec to surface remaining gaps | **In progress** — harness in `docs/simulation/` |
 | 3 | Build — validated spec becomes agent architecture | Not started |
 
 ---
