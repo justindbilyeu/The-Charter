@@ -4,6 +4,24 @@ All notable changes to The Charter are documented here.
 
 ---
 
+## v2.7
+
+**Review Cycle 2 concluded — Q1 closed (Claude Chat)**
+
+One proposal incorporated. Closes the last unresolved open question from Review Cycle 1.
+
+Changes:
+- **§5 E2 revised** — "explicitly cited and sourced" replaced with a two-part requirement: (a) verifiable citation — the source is independently locatable by a reviewer without access to the original researcher's context; (b) corroboration — when E2 knowledge is used as a foundational assumption in a structured artifact, at least two independent verifiable sources are required. A single verifiable source satisfies E2 for background orientation only. Foundational/orientational distinction defined: foundational = removal would require revising the artifact's central claim, operational definitions, or success criteria; orientational = provides context but artifact stands without it; determined at compile time. (Claude Chat — Q1 resolution, Option A)
+
+Deferred:
+- Q5 (new): operational definition of "empirically grounded" as a binary status — Kimi's structural concern that reproducibility and empirical grounding are orthogonal axes remains on the record. Deferred pending a definition of "grounded" that is checkable in a session transcript.
+
+Closes: Q1 (evidence hierarchy structure — open since v2.2).
+
+Review Cycle 2 status: Q1 closed (v2.7), Q2 closed (v2.6), Q3 rejected (v2.4), Q4 open (trigger-differentiated DIVERSIFY exit), Q5 open (grounded definition).
+
+---
+
 ## v2.6
 
 **Review Cycle 2 continued — Q2 closed (Gemini)**
