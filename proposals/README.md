@@ -22,11 +22,23 @@ Before writing a new proposal, check the status table below — the issue you fo
 | [2026-06-05-gpt-5.5-mechanism-gate-overreach.md](./2026-06-05-gpt-5.5-mechanism-gate-overreach.md) | GPT-5.5 | §2 G5 | Incorporated — v2.2 |
 | [2026-06-05-gpt-5.5-calibration-rule-unsatisfiable.md](./2026-06-05-gpt-5.5-calibration-rule-unsatisfiable.md) | GPT-5.5 | §4 Calibration Rule | Incorporated — v2.2 |
 | [2026-06-05-gpt-5.5-state-compression-trigger-ambiguity.md](./2026-06-05-gpt-5.5-state-compression-trigger-ambiguity.md) | GPT-5.5 | §9 triggers | Incorporated — v2.2 |
-| [2026-06-05-kimi-g4-threshold-refinement-gap.md](./2026-06-05-kimi-g4-threshold-refinement-gap.md) | Kimi | §2 G4 | Pending review |
-| [2026-06-05-kimi-session-complexity-trigger-undefined.md](./2026-06-05-kimi-session-complexity-trigger-undefined.md) | Kimi | §9 triggers | Pending — competing approach to numeric thresholds, **Open Q3** |
-| [2026-06-05-kimi-evidence-hierarchy-orthogonal-axes.md](./2026-06-05-kimi-evidence-hierarchy-orthogonal-axes.md) | Kimi | §5 Evidence Hierarchy | Pending — structural challenge, **Open Q1** |
-| [2026-06-05-grok-sage-coherence-controller-rival-sufficiency.md](./2026-06-05-grok-sage-coherence-controller-rival-sufficiency.md) | Grok + Sage | §3 Coherence Controller — DIVERSIFY trigger | Pending review — v3.0 draft stress-test |
-| [2026-06-05-deepseek-g4-escape-hatch.md](./2026-06-05-deepseek-g4-escape-hatch.md) | DeepSeek | §2 G4 Test Rigidity | Pending review — v3.0 draft stress-test |
+| [2026-06-05-kimi-g4-threshold-refinement-gap.md](./2026-06-05-kimi-g4-threshold-refinement-gap.md) | Kimi | §2 G4 | **Rejected — v2.4** (G4 absolute prohibition maintained) |
+| [2026-06-05-kimi-session-complexity-trigger-undefined.md](./2026-06-05-kimi-session-complexity-trigger-undefined.md) | Kimi | §9 triggers | **Rejected — v2.4** (v2.2 definitional approach sufficient; numbers deferred to calibration) |
+| [2026-06-05-kimi-evidence-hierarchy-orthogonal-axes.md](./2026-06-05-kimi-evidence-hierarchy-orthogonal-axes.md) | Kimi | §5 Evidence Hierarchy | Deferred — structural challenge, **Open Q1** (needs resolution proposal with text) |
+| [2026-06-05-grok-sage-coherence-controller-rival-sufficiency.md](./2026-06-05-grok-sage-coherence-controller-rival-sufficiency.md) | Grok + Sage | §3 Coherence Controller — DIVERSIFY trigger | **Partially incorporated — v2.4** (Mandatory Adversarial Reset integrated into Watchdog; Rival Sufficiency Requirement deferred — "≥50% of observations" needs operationalization) |
+| [2026-06-05-deepseek-g4-escape-hatch.md](./2026-06-05-deepseek-g4-escape-hatch.md) | DeepSeek | §2 G4 Test Rigidity | **Incorporated — v2.4** (G4 absolute prohibition confirmed; Kimi escape hatch rejected) |
+| [2026-06-06-claude-g01-init-procedure.md](./2026-06-06-claude-g01-init-procedure.md) | Claude | Handshake — session initialization | **Incorporated — v2.4** |
+| [2026-06-06-claude-g03-watchdog-degradation-detection.md](./2026-06-06-claude-g03-watchdog-degradation-detection.md) | Claude | §3 Coherence Controller — convergence watchdog | **Incorporated — v2.4** (merged with Adversarial Reset) |
+| [2026-06-06-claude-g04-gate-failure-sequencing.md](./2026-06-06-claude-g04-gate-failure-sequencing.md) | Claude | §2 Hard Gates — evaluation order and failure routing | **Incorporated — v2.4** |
+| [2026-06-06-claude-g06-objection-register.md](./2026-06-06-claude-g06-objection-register.md) | Claude | §4 PSP — Objection Register schema | **Rejected — v2.3** (objections remain prose; formal schema deferred) |
+| [2026-06-06-claude-g07-deserialization-protocol.md](./2026-06-06-claude-g07-deserialization-protocol.md) | Claude | §9 Session Continuity — deserialization procedure | **Incorporated — v2.4** |
+| [2026-06-06-claude-g08-constraint-health-metric.md](./2026-06-06-claude-g08-constraint-health-metric.md) | Claude | §3 Coherence Controller — constraint health definition | **Incorporated — v2.3** (Option B: observable conditions) |
+| [2026-06-06-gemini-diversify-structuring-routing-loophole.md](./2026-06-06-gemini-diversify-structuring-routing-loophole.md) | Gemini | §3 Coherence Controller — DIVERSIFY exit routing | **Incorporated — v2.3** (DIVERSIFY → STRUCTURING only) |
+| [2026-06-06-grok-constraint-health-composite-metric.md](./2026-06-06-grok-constraint-health-composite-metric.md) | Grok | §3 Coherence Controller — constraint health metric | **Rejected — v2.3** (Option B chosen over Option A) |
+| [2026-06-06-grok-state-compression-health-integration.md](./2026-06-06-grok-state-compression-health-integration.md) | Grok | §9 Session Continuity — State Compression required fields | **Incorporated — v2.4** |
+| [2026-06-06-kimi-applicable-gates-bypass-vulnerability.md](./2026-06-06-kimi-applicable-gates-bypass-vulnerability.md) | Kimi | §3 Coherence Controller — "applicable gates" scope | **Under review** |
+| [2026-06-06-kimi-degraded-handoff-halt-required.md](./2026-06-06-kimi-degraded-handoff-halt-required.md) | Kimi | §9 Deserialization Procedure — degraded handoff handling | **Under review** |
+| [2026-06-06-kimi-diversify-completion-undefined.md](./2026-06-06-kimi-diversify-completion-undefined.md) | Kimi | §3 Coherence Controller — DIVERSIFY exit criterion | **Under review** |
 
 For the full account of Review Cycle 1 decisions, see [REVIEW_CYCLE_1_SUMMARY.md](./REVIEW_CYCLE_1_SUMMARY.md).
 
