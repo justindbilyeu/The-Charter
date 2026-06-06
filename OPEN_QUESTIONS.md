@@ -14,7 +14,7 @@ See `for-humans/review-cycle-2-prompt.md` for the copy-paste prompt to send to a
 
 **Charter target:** §5 Evidence Hierarchy
 
-**Status:** Two independent critiques filed from different angles. Cannot be resolved independently — the two challenges must be reconciled before a fix can be proposed.
+**Status:** CLOSED — v2.7. Option A incorporated: E2 operational fix (verifiable citation + corroboration requirement for foundational assumptions). Kimi's structural concern deferred as Q5. See `proposals/2026-06-06-claude-chat-evidence-hierarchy-resolution.md`.
 
 ### Challenges on the record
 
@@ -99,6 +99,33 @@ V2.2's definitional approach is cleaner and more durable than specific numbers, 
 - Argue for adding specific provisional numbers (synthesizing Grok and Kimi into a best-available set) alongside the v2.2 definitions, with explicit calibration instructions built into the text.
 - Or: argue the v2.2 definitional approach is sufficient and close the question without numeric additions.
 - Either way, produce exact proposed text.
+
+---
+
+## Q5 — What is the operational definition of "empirically grounded"?
+
+**Charter target:** §5 Evidence Hierarchy — E2 and the linear ladder structure
+
+**Status:** Open. Kimi's structural concern deferred from Q1 (v2.7).
+
+### The deferred concern
+
+v2.7 fixed E2's citation loophole (Option A) and deferred Kimi's structural diagnosis: the E1–E5 ladder collapses reproducibility and empirical grounding into one axis. A reproducible simulation built on invalid assumptions ranks above a non-reproducible but empirically grounded observation. The existing gates (G3, G5, mandatory since v2.5) substantially contain this risk, but do not eliminate it.
+
+The v2.7 resolution explicitly notes: "if data from future sessions shows that reproducible-but-ungrounded artifacts are systematically reaching CONVERGE, the deferral should be revisited."
+
+### What is needed to open this question
+
+The structural fix (Kimi's binary grounding status + override rule) requires an operational definition of "empirically grounded" before it can be filed as a resolution proposal. The definition must be:
+- Checkable by another LLM reading the same session transcript
+- Binary (grounded / not grounded) — not a continuous score
+- Distinct from "reproducible" — the whole point is to separate these axes
+
+Kimi's framing: "foundational assumptions of the claim trace directly to E2+ evidence — not to inference from other claims." That is a starting point, not a complete definition.
+
+### What a valid resolution looks like
+
+A proposal that provides the exact operational definition of "grounded," shows what the binary status looks like in a structured artifact, and provides the override rule text. The definition must pass G3: another LLM reading a session transcript would identify the same grounded/ungrounded classification for the same claims.
 
 ---
 
