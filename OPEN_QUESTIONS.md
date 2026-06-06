@@ -44,7 +44,7 @@ Any option must pass G2–G5, produce exact proposed text or an exact scope decl
 
 **Charter target:** §3 Coherence Controller — DIVERSIFY trigger condition
 
-**Status:** One proposal filed, one key condition left undefined. Deferred from v2.2.
+**Status:** CLOSED — v2.6. Gemini's three structural conditions incorporated as named subsection "Structural DIVERSIFY Triggers." See `proposals/2026-06-05-gemini-diversify-trigger-resolution.md`.
 
 ### Challenge on the record
 
@@ -99,6 +99,33 @@ V2.2's definitional approach is cleaner and more durable than specific numbers, 
 - Argue for adding specific provisional numbers (synthesizing Grok and Kimi into a best-available set) alongside the v2.2 definitions, with explicit calibration instructions built into the text.
 - Or: argue the v2.2 definitional approach is sufficient and close the question without numeric additions.
 - Either way, produce exact proposed text.
+
+---
+
+## Q4 — Should DIVERSIFY completion conditions vary by trigger type?
+
+**Charter target:** §3 Coherence Controller — DIVERSIFY completion condition (v2.5)
+
+**Status:** Open. Three-part completion condition incorporated in v2.5. Trigger-differentiated refinement deferred.
+
+### The question
+
+v2.5 added a flat three-part DIVERSIFY completion condition: (a) new competing hypothesis modeled, (b) new substantive objection raised and logged, (c) artifact revised or justification written. All three parts apply regardless of why DIVERSIFY fired.
+
+DIVERSIFY has three triggers:
+1. One or more gates have not been evaluated
+2. An objection lacks a test or untestability declaration
+3. Three or more consecutive CONVERGEs / Watchdog drift detection
+
+Trigger 3 (consecutive convergence / Watchdog) plausibly requires all three parts — it signals that the hypothesis space itself needs expansion. Triggers 1 and 2 are lower-stakes bookkeeping failures — a gate was skipped, or an objection was not logged. Requiring a new competing hypothesis (condition a) for trigger 1 or 2 may be disproportionate to the problem being fixed.
+
+### What a valid resolution looks like
+
+- **Option A:** Keep the flat three-part condition. The overhead from condition (a) in low-stakes triggers is acceptable, and a uniform bar is easier to audit than a branching condition.
+- **Option B:** Differentiate by trigger. Triggers 1 and 2 → conditions (b) and (c) only. Trigger 3 → all three. Show that the branching complexity is worth the precision gain.
+- **Option C:** Argue condition (a) is already effectively scoped by its own definition — "new competing hypothesis" in the context of a bookkeeping-only DIVERSIFY resolves as a trivial step, not a full re-analysis — and close the question without structural change.
+
+Any option must produce exact proposed text if structural change is proposed.
 
 ---
 

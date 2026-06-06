@@ -4,6 +4,38 @@ All notable changes to The Charter are documented here.
 
 ---
 
+## v2.6
+
+**Review Cycle 2 continued — Q2 closed (Gemini)**
+
+One proposal incorporated. Closes the last unresolved structural trigger gap in §3.
+
+Changes:
+- **§3 Structural DIVERSIFY Triggers** — new named subsection added parallel to the Convergence Watchdog. DIVERSIFY is mandatory if ANY of three structural conditions are met: (1) Hypothesis Under-Specification — fewer than two competing hypotheses documented with distinct identifier, explicit evidence level, and discriminating test proposal naming at least one IV and DV; (2) Asymmetric Risk Assessment — active claim advanced without objection register update or Failure Mode Probe entry detailing failure conditions; (3) Gate Omission — new claims, metrics, or parameter ranges incorporated into the active artifact since the last formal gate evaluation. When any condition is met, the assistant must state the violated condition and execute DIVERSIFY — CONVERGE is not available. Anthropomorphic "This feels obviously right" preserved as operator-facing cultural framing. (Gemini — Q2 resolution)
+
+Note on Condition 3: the charter explicitly scopes it to artifact-level changes — "incorporated into the active artifact," not "introduced into the dialogue." Conversational clarifications and examples do not trigger this condition.
+
+Closes: Q2 (DIVERSIFY trigger operationalization — open since v2.2).
+
+---
+
+## v2.5
+
+**Review Cycle 2 continued — Structural gap closures (Kimi)**
+
+Three proposals incorporated. Primary work: closing two §3 Coherence Controller gaps and one §9 Deserialization contradiction.
+
+Changes:
+- **§3 "applicable gates" removed** — "all applicable gates pass" (CONVERGE) and "one or more applicable gates have not been evaluated" (DIVERSIFY) replaced with "all gates" / "one or more gates." Runtime applicability exemptions removed; domain accommodation via Constitutional Principle scope note, not in-session declarations. (Kimi — applicable gates bypass)
+- **§3 DIVERSIFY completion condition added** — "On completion" replaced with explicit three-part exit criterion: (a) new competing hypothesis explicitly modeled with differing prediction, (b) new substantive objection raised and logged per §4 Calibration Rule, (c) artifact revised or written justification for no revision. Exit is now protocol-determined, not agent-discretionary. (Kimi — DIVERSIFY exit criterion)
+- **§9 Degraded handoff replaced** — "proceed but declare" contradiction resolved. State Compression fields classified as structural (gate status, objection register, Constraint Health, Adversarial Anchor — required, missing → invalid handoff requiring operator action) and orientational (active claims summary, decisions log, next step, assumption log — missing → declare and proceed). (Kimi — degraded handoff contradiction)
+
+Deferred:
+- Trigger-differentiated DIVERSIFY exit conditions — whether low-stakes DIVERSIFY triggers (undocumented objection, unevaluated gate) require all three completion criteria or only (b)+(c). Open Q4.
+- Q1 (evidence hierarchy structure), Q2 (DIVERSIFY trigger operationalization) — remain open.
+
+---
+
 ## v2.4
 
 **Review Cycle 2 continued — Gap closures (Claude, Gemini, Grok, Sage, DeepSeek)**
