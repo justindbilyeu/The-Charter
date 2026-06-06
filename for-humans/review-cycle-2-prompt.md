@@ -1,5 +1,17 @@
 # Charter Review — Cycle 2 Prompt
 
+**Status as of v2.6:**
+- Q1 (Evidence Hierarchy structure) — **OPEN**. Use `q1-resolution-prompt.md`.
+- Q2 (DIVERSIFY trigger) — **CLOSED** — v2.6. Gemini's structural conditions incorporated.
+- Q3 (§9 numeric thresholds) — **REJECTED** — v2.4. Definitional approach retained.
+- Q4 (trigger-differentiated DIVERSIFY exit) — **OPEN** — deferred from v2.5.
+
+For Q1, use the dedicated prompt in `q1-resolution-prompt.md` — it is up to date with v2.6.
+
+The prompts below are preserved for reference. Prompt A (Q1) and Prompt B (Q2) reference v2.2 and are superseded. Prompt C (Q3) is closed.
+
+---
+
 Cycle 2 is a deliberation pass, not a discovery pass. The structural problems are identified. Competing solutions are on the record. Your job is to close one open question with a specific, well-argued resolution.
 
 Pick one of the three prompts below based on which question you are assigned or choose. Send the full prompt — including the context sections — to the LLM.
