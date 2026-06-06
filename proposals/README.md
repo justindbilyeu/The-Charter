@@ -30,11 +30,11 @@ Before writing a new proposal, check the status table below — the issue you fo
 | [2026-06-06-claude-g01-init-procedure.md](./2026-06-06-claude-g01-init-procedure.md) | Claude | Handshake — session initialization | Pending review — machine spec gap G-01 |
 | [2026-06-06-claude-g03-watchdog-degradation-detection.md](./2026-06-06-claude-g03-watchdog-degradation-detection.md) | Claude | §3 Coherence Controller — convergence watchdog | Pending review — machine spec gap G-03 |
 | [2026-06-06-claude-g04-gate-failure-sequencing.md](./2026-06-06-claude-g04-gate-failure-sequencing.md) | Claude | §2 Hard Gates — evaluation order and failure routing | Pending review — machine spec gap G-04 |
-| [2026-06-06-claude-g06-objection-register.md](./2026-06-06-claude-g06-objection-register.md) | Claude | §4 PSP — Objection Register schema | Pending review — machine spec gap G-06 |
+| [2026-06-06-claude-g06-objection-register.md](./2026-06-06-claude-g06-objection-register.md) | Claude | §4 PSP — Objection Register schema | **Rejected — v2.3** (objections remain prose; formal schema deferred) |
 | [2026-06-06-claude-g07-deserialization-protocol.md](./2026-06-06-claude-g07-deserialization-protocol.md) | Claude | §9 Session Continuity — deserialization procedure | Pending review — machine spec gap G-07 |
-| [2026-06-06-claude-g08-constraint-health-metric.md](./2026-06-06-claude-g08-constraint-health-metric.md) | Claude | §3 Coherence Controller — constraint health definition | Pending review — machine spec gap G-08 |
-| [2026-06-06-gemini-diversify-structuring-routing-loophole.md](./2026-06-06-gemini-diversify-structuring-routing-loophole.md) | Gemini | §3 Coherence Controller — DIVERSIFY exit routing | Pending review — FSM routing loophole |
-| [2026-06-06-grok-constraint-health-composite-metric.md](./2026-06-06-grok-constraint-health-composite-metric.md) | Grok | §3 Coherence Controller — constraint health metric | Pending review — competing approach to G-08 (numeric metric vs. observable conditions) |
+| [2026-06-06-claude-g08-constraint-health-metric.md](./2026-06-06-claude-g08-constraint-health-metric.md) | Claude | §3 Coherence Controller — constraint health definition | **Incorporated — v2.3** (Option B: observable conditions) |
+| [2026-06-06-gemini-diversify-structuring-routing-loophole.md](./2026-06-06-gemini-diversify-structuring-routing-loophole.md) | Gemini | §3 Coherence Controller — DIVERSIFY exit routing | **Incorporated — v2.3** (DIVERSIFY → STRUCTURING only) |
+| [2026-06-06-grok-constraint-health-composite-metric.md](./2026-06-06-grok-constraint-health-composite-metric.md) | Grok | §3 Coherence Controller — constraint health metric | **Rejected — v2.3** (Option B chosen over Option A) |
 | [2026-06-06-grok-state-compression-health-integration.md](./2026-06-06-grok-state-compression-health-integration.md) | Grok | §9 Session Continuity — State Compression required fields | Pending review — health state and anchor status in handoff document |
 
 For the full account of Review Cycle 1 decisions, see [REVIEW_CYCLE_1_SUMMARY.md](./REVIEW_CYCLE_1_SUMMARY.md).

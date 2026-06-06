@@ -10,7 +10,7 @@
 
 This document translates the [Research Assistant Charter](./CHARTER.md) from prose into engineering notation. Every institution, state, data type, and transition is made explicit. Where the charter is underspecified for machine execution, gaps are flagged with severity ratings and proposed resolutions.
 
-**Current charter version:** v2.2
+**Current charter version:** v2.3
 **Machine spec version:** 0.1 (draft)
 **Interactive version:** [justindbilyeu.github.io/The-Charter](https://justindbilyeu.github.io/The-Charter/)
 
@@ -52,7 +52,7 @@ COHERENCE CONTROLLER (§3)
     │
     ├──► CONVERGE ──► OUTPUT ──► ARTIFACT
     │
-    ├──► DIVERSIFY ──► PSP (§4) ──► GATE_CHECK
+    ├──► DIVERSIFY ──► PSP (§4) ──► STRUCTURING
     │
     └──► RESTART ──► STRUCTURING (recompile)
 ```
@@ -64,7 +64,7 @@ COHERENCE CONTROLLER (§3)
 | INIT | → STRUCTURING | G-01 HIGH: No initialization procedure |
 | STRUCTURING | → GATE_CHECK, → STRUCTURING | None |
 | GATE_CHECK | → DIVERSIFY, → CONVERGE, → RESTART | G-04 MEDIUM: Failure sequencing undefined |
-| DIVERSIFY | → GATE_CHECK, → STRUCTURING | G-02 HIGH: Trigger undefined for LLM execution |
+| DIVERSIFY | → STRUCTURING | G-02 HIGH: Trigger undefined for LLM execution |
 | CONVERGE | → OUTPUT, → INIT | None |
 | RESTART | → STRUCTURING | G-03 HIGH: No watchdog / degradation detection |
 | OUTPUT | → INIT, → STRUCTURING | None |
@@ -103,7 +103,7 @@ COHERENCE CONTROLLER (§3)
 | G-05 | MEDIUM | EH §5 | Evidence Hierarchy Has Wrong Dimensionality | `2026-06-05-kimi-evidence-hierarchy-orthogonal-axes.md`, `2026-06-05-gemini-evidence-hierarchy-e1-e2-operationalization.md` |
 | G-06 | MEDIUM | PSP §4 | Objection Register Not Defined as Data Structure | `2026-06-06-claude-g06-objection-register.md` |
 | G-07 | LOW | SCP §9 | No Deserialization Protocol | `2026-06-06-claude-g07-deserialization-protocol.md` |
-| G-08 | LOW | CC §3 | "Constraint Health" Not Measurable | `2026-06-06-claude-g08-constraint-health-metric.md` |
+| G-08 | LOW | CC §3 | "Constraint Health" Not Measurable | Closed — Option B incorporated v2.3. `2026-06-06-claude-g08-constraint-health-metric.md` |
 
 ## Missing Subsystems
 
@@ -162,7 +162,9 @@ Seven states. Each has a description, valid transitions, and a gap annotation wh
 
 **Description:** Inject competing explanations, skeptical probes, assumption challenges. §4 Productive Skepticism Protocol active.
 
-**Transitions:** → GATE_CHECK, → STRUCTURING
+**Transitions:** → STRUCTURING
+
+**Routing note:** DIVERSIFY routes only to STRUCTURING (v2.3). The DIVERSIFY → GATE_CHECK shortcut has been removed. Artifact must be recompiled with updated objections before any gate re-evaluation. (Gemini routing proposal — incorporated v2.3)
 
 **Gap:** `G-02 · HIGH` — DIVERSIFY trigger undefined for LLM execution. "This feels obviously right" is anthropomorphic. See `OPEN_QUESTIONS.md` Q2.
 
@@ -206,9 +208,13 @@ INIT ──────────────────────► STRUC
              ▼      ▼      ▼
         DIVERSIFY CONVERGE RESTART
              │        │       │
-             └──► GATE_CHECK  │
-                       │      └──► STRUCTURING
+             │        │       └──► STRUCTURING
+             └──► STRUCTURING     │
+                       │          │
+                       └──────────┘
                        ▼
+                    GATE_CHECK
+                       │
                     OUTPUT
                     /    \
                    ▼      ▼
@@ -251,10 +257,10 @@ Transforms unstructured idea into an artifact containing: central claim (≤3 se
 
 **Charter reference:** §3 | **Type:** STATE_CONTROLLER
 
-**Inputs:** `gate_result`, `constraint_health`, `session_context`
+**Inputs:** `gate_result`, `session_context`
 **Outputs:** `state_transition[CONVERGE|DIVERSIFY|RESTART]`
 
-Monitors constraint health during structuring. Decides CONVERGE (exhausted scrutiny), DIVERSIFY (inject alternatives), or RESTART (structural flaw).
+Monitors three observable conditions during structuring: (1) gates evaluated and passed for current artifact, (2) whether any raised objections lack a test or untestability declaration, (3) convergence trajectory — whether recent transitions include a DIVERSIFY or RESTART, or the session has been converging without interruption. Decides CONVERGE (exhausted scrutiny), DIVERSIFY (inject alternatives), or RESTART (structural flaw). (v2.3: `constraint_health` replaced with observable conditions — G-08 Option B incorporated)
 
 **Gaps:**
 - `G-02 · HIGH` — DIVERSIFY trigger undefined for LLM execution

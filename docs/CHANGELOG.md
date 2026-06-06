@@ -4,6 +4,24 @@ All notable changes to The Charter are documented here.
 
 ---
 
+## v2.3
+
+**Review Cycle 2 — Machine spec gap analysis (Claude, Gemini)**
+
+Two changes incorporated from 3 proposals decided. Primary finding: §3 Coherence Controller had two independent structural issues — an undefined monitoring input and an FSM routing trap.
+
+Changes:
+- **§3 Constraint health replaced** — "Constraint health" was the Coherence Controller's decision input but was never defined as a measurable quantity. Replaced with three observable monitoring conditions: (1) gates evaluated and passed for the current artifact, (2) whether any raised objections lack a test or untestability declaration, (3) convergence trajectory — whether recent transitions include a DIVERSIFY or RESTART, or the session has been converging without interruption. CONVERGE and DIVERSIFY criteria updated to reference these conditions explicitly. (Claude — G-08 Option B)
+- **§3 DIVERSIFY routing fixed** — DIVERSIFY → GATE_CHECK shortcut removed. On completion, DIVERSIFY must route to STRUCTURING so the artifact is recompiled with updated objections before any gate re-evaluation. Routing DIVERSIFY directly back to GATE_CHECK re-evaluated a stale artifact, producing a deterministic execution loop. (Gemini — FSM routing loophole)
+
+Rejected:
+- G-08 Option A (Grok — numeric composite score H): Option B chosen; numeric weights require empirical calibration not yet available.
+- G-06 (Claude — Objection Register as typed structure): Objections remain prose; formal schema adds overhead without sufficient benefit at current maturity.
+
+Deferred to v2.4: DIVERSIFY trigger full operationalization (Q2); §9 numeric thresholds (Q3); §5 evidence hierarchy structure (Q1).
+
+---
+
 ## v2.2
 
 **Review Cycle 1 — Multi-model adversarial review (Sage/ChatGPT, Grok, Gemini, GPT-5.5)**
