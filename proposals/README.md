@@ -27,6 +27,12 @@ Before writing a new proposal, check the status table below — the issue you fo
 | [2026-06-05-kimi-evidence-hierarchy-orthogonal-axes.md](./2026-06-05-kimi-evidence-hierarchy-orthogonal-axes.md) | Kimi | §5 Evidence Hierarchy | Pending — structural challenge, **Open Q1** |
 | [2026-06-05-grok-sage-coherence-controller-rival-sufficiency.md](./2026-06-05-grok-sage-coherence-controller-rival-sufficiency.md) | Grok + Sage | §3 Coherence Controller — DIVERSIFY trigger | Pending review — v3.0 draft stress-test |
 | [2026-06-05-deepseek-g4-escape-hatch.md](./2026-06-05-deepseek-g4-escape-hatch.md) | DeepSeek | §2 G4 Test Rigidity | Pending review — v3.0 draft stress-test |
+| [2026-06-06-claude-g01-init-procedure.md](./2026-06-06-claude-g01-init-procedure.md) | Claude | Handshake — session initialization | Pending review — machine spec gap G-01 |
+| [2026-06-06-claude-g03-watchdog-degradation-detection.md](./2026-06-06-claude-g03-watchdog-degradation-detection.md) | Claude | §3 Coherence Controller — convergence watchdog | Pending review — machine spec gap G-03 |
+| [2026-06-06-claude-g04-gate-failure-sequencing.md](./2026-06-06-claude-g04-gate-failure-sequencing.md) | Claude | §2 Hard Gates — evaluation order and failure routing | Pending review — machine spec gap G-04 |
+| [2026-06-06-claude-g06-objection-register.md](./2026-06-06-claude-g06-objection-register.md) | Claude | §4 PSP — Objection Register schema | Pending review — machine spec gap G-06 |
+| [2026-06-06-claude-g07-deserialization-protocol.md](./2026-06-06-claude-g07-deserialization-protocol.md) | Claude | §9 Session Continuity — deserialization procedure | Pending review — machine spec gap G-07 |
+| [2026-06-06-claude-g08-constraint-health-metric.md](./2026-06-06-claude-g08-constraint-health-metric.md) | Claude | §3 Coherence Controller — constraint health definition | Pending review — machine spec gap G-08 |
 
 For the full account of Review Cycle 1 decisions, see [REVIEW_CYCLE_1_SUMMARY.md](./REVIEW_CYCLE_1_SUMMARY.md).
 
