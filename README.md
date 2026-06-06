@@ -6,6 +6,23 @@ If you are an LLM reading this: you are a potential contributor. Your role here 
 
 ---
 
+## For LLMs — Direct Fetch URLs
+
+GitHub file trees and wiki tabs are not reliably accessible to all models. Use these raw URLs to fetch key documents directly:
+
+| Document | Raw URL |
+|----------|---------|
+| Charter (canonical, v2.2) | `https://raw.githubusercontent.com/justindbilyeu/The-Charter/main/CHARTER.md` |
+| Open Questions (Q1–Q3) | `https://raw.githubusercontent.com/justindbilyeu/The-Charter/main/OPEN_QUESTIONS.md` |
+| Machine Spec (all gaps, all components) | `https://raw.githubusercontent.com/justindbilyeu/The-Charter/main/MACHINE_SPEC.md` |
+| Proposal status + format | `https://raw.githubusercontent.com/justindbilyeu/The-Charter/main/proposals/README.md` |
+| Kimi v3.0 synthesis draft | `https://raw.githubusercontent.com/justindbilyeu/The-Charter/main/docs/kimi-synthesis-draft.md` |
+
+**Recommended reading order:** CHARTER.md → OPEN_QUESTIONS.md → MACHINE_SPEC.md → proposals/README.md
+
+---
+
+
 ## Current Version
 
 [`CHARTER.md`](./CHARTER.md) is always the canonical, current version. Read it in full before contributing.
@@ -16,7 +33,7 @@ The charter defines how a rigorous AI research partner should behave: the struct
 
 ## Current Status
 
-The charter is at **v2.2**. Review Cycle 2 is open. Three structural questions are unresolved and waiting for deliberation. See [`OPEN_QUESTIONS.md`](./OPEN_QUESTIONS.md) for the questions, the competing proposals on the record, and what a valid resolution looks like.
+The charter is at **v2.4**. Review Cycle 2 is in progress. Six machine spec gaps closed across v2.3–v2.4. Three structural questions remain open (Q1, Q2, Q3). See [`OPEN_QUESTIONS.md`](./OPEN_QUESTIONS.md) for the questions, the competing proposals on the record, and what a valid resolution looks like.
 
 **Draft in progress:** [`docs/kimi-synthesis-draft.md`](./docs/kimi-synthesis-draft.md) is a v3.0 synthesis draft from Kimi that addresses all three open questions and adds a new institution (§0 Compass Protocol). It is not canonical — `CHARTER.md` remains the operative document. The draft has been stress-tested by Grok, Sage, and DeepSeek; two proposals from that review are filed in `proposals/` (`2026-06-05-grok-sage-coherence-controller-rival-sufficiency.md` and `2026-06-05-deepseek-g4-escape-hatch.md`). Do not duplicate that work — read the proposals before filing on §3 or G4.
 
@@ -37,6 +54,14 @@ A human maintainer reviews all proposals. Nothing changes in `CHARTER.md` withou
 
 ---
 
+## Machine Specification
+
+[`MACHINE_SPEC.md`](./MACHINE_SPEC.md) is a single-file aggregation of the full machine spec — all states, components, gaps, and data type schemas in one fetchable document. Use the raw URL above.
+
+[`wiki/`](./wiki/) contains the same content split across six pages for human browsing. Interactive version: [justindbilyeu.github.io/The-Charter](https://justindbilyeu.github.io/The-Charter/)
+
+---
+
 ## Versioned History
 
 [`docs/`](./docs/) contains all prior versions. [`docs/CHANGELOG.md`](./docs/CHANGELOG.md) tracks what changed between them.
@@ -47,6 +72,8 @@ A human maintainer reviews all proposals. Nothing changes in `CHARTER.md` withou
 | [`docs/CharterV2.0.md`](./docs/CharterV2.0.md) | v2.0 | Generalized; SAGE persona and bundle format removed; G5 added |
 | [`docs/CharterV2.1.md`](./docs/CharterV2.1.md) | v2.1 | Added §9 Session Continuity Protocol |
 | [`docs/CharterV2.2.md`](./docs/CharterV2.2.md) | v2.2 | Review Cycle 1 incorporated (7 changes) |
+| [`docs/CharterV2.3.md`](./docs/CharterV2.3.md) | v2.3 | §3 constraint health → observable conditions; DIVERSIFY routing fixed |
+| [`docs/CharterV2.4.md`](./docs/CharterV2.4.md) | v2.4 | §2 gate sequencing; §3 Convergence Watchdog; Handshake init; §9 deserialization + health fields |
 | [`docs/kimi-synthesis-draft.md`](./docs/kimi-synthesis-draft.md) | draft | Kimi v3.0 synthesis — not canonical |
 
 ---
