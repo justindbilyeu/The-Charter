@@ -4,6 +4,23 @@ All notable changes to The Charter are documented here.
 
 ---
 
+## v2.5
+
+**Review Cycle 2 continued — Structural gap closures (Kimi)**
+
+Three proposals incorporated. Primary work: closing two §3 Coherence Controller gaps and one §9 Deserialization contradiction.
+
+Changes:
+- **§3 "applicable gates" removed** — "all applicable gates pass" (CONVERGE) and "one or more applicable gates have not been evaluated" (DIVERSIFY) replaced with "all gates" / "one or more gates." Runtime applicability exemptions removed; domain accommodation via Constitutional Principle scope note, not in-session declarations. (Kimi — applicable gates bypass)
+- **§3 DIVERSIFY completion condition added** — "On completion" replaced with explicit three-part exit criterion: (a) new competing hypothesis explicitly modeled with differing prediction, (b) new substantive objection raised and logged per §4 Calibration Rule, (c) artifact revised or written justification for no revision. Exit is now protocol-determined, not agent-discretionary. (Kimi — DIVERSIFY exit criterion)
+- **§9 Degraded handoff replaced** — "proceed but declare" contradiction resolved. State Compression fields classified as structural (gate status, objection register, Constraint Health, Adversarial Anchor — required, missing → invalid handoff requiring operator action) and orientational (active claims summary, decisions log, next step, assumption log — missing → declare and proceed). (Kimi — degraded handoff contradiction)
+
+Deferred:
+- Trigger-differentiated DIVERSIFY exit conditions — whether low-stakes DIVERSIFY triggers (undocumented objection, unevaluated gate) require all three completion criteria or only (b)+(c). Open Q4.
+- Q1 (evidence hierarchy structure), Q2 (DIVERSIFY trigger operationalization) — remain open.
+
+---
+
 ## v2.4
 
 **Review Cycle 2 continued — Gap closures (Claude, Gemini, Grok, Sage, DeepSeek)**

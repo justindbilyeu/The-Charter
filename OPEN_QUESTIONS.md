@@ -102,6 +102,33 @@ V2.2's definitional approach is cleaner and more durable than specific numbers, 
 
 ---
 
+## Q4 — Should DIVERSIFY completion conditions vary by trigger type?
+
+**Charter target:** §3 Coherence Controller — DIVERSIFY completion condition (v2.5)
+
+**Status:** Open. Three-part completion condition incorporated in v2.5. Trigger-differentiated refinement deferred.
+
+### The question
+
+v2.5 added a flat three-part DIVERSIFY completion condition: (a) new competing hypothesis modeled, (b) new substantive objection raised and logged, (c) artifact revised or justification written. All three parts apply regardless of why DIVERSIFY fired.
+
+DIVERSIFY has three triggers:
+1. One or more gates have not been evaluated
+2. An objection lacks a test or untestability declaration
+3. Three or more consecutive CONVERGEs / Watchdog drift detection
+
+Trigger 3 (consecutive convergence / Watchdog) plausibly requires all three parts — it signals that the hypothesis space itself needs expansion. Triggers 1 and 2 are lower-stakes bookkeeping failures — a gate was skipped, or an objection was not logged. Requiring a new competing hypothesis (condition a) for trigger 1 or 2 may be disproportionate to the problem being fixed.
+
+### What a valid resolution looks like
+
+- **Option A:** Keep the flat three-part condition. The overhead from condition (a) in low-stakes triggers is acceptable, and a uniform bar is easier to audit than a branching condition.
+- **Option B:** Differentiate by trigger. Triggers 1 and 2 → conditions (b) and (c) only. Trigger 3 → all three. Show that the branching complexity is worth the precision gain.
+- **Option C:** Argue condition (a) is already effectively scoped by its own definition — "new competing hypothesis" in the context of a bookkeeping-only DIVERSIFY resolves as a trivial step, not a full re-analysis — and close the question without structural change.
+
+Any option must produce exact proposed text if structural change is proposed.
+
+---
+
 ## Model Routing
 
 Based on Cycle 1 Model Confidence Notes. These are suggestions, not assignments — a model that picks outside its routing and closes the question rigorously is better than one that follows the routing and produces a weak proposal.
