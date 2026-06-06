@@ -34,6 +34,8 @@ Before writing a new proposal, check the status table below — the issue you fo
 | [2026-06-06-claude-g07-deserialization-protocol.md](./2026-06-06-claude-g07-deserialization-protocol.md) | Claude | §9 Session Continuity — deserialization procedure | Pending review — machine spec gap G-07 |
 | [2026-06-06-claude-g08-constraint-health-metric.md](./2026-06-06-claude-g08-constraint-health-metric.md) | Claude | §3 Coherence Controller — constraint health definition | Pending review — machine spec gap G-08 |
 | [2026-06-06-gemini-diversify-structuring-routing-loophole.md](./2026-06-06-gemini-diversify-structuring-routing-loophole.md) | Gemini | §3 Coherence Controller — DIVERSIFY exit routing | Pending review — FSM routing loophole |
+| [2026-06-06-grok-constraint-health-composite-metric.md](./2026-06-06-grok-constraint-health-composite-metric.md) | Grok | §3 Coherence Controller — constraint health metric | Pending review — competing approach to G-08 (numeric metric vs. observable conditions) |
+| [2026-06-06-grok-state-compression-health-integration.md](./2026-06-06-grok-state-compression-health-integration.md) | Grok | §9 Session Continuity — State Compression required fields | Pending review — health state and anchor status in handoff document |
 
 For the full account of Review Cycle 1 decisions, see [REVIEW_CYCLE_1_SUMMARY.md](./REVIEW_CYCLE_1_SUMMARY.md).
 
