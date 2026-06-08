@@ -80,17 +80,17 @@ public:
 
     // ---------------------------------------------------------------------------
     // DIVERSIFY exit criterion (v2.5 — three-part completion condition)
+    //
+    // Returns a DiversifyExitToken (defined in types.h). Only CoherenceController
+    // can construct the token — the private constructor enforces this at compile time.
+    // The caller passes the token to CharterFSM::to_structuring(token, reason).
+    // Token is move-only: consumed on use, preventing replay.
     // ---------------------------------------------------------------------------
-
-    struct DiversifyCompletionResult {
-        bool complete;
-        std::vector<std::string> unmet;  // which of (a), (b), (c) remain unmet
-    };
 
     // (a) >= 1 new competing hypothesis with differing prediction
     // (b) >= 1 new substantive objection logged since DIVERSIFY entry
     // (c) artifact revised or written justification provided
-    DiversifyCompletionResult check_diversify_complete(
+    DiversifyExitToken check_diversify_complete(
         const std::vector<Hypothesis>& hypotheses_before,
         const std::vector<Hypothesis>& hypotheses_now,
         const ObjectionRegister& objections_before,

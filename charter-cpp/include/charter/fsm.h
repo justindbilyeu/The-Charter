@@ -46,12 +46,8 @@ public:
 
 class DiversifyIncompleteError : public std::logic_error {
 public:
-    explicit DiversifyIncompleteError()
-        : std::logic_error(
-            "DIVERSIFY exit blocked: completion criteria not met — "
-            "call declare_diversify_complete() after CoherenceController::check_diversify_complete() "
-            "confirms (a) new competing hypothesis, (b) new substantive objection, "
-            "(c) artifact revised or justified (v2.5 DIVERSIFY exit criterion)") {}
+    explicit DiversifyIncompleteError(const std::string& msg)
+        : std::logic_error(msg) {}
 };
 
 class CharterFSM {
@@ -67,6 +63,14 @@ public:
     void handshake(bool loaded_from_compression = false);
 
     // Transitions — enforce charter routing rules
+    //
+    // to_structuring() has two overloads:
+    //   - DiversifyExitToken overload: must be used when leaving DIVERSIFY state.
+    //     The token can only be produced by CoherenceController::check_diversify_complete().
+    //     Throws DiversifyIncompleteError if the token is invalid (criteria unmet).
+    //   - Tokenless overload: all other transitions to STRUCTURING. Throws
+    //     DiversifyIncompleteError if called from DIVERSIFY state (use the token overload).
+    void to_structuring(DiversifyExitToken token, const std::string& reason = "");
     void to_structuring(const std::string& reason = "");
     void to_gate_check();
     void to_diversify(const std::string& violated_condition);
@@ -85,12 +89,6 @@ public:
     // drift_suspected: if true, DIVERSIFY is mandatory regardless of standard conditions
     void submit_watchdog_report(const std::string& report, bool drift_suspected);
 
-    // DIVERSIFY exit gate (v2.5 completion criterion)
-    // Call after CoherenceController::check_diversify_complete() returns complete = true.
-    // to_structuring() from DIVERSIFY state throws DiversifyIncompleteError unless this
-    // has been called since the most recent to_diversify().
-    void declare_diversify_complete();
-
     // Session history — for Watchdog and simulation review
     const std::vector<std::pair<State, std::string>>& history() const { return history_; }
 
@@ -106,9 +104,6 @@ private:
 
     // CONVERGE precondition: at least one prior DIVERSIFY or RESTART in session
     bool had_prior_diversify_or_restart_ = false;
-
-    // DIVERSIFY exit gate: must be declared complete before to_structuring() from DIVERSIFY
-    bool diversify_complete_declared_ = false;
 
     std::vector<std::pair<State, std::string>> history_;
 

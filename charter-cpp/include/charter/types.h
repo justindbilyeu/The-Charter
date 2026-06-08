@@ -228,4 +228,29 @@ struct StateCompression {
     std::vector<std::string> missing_structural_fields() const;
 };
 
+// ---------------------------------------------------------------------------
+// DIVERSIFY Exit Token (v2.5 exit criterion — K1 token pattern)
+//
+// Only CoherenceController can construct this token. A caller cannot
+// fabricate one — the private constructor enforces that check_diversify_complete()
+// is the sole token source. Move-only: token is consumed on use, preventing replay.
+// ---------------------------------------------------------------------------
+
+class DiversifyExitToken {
+    friend class CoherenceController;
+public:
+    DiversifyExitToken(const DiversifyExitToken&) = delete;
+    DiversifyExitToken& operator=(const DiversifyExitToken&) = delete;
+    DiversifyExitToken(DiversifyExitToken&&) = default;
+    DiversifyExitToken& operator=(DiversifyExitToken&&) = default;
+
+    bool is_valid() const { return unmet_.empty(); }
+    const std::vector<std::string>& unmet_criteria() const { return unmet_; }
+
+private:
+    explicit DiversifyExitToken(std::vector<std::string> unmet)
+        : unmet_(std::move(unmet)) {}
+    std::vector<std::string> unmet_;
+};
+
 }  // namespace charter
