@@ -124,6 +124,13 @@ struct StructuredArtifact {
     bool thresholds_locked = false;
     std::map<std::string, double> locked_thresholds;  // criterion_id -> threshold at lock time
 
+    // G5 structural field: must be non-empty for G5 LLM evaluation to proceed.
+    // Either state the proposed mechanism and distinguish it from evidence,
+    // or declare mechanism unknown and identify artifact as phenomenological/
+    // predictive/exploratory (charter §2 G5 — two pass conditions).
+    // Empty → immediate G5 FAIL without LLM call.
+    std::string mechanism_status;
+
     // v2.6 Structural DIVERSIFY Trigger 3: track when the artifact was last modified
     // and when gates were last formally evaluated
     std::chrono::system_clock::time_point last_modified;

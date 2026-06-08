@@ -80,12 +80,20 @@ void CharterFSM::to_restart(const std::vector<std::string>& defect_list) {
 
 void CharterFSM::to_output() {
     validate_transition(state_, State::OUTPUT);
+    if (watchdog_report_pending_)
+        throw WatchdogRequiredError();
+    if (drift_suspected_)
+        throw ConvergePreconditionError(
+            "Watchdog drift assessment — DIVERSIFY required before OUTPUT (§3 Convergence Watchdog)");
     record(State::OUTPUT);
     state_ = State::OUTPUT;
 }
 
 void CharterFSM::to_init() {
     validate_transition(state_, State::INIT);
+    if (drift_suspected_)
+        throw ConvergePreconditionError(
+            "Watchdog drift assessment — DIVERSIFY required before starting new claim (§3 Convergence Watchdog)");
     record(State::INIT, "new claim");
     state_ = State::INIT;
     handshake_done_ = false;

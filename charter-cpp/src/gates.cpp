@@ -79,7 +79,18 @@ std::vector<GateEvaluation> HardGates::evaluate(StructuredArtifact& artifact) {
     results.push_back(g4);
     artifact.gate_status[GateId::G4] = g4.status;
 
-    auto g5 = llm_->evaluate_g5(artifact);
+    // G5 mechanical pre-check: mechanism_status must be explicitly declared.
+    // If the field is absent the artifact structurally fails G5 without LLM evaluation —
+    // an undeclared mechanism status is not a semantic ambiguity, it is a missing field.
+    GateEvaluation g5;
+    if (artifact.mechanism_status.empty()) {
+        g5 = { GateId::G5, GateStatus::FAIL,
+               "G5: mechanism_status not declared — must state proposed mechanism "
+               "or identify artifact as phenomenological/predictive/exploratory",
+               FailureRoute::DIVERSIFY };
+    } else {
+        g5 = llm_->evaluate_g5(artifact);
+    }
     results.push_back(g5);
     artifact.gate_status[GateId::G5] = g5.status;
 
