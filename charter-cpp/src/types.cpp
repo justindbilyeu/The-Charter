@@ -48,16 +48,10 @@ bool StateCompression::is_valid() const {
 
 std::vector<std::string> StateCompression::missing_structural_fields() const {
     std::vector<std::string> missing;
-    if (gate_status.empty())
-        missing.push_back("gate_status");
-    // objection_register may legitimately be empty for fresh artifacts;
-    // we check that it was explicitly set by checking charter_version is populated
-    // (a compression that was properly produced will always have charter_version)
-    if (charter_version.empty())
-        missing.push_back("charter_version (proxy for structural completeness)");
-    // constraint_health: zero-valued struct is ambiguous — production should use optional
-    // adversarial_anchor: watchdog_fired=false is a valid state, so we can't detect absence
-    // TODO: wrap structural fields in std::optional in production to allow proper validation
+    if (!gate_status.has_value())        missing.push_back("gate_status");
+    if (!objection_register.has_value()) missing.push_back("objection_register");
+    if (!constraint_health.has_value())  missing.push_back("constraint_health");
+    if (!adversarial_anchor.has_value()) missing.push_back("adversarial_anchor");
     return missing;
 }
 

@@ -17,6 +17,9 @@ void CharterFSM::handshake(bool loaded_from_compression) {
 
 void CharterFSM::to_structuring(const std::string& reason) {
     validate_transition(state_, State::STRUCTURING);
+    if (state_ == State::DIVERSIFY && !diversify_complete_declared_)
+        throw DiversifyIncompleteError();
+    diversify_complete_declared_ = false;  // consume the declaration
     record(State::STRUCTURING, reason);
     state_ = State::STRUCTURING;
 }
@@ -31,6 +34,8 @@ void CharterFSM::to_diversify(const std::string& violated_condition) {
     validate_transition(state_, State::DIVERSIFY);
     had_prior_diversify_or_restart_ = true;
     consecutive_converge_count_ = 0;
+    drift_suspected_ = false;       // DIVERSIFY satisfies the mandatory post-drift requirement
+    diversify_complete_declared_ = false;  // reset — new DIVERSIFY requires new completion declaration
     record(State::DIVERSIFY, violated_condition);
     state_ = State::DIVERSIFY;
 }
@@ -71,6 +76,7 @@ void CharterFSM::to_restart(const std::vector<std::string>& defect_list) {
     validate_transition(state_, State::RESTART);
     had_prior_diversify_or_restart_ = true;
     consecutive_converge_count_ = 0;
+    diversify_complete_declared_ = false;  // RESTART from DIVERSIFY abandons the completion
     std::string annotation = "Defects:";
     for (const auto& d : defect_list) annotation += " [" + d + "]";
     record(State::RESTART, annotation);
@@ -79,12 +85,20 @@ void CharterFSM::to_restart(const std::vector<std::string>& defect_list) {
 
 void CharterFSM::to_output() {
     validate_transition(state_, State::OUTPUT);
+    if (watchdog_report_pending_)
+        throw WatchdogRequiredError();
+    if (drift_suspected_)
+        throw ConvergePreconditionError(
+            "Watchdog drift assessment — DIVERSIFY required before OUTPUT (§3 Convergence Watchdog)");
     record(State::OUTPUT);
     state_ = State::OUTPUT;
 }
 
 void CharterFSM::to_init() {
     validate_transition(state_, State::INIT);
+    if (drift_suspected_)
+        throw ConvergePreconditionError(
+            "Watchdog drift assessment — DIVERSIFY required before starting new claim (§3 Convergence Watchdog)");
     record(State::INIT, "new claim");
     state_ = State::INIT;
     handshake_done_ = false;
@@ -92,6 +106,16 @@ void CharterFSM::to_init() {
     had_prior_diversify_or_restart_ = false;
     watchdog_report_pending_ = false;
     drift_suspected_ = false;
+    diversify_complete_declared_ = false;
+}
+
+void CharterFSM::declare_diversify_complete() {
+    if (state_ != State::DIVERSIFY)
+        throw InvalidTransitionError(
+            "declare_diversify_complete() called outside DIVERSIFY state");
+    diversify_complete_declared_ = true;
+    // No history entry here — completion is recorded on the subsequent STRUCTURING entry,
+    // where the caller's reason string carries the exit context (Q3 fix).
 }
 
 bool CharterFSM::watchdog_required() const {

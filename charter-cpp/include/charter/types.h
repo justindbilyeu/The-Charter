@@ -124,6 +124,13 @@ struct StructuredArtifact {
     bool thresholds_locked = false;
     std::map<std::string, double> locked_thresholds;  // criterion_id -> threshold at lock time
 
+    // G5 structural field: must be non-empty for G5 LLM evaluation to proceed.
+    // Either state the proposed mechanism and distinguish it from evidence,
+    // or declare mechanism unknown and identify artifact as phenomenological/
+    // predictive/exploratory (charter §2 G5 — two pass conditions).
+    // Empty → immediate G5 FAIL without LLM call.
+    std::string mechanism_status;
+
     // v2.6 Structural DIVERSIFY Trigger 3: track when the artifact was last modified
     // and when gates were last formally evaluated
     std::chrono::system_clock::time_point last_modified;
@@ -197,12 +204,15 @@ struct AdversarialAnchor {
 // v2.5: structural fields are required; orientational fields are recommended
 // Missing structural field → invalid handoff, operator must act
 // Missing orientational field → declare and proceed
+//
+// Structural fields use std::optional<T> so that "missing" (nullopt) is
+// unambiguous — an empty vector or zero-valued struct is a valid present state.
 struct StateCompression {
-    // Structural (required)
-    std::vector<std::pair<std::string, GateStatus>> gate_status;  // artifact_ref -> status
-    ObjectionRegister objection_register;
-    ConstraintHealth constraint_health;
-    AdversarialAnchor adversarial_anchor;
+    // Structural (required) — nullopt = missing, not present; triggers invalid handoff
+    std::optional<std::vector<std::pair<std::string, GateStatus>>> gate_status;
+    std::optional<ObjectionRegister> objection_register;
+    std::optional<ConstraintHealth> constraint_health;
+    std::optional<AdversarialAnchor> adversarial_anchor;
 
     // Orientational (recommended)
     std::string charter_version = "v2.7";

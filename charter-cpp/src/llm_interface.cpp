@@ -18,6 +18,12 @@ StructuredArtifact MockLLMInterface::structure_claim(const std::string& raw_clai
         { "sc-1", 0.05, ThresholdDirection::LESS_THAN, 0.0, "p-value threshold" },
         { "sc-2", 0.20, ThresholdDirection::GREATER_THAN, 0.0, "minimum effect size" }
     };
+    a.mechanism_status =
+        "Mechanism unknown — artifact is phenomenological/predictive. "
+        "Cold exposure hypothesized to reduce fatigue via ANS modulation, "
+        "but causal pathway not established. "
+        "Discriminating test (A/B conditions) proposed to distinguish ANS-mediated "
+        "effect from placebo and regression to mean.";
     a.last_modified = std::chrono::system_clock::now();
     return a;
 }

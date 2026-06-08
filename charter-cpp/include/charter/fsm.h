@@ -44,6 +44,16 @@ public:
         : std::logic_error("CONVERGE precondition not met: " + reason) {}
 };
 
+class DiversifyIncompleteError : public std::logic_error {
+public:
+    explicit DiversifyIncompleteError()
+        : std::logic_error(
+            "DIVERSIFY exit blocked: completion criteria not met — "
+            "call declare_diversify_complete() after CoherenceController::check_diversify_complete() "
+            "confirms (a) new competing hypothesis, (b) new substantive objection, "
+            "(c) artifact revised or justified (v2.5 DIVERSIFY exit criterion)") {}
+};
+
 class CharterFSM {
 public:
     explicit CharterFSM(const std::string& charter_version = "v2.7");
@@ -75,6 +85,12 @@ public:
     // drift_suspected: if true, DIVERSIFY is mandatory regardless of standard conditions
     void submit_watchdog_report(const std::string& report, bool drift_suspected);
 
+    // DIVERSIFY exit gate (v2.5 completion criterion)
+    // Call after CoherenceController::check_diversify_complete() returns complete = true.
+    // to_structuring() from DIVERSIFY state throws DiversifyIncompleteError unless this
+    // has been called since the most recent to_diversify().
+    void declare_diversify_complete();
+
     // Session history — for Watchdog and simulation review
     const std::vector<std::pair<State, std::string>>& history() const { return history_; }
 
@@ -90,6 +106,9 @@ private:
 
     // CONVERGE precondition: at least one prior DIVERSIFY or RESTART in session
     bool had_prior_diversify_or_restart_ = false;
+
+    // DIVERSIFY exit gate: must be declared complete before to_structuring() from DIVERSIFY
+    bool diversify_complete_declared_ = false;
 
     std::vector<std::pair<State, std::string>> history_;
 

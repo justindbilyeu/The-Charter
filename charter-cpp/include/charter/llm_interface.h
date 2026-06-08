@@ -67,7 +67,7 @@ public:
         return { GateId::G2,
                  g2_passes ? GateStatus::PASS : GateStatus::FAIL,
                  g2_passes ? "" : "[mock] claim scope too broad",
-                 g2_passes ? FailureRoute::NONE : FailureRoute::DIVERSIFY };
+                 g2_passes ? FailureRoute::NONE : FailureRoute::RESTART };
     }
 
     GateEvaluation evaluate_g3(const StructuredArtifact&) override {

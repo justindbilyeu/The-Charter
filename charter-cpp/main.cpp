@@ -122,6 +122,10 @@ int main() {
     }
     std::cout << "\n\n";
 
+    // Declare completion to the FSM — required before to_structuring() from DIVERSIFY
+    if (div_complete.complete)
+        fsm.declare_diversify_complete();
+
     // -----------------------------------------------------------------------
     // Return to STRUCTURING — update artifact with operational definition
     // -----------------------------------------------------------------------
