@@ -42,6 +42,24 @@ Before writing a new proposal, check the status table below — the issue you fo
 | [2026-06-06-kimi-degraded-handoff-halt-required.md](./2026-06-06-kimi-degraded-handoff-halt-required.md) | Kimi | §9 Deserialization Procedure — degraded handoff handling | **Incorporated — v2.5** (three-option remediation; structural/orientational field distinction) |
 | [2026-06-06-kimi-diversify-completion-undefined.md](./2026-06-06-kimi-diversify-completion-undefined.md) | Kimi | §3 Coherence Controller — DIVERSIFY exit criterion | **Incorporated — v2.5** (three-part completion condition; trigger-differentiated refinement deferred — Open Q4) |
 
+### C++ Skeleton Reviews (2026-06-08)
+
+| File | Source | Target | Status |
+|------|--------|--------|--------|
+| [2026-06-08-claude-chat-cpp-skeleton-review.md](./2026-06-08-claude-chat-cpp-skeleton-review.md) | Claude Chat | `charter-cpp` skeleton | **Applied — Fixes 1–4 (G2 route, optional fields, drift reset, differing_prediction)** |
+| [2026-06-08-grok-cpp-skeleton-review.md](./2026-06-08-grok-cpp-skeleton-review.md) | Grok | `charter-cpp` skeleton | **Applied — Fixes 1–4 (confirmed independently)** |
+| [2026-06-08-gemini-cpp-skeleton-review.md](./2026-06-08-gemini-cpp-skeleton-review.md) | Gemini | `charter-cpp` skeleton | **Applied — Fixes 1–4 (confirmed independently)** |
+| [2026-06-08-kimi-cpp-skeleton-review.md](./2026-06-08-kimi-cpp-skeleton-review.md) | Kimi | `charter-cpp` skeleton | **Applied — K1 Option A (DIVERSIFY exit gate), K2 (watchdog bypass), K3 (G5 pre-check)** |
+| [2026-06-08-gemini-b-cpp-skeleton-review.md](./2026-06-08-gemini-b-cpp-skeleton-review.md) | Gemini (run B) | `charter-cpp` skeleton | **Not applied — Q1 findings all incorrect (reviewing hypothetical code, not actual implementation)** |
+
+### K1 DIVERSIFY Enforcement Reviews (2026-06-08)
+
+| File | Source | Target | Status |
+|------|--------|--------|--------|
+| [2026-06-08-claude-chat-k1-diversify-enforcement-review.md](./2026-06-08-claude-chat-k1-diversify-enforcement-review.md) | Claude Chat | `CharterFSM::declare_diversify_complete()` | **Partially applied — Q3/Q4 fixes applied; token pattern deferred pending Gemini K1 review** |
+| [2026-06-08-grok-k1-diversify-enforcement-review.md](./2026-06-08-grok-k1-diversify-enforcement-review.md) | Grok | `CharterFSM::declare_diversify_complete()` | **Q3/Q4 confirmed; token pattern recommended — deferred pending Gemini K1 review** |
+| [2026-06-08-kimi-k1-diversify-enforcement-review.md](./2026-06-08-kimi-k1-diversify-enforcement-review.md) | Kimi | `CharterFSM::declare_diversify_complete()` | **Q3/Q4 confirmed; token pattern recommended — deferred pending Gemini K1 review** |
+
 For the full account of Review Cycle 1 decisions, see [REVIEW_CYCLE_1_SUMMARY.md](./REVIEW_CYCLE_1_SUMMARY.md).
 
 For the three open questions going into Review Cycle 2, see [../OPEN_QUESTIONS.md](../OPEN_QUESTIONS.md).

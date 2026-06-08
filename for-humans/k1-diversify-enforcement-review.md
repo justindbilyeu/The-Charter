@@ -11,9 +11,9 @@ For models that cannot fetch, paste the three source files directly.
 You are reviewing a design decision in the Charter Machine C++ skeleton.
 
 Fetch the current source files:
-https://raw.githubusercontent.com/justindbilyeu/The-Charter/main/charter-cpp/include/charter/fsm.h
-https://raw.githubusercontent.com/justindbilyeu/The-Charter/main/charter-cpp/src/fsm.cpp
-https://raw.githubusercontent.com/justindbilyeu/The-Charter/main/charter-cpp/main.cpp
+https://raw.githubusercontent.com/justindbilyeu/The-Charter/claude/charter-review-1He86/charter-cpp/include/charter/fsm.h
+https://raw.githubusercontent.com/justindbilyeu/The-Charter/claude/charter-review-1He86/charter-cpp/src/fsm.cpp
+https://raw.githubusercontent.com/justindbilyeu/The-Charter/claude/charter-review-1He86/charter-cpp/main.cpp
 
 Also fetch the charter:
 https://raw.githubusercontent.com/justindbilyeu/The-Charter/main/CHARTER.md
@@ -42,7 +42,7 @@ Option B (not implemented): Add to_structuring_from_diversify(const
   DiversifyCompletionResult&) as a separate overload. to_structuring() from
   DIVERSIFY state throws unless the completion-carrying overload is used.
 
-We chose Option A. The implementation is live on main.
+We chose Option A. The implementation is live on branch claude/charter-review-1He86.
 
 ---
 

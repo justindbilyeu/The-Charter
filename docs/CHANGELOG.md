@@ -4,6 +4,37 @@ All notable changes to The Charter are documented here.
 
 ---
 
+## C++ Skeleton — Charter Machine (charter-cpp)
+
+**Review Cycle 2 — Cycle 1 + Cycle 2 + K1–K3 skeleton fixes (2026-06-08)**
+
+Multi-model adversarial review of the `charter-cpp` C++ skeleton. Six review files on record (Claude Chat, Grok, Gemini ×2, Kimi ×2). Fixes organized in three batches.
+
+### Cycle 2 Fixes 1–4 (Claude Chat + Grok + Gemini run-A)
+
+- **Fix 1 — `evaluate_g2()` wrong failure route**: `MockLLMInterface::evaluate_g2()` returned `FailureRoute::DIVERSIFY`. Charter v2.4 mandates G2 failure → RESTART. Fixed to `FailureRoute::RESTART`.
+- **Fix 2 — `StateCompression` structural fields not optional**: All four structural fields (`gate_status`, `objection_register`, `constraint_health`, `adversarial_anchor`) wrapped in `std::optional<T>`. `missing_structural_fields()` rewritten to use `has_value()` checks. `fresh_session()` and `deserialize()` updated accordingly.
+- **Fix 3 — `drift_suspected_` never cleared by `to_diversify()`**: Once drift was suspected, the FSM could never CONVERGE again. Fixed by adding `drift_suspected_ = false` to `to_diversify()`.
+- **Fix 4 — `differing_prediction` not required for hypothesis well-formedness**: `check_hypothesis_under_specification()` now requires `differing_prediction` non-empty (v2.5 DIVERSIFY completion condition a).
+
+### K2–K3 Fixes (Kimi)
+
+- **K2 — Watchdog bypass via OUTPUT path**: `to_output()` was missing a `watchdog_report_pending_` check. A pending Watchdog report could be bypassed by going directly to OUTPUT without submitting a report. Fixed by adding the check.
+- **K3 — G5 mechanical pre-check missing**: `mechanism_status` was never checked before delegating to the LLM for G5 evaluation. An empty `mechanism_status` now fails G5 mechanically before the LLM is called, with explicit error text per charter v2.2 G5 wording. `mechanism_status` field added to `StructuredArtifact`.
+
+### K1 — DIVERSIFY Exit Gate (Kimi + Claude Chat implementation)
+
+- **Option A implemented**: `declare_diversify_complete()` added to `CharterFSM`. The caller calls `CoherenceController::check_diversify_complete()`, and if complete, calls `fsm.declare_diversify_complete()`. `to_structuring()` from DIVERSIFY throws `DiversifyIncompleteError` unless this has been called since the most recent `to_diversify()`.
+- **Q3 fix**: `declare_diversify_complete()` does not record a second DIVERSIFY history entry. Completion shows on the STRUCTURING entry via the caller's reason string.
+- **Q4 fix**: `to_restart()` now resets `diversify_complete_declared_ = false` (dirty-state path fixed).
+- **Open K1 design question**: All three K1 reviewers (Claude Chat, Grok, Kimi) identified that Option A is honor-system one level up — a caller can call `declare_diversify_complete()` without ever producing a `DiversifyCompletionResult`. Capability token pattern (private constructor + `friend class CoherenceController`) on the record as the stronger fix. Decision deferred pending Gemini K1 review. See `OPEN_QUESTIONS.md` K1.
+
+### Gemini run-B (hallucinated findings — not applied)
+
+Gemini's second skeleton run identified four bugs in Q1 that do not exist: DIVERSIFY → GATE_CHECK not enforced, G1/G2 short-circuit missing, G4 misrouted, CONVERGE missing history check. All four are correctly implemented. Filed as `gemini-b` for the record.
+
+---
+
 ## v2.7
 
 **Review Cycle 2 concluded — Q1 closed (Claude Chat)**

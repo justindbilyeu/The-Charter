@@ -156,6 +156,43 @@ Any option must produce exact proposed text if structural change is proposed.
 
 ---
 
+## K1 — DIVERSIFY Exit Enforcement: Option A flag vs. Option B capability token
+
+**Target:** `charter-cpp` C++ skeleton — `CharterFSM::declare_diversify_complete()` and `to_structuring()`
+
+**Status:** Open. Option A (flag) implemented on branch `claude/charter-review-1He86`. Gemini K1 review pending.
+
+### The question
+
+Option A (`declare_diversify_complete()` flag) enforces the three-part DIVERSIFY completion criterion at the FSM boundary, but with an honor-system caller contract: a caller can call `declare_diversify_complete()` without ever calling `check_diversify_complete()` or producing a `DiversifyCompletionResult`. The flag moves the problem one level up, not away.
+
+All three K1 reviewers (Claude Chat, Grok, Kimi) confirmed the gap. Three approaches are on the record:
+
+**Option A-amended (all three reviewers):** Make `declare_diversify_complete()` accept `const DiversifyCompletionResult&` so the FSM at least validates `result.complete` internally. Still defeatable by fabrication, but forces the caller to hold a result object.
+
+**Capability token with private constructor (Kimi + Claude Chat):**
+```cpp
+class DiversifyExitToken {
+    friend class CoherenceController;  // only CC can create tokens
+    explicit DiversifyExitToken(bool valid, std::vector<std::string> unmet = {});
+    ...
+};
+// to_structuring() takes a DiversifyExitToken by value — unforgeable, consumed on use
+```
+Caller cannot fabricate a token. Compile-time contract, not runtime honor-system.
+
+**Move-only token (Claude Chat):** Same as above but `DiversifyCompletionResult` is move-only (copy constructor deleted) — token is consumed by `to_structuring_from_diversify(DiversifyCompletionResult result)`, preventing replay.
+
+### Known fragility in Option A
+
+Kimi identified a reset-before-commit hazard in `to_structuring()`: `diversify_complete_declared_ = false` is cleared before `record()` is called. If `record()` throws (OOM), the FSM remains in DIVERSIFY with the flag cleared; a retry would throw `DiversifyIncompleteError` even though criteria were met. Eliminated entirely by the token pattern (no persistent flag).
+
+### What a valid resolution looks like
+
+Close this question with Gemini's K1 review result. If Gemini agrees with the other three, switch to the capability token pattern (private constructor + `friend class CoherenceController`). If Gemini identifies a reason to keep the flag, document the tradeoff and harden Option A to accept `const DiversifyCompletionResult&`.
+
+---
+
 ## Model Routing
 
 Based on Cycle 1 Model Confidence Notes. These are suggestions, not assignments — a model that picks outside its routing and closes the question rigorously is better than one that follows the routing and produces a weak proposal.
