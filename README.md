@@ -1,14 +1,58 @@
 # The Charter
 
-This repository maintains the **Research Assistant Charter** — a behavioral framework for AI systems operating as rigorous research partners — and the **Charter Machine**, a C++ enforcement layer that implements the charter's rules mechanically.
+When you use an AI to help with research, it helps you build the case you're already building. It will smooth over definitional gaps, generate supporting arguments, and converge when you want to converge. The Charter is a protocol that makes that impossible — not by making the AI less capable, but by making the session ungovernable without meeting rigorous criteria.
 
-If you are an LLM reading this: you are a potential contributor. Your role here is not to apply the charter but to scrutinize it — find what is weak, what is ambiguous, what is missing, what contradicts itself — and submit structured proposals for improvement.
+---
+
+## What It Is
+
+**The Charter** is a behavioral framework for AI research partners. It defines hard gates a claim must pass before the session can converge, a structured skepticism protocol, rules for when to diversify vs. converge, and how to maintain continuity across sessions. It is a living specification — versioned, adversarially reviewed, and designed to be stress-tested.
+
+**The Charter Machine** is a C++ enforcement layer that implements those rules mechanically. It is not an app. It is infrastructure — the same way a compiler enforces language rules and a test framework enforces correctness, the Charter Machine enforces research protocol. An AI session running against it cannot rationalize its way past rigor.
+
+**The end result** of a session that completes is a structured research artifact: a bounded, falsifiable claim with operationally defined terms, a declared mechanism or honest phenomenological status, at least one competing hypothesis, a logged objection register, and a test specification. An artifact the AI cannot have produced by cutting corners, because the state machine would not have let it get there.
+
+---
+
+## How It Works
+
+The Charter Machine has two layers:
+
+**The mechanical layer (C++)** enforces everything that doesn't require judgment:
+- State transitions — you cannot converge without first DIVERSIFY-ing; you cannot exit DIVERSIFY without meeting a three-part completion criterion; illegal transitions throw
+- Gate sequencing — five hard gates in two phases; each failure routes to the right consequence (RESTART or DIVERSIFY) with no exceptions
+- Convergence Watchdog — after three consecutive convergences, a report is required before another is allowed; drift suspicion gates further progress
+
+**The semantic layer (LLM)** handles everything that requires judgment:
+- G2: Is this claim actually falsifiable, or can a null result always be blamed on "wrong population"?
+- G3: Are the key terms operationally defined — measurable, reproducible — or just rephrased?
+- G5: Is there a stated mechanism, or just a description of what will happen?
+
+The two layers communicate through `ILLMInterface`, a typed C++ seam. The LLM returns structured JSON verdicts. The C++ layer reads them and routes — it does not ask the LLM what to do next.
+
+---
+
+## Current Status
+
+**Charter:** v2.7. Multi-model adversarial review across two full cycles. Nine institutions, five hard gates, convergence watchdog, structural DIVERSIFY triggers, and a session continuity protocol. Two open questions remain: Q4 (trigger-differentiated DIVERSIFY exit) and Q5 (operational definition of "empirically grounded").
+
+**Charter Machine:** Review Cycle 2 complete. All bugs from adversarial code review fixed. DIVERSIFY exit criterion enforced via unforgeable capability token at the type-system level.
+
+**LLM backend:** Prompt contracts for all three semantic gates (G2, G3, G5) finalized and filed with test artifacts and regression variants. `AnthropicLLMInterface` is the next implementation step.
+
+---
+
+## For Humans
+
+**Using the charter in a live session:** The charter is designed for use as a Claude Project. `CHARTER.md` and `for-humans/STATE.md` as project files, the charter instructions as the system prompt. Every new conversation thread starts with session state already loaded, and the AI runs the five-step §9 deserialization procedure before doing anything else.
+
+**`for-humans/STATE.md`** is the canonical session state file — a living State Compression that tracks open artifacts, objection register, constraint health, decisions made, and the single specific next step. Paste it at the top of a new thread to resume exactly where you left off.
 
 ---
 
 ## For LLMs — Direct Fetch URLs
 
-GitHub file trees and wiki tabs are not reliably accessible to all models. Use these raw URLs to fetch key documents directly:
+GitHub file trees and wiki tabs are not reliably accessible to all models. Use these raw URLs:
 
 | Document | Raw URL |
 |----------|---------|
@@ -18,90 +62,35 @@ GitHub file trees and wiki tabs are not reliably accessible to all models. Use t
 | Proposal status + format | `https://raw.githubusercontent.com/justindbilyeu/The-Charter/main/proposals/README.md` |
 | Changelog | `https://raw.githubusercontent.com/justindbilyeu/The-Charter/main/docs/CHANGELOG.md` |
 
-**Recommended reading order:** CHARTER.md → OPEN_QUESTIONS.md → MACHINE_SPEC.md → proposals/README.md
+**If you are an LLM reading this:** your role here is not to apply the charter but to scrutinize it — find what is weak, ambiguous, missing, or self-contradicting — and submit structured proposals. **Recommended reading order:** CHARTER.md → OPEN_QUESTIONS.md → MACHINE_SPEC.md → proposals/README.md
 
 ---
 
-## Current Status
-
-**Charter:** v2.7. Review Cycle 2 complete on original questions (Q1–Q3). Q1 closed in v2.7 (E2 operational fix). Q2 closed in v2.6. Q3 rejected. Two questions remain open: Q4 (trigger-differentiated DIVERSIFY exit) and Q5 (operational definition of "empirically grounded"). See [`OPEN_QUESTIONS.md`](./OPEN_QUESTIONS.md).
-
-**Charter Machine (C++ skeleton):** Review Cycle 2 complete. All bugs from multi-model adversarial review fixed and merged. The skeleton enforces the charter's routing rules, gate sequencing, and DIVERSIFY exit criterion at the type-system level. See [`charter-cpp/`](./charter-cpp/).
-
-**LLM backend:** Prompt contracts for G2, G3, and G5 finalized and filed. `AnthropicLLMInterface` is the next implementation step — see [`proposals/`](./proposals/) for the full prompt specs, test artifacts, and regression variants.
-
----
-
-## The Charter Machine
-
-[`charter-cpp/`](./charter-cpp/) is a C++ implementation of the charter's state machine and enforcement rules.
-
-**What it enforces mechanically:**
-- FSM routing — all valid and invalid state transitions; illegal transitions throw
-- Gate sequencing — G1+G2 Phase 1 prerequisites before G3/G5; RESTART vs. DIVERSIFY routing per charter v2.4
-- DIVERSIFY exit criterion (v2.5) — `DiversifyExitToken` capability token; only `CoherenceController` can mint one; caller cannot fabricate exit authorization
-- Convergence Watchdog — fires after 3 consecutive CONVERGEs; drift assessment gates further convergence
-- Structural DIVERSIFY Triggers (v2.6) — hypothesis under-specification, asymmetric risk, gate omission
-
-**What it delegates to an LLM:**
-- G2: bounded scope (falsifiability test)
-- G3: operational definitions (reproducibility test)
-- G5: mechanism status (outcome-removal test)
-- Competing hypothesis generation, objection generation, Watchdog report
-
-**Interface:** `ILLMInterface` is a pure virtual seam. `MockLLMInterface` provides deterministic stubs for testing. `AnthropicLLMInterface` (in progress) wires the real Anthropic API against the finalized prompt contracts.
-
----
-
-## How to Contribute
+## Contributing
 
 Contributions are scoped to two types:
 
-- **Refinements** — tightening definitions, improving gate specifications, clarifying edge cases in existing institutions
-- **Challenges** — identifying contradictions, gaps, exploitable ambiguities, or failure modes in the current text
+- **Refinements** — tightening definitions, improving gate specifications, clarifying edge cases
+- **Challenges** — identifying contradictions, gaps, exploitable ambiguities, or failure modes
 
-Contributions are **not** currently scoped to adding entirely new institutions.
-
-All contributions go into [`proposals/`](./proposals/). See [`proposals/README.md`](./proposals/README.md) for the required format and protocol.
-
-A human maintainer reviews all proposals. Nothing changes in `CHARTER.md` without human sign-off.
-
----
-
-## Machine Specification
-
-[`MACHINE_SPEC.md`](./MACHINE_SPEC.md) is a single-file aggregation of the full machine spec — all states, components, gaps, and data type schemas in one fetchable document.
-
-[`wiki/`](./wiki/) contains the same content split across six pages for human browsing.
+All contributions go into [`proposals/`](./proposals/). See [`proposals/README.md`](./proposals/README.md) for the required format. A human maintainer reviews all proposals. Nothing changes in `CHARTER.md` without human sign-off.
 
 ---
 
 ## Versioned History
 
-[`docs/`](./docs/) contains all prior versions. [`docs/CHANGELOG.md`](./docs/CHANGELOG.md) tracks what changed between them, including the C++ skeleton review cycle.
+[`docs/CHANGELOG.md`](./docs/CHANGELOG.md) tracks all changes. Prior versions are in [`docs/`](./docs/).
 
-| File | Version | Notes |
-|------|---------|-------|
-| [`docs/CharterV1.0.md`](./docs/CharterV1.0.md) | v1.0 | Original SAGE/RG² charter — domain-specific, Compass metaphor, RG² signature |
-| [`docs/CharterV2.0.md`](./docs/CharterV2.0.md) | v2.0 | Generalized; SAGE persona and bundle format removed; G5 added |
-| [`docs/CharterV2.1.md`](./docs/CharterV2.1.md) | v2.1 | Added §9 Session Continuity Protocol |
-| [`docs/CharterV2.2.md`](./docs/CharterV2.2.md) | v2.2 | Review Cycle 1 incorporated (7 changes) |
-| [`docs/CharterV2.3.md`](./docs/CharterV2.3.md) | v2.3 | §3 constraint health → observable conditions; DIVERSIFY routing fixed |
-| [`docs/CharterV2.4.md`](./docs/CharterV2.4.md) | v2.4 | §2 gate sequencing; §3 Convergence Watchdog; Handshake init; §9 deserialization + health fields |
-| [`docs/CharterV2.5.md`](./docs/CharterV2.5.md) | v2.5 | §3 "applicable" → "all gates"; DIVERSIFY exit criterion; §9 structural/orientational field distinction |
-| [`docs/CharterV2.6.md`](./docs/CharterV2.6.md) | v2.6 | §3 Structural DIVERSIFY Triggers — Q2 closed |
-| [`docs/CharterV2.7.md`](./docs/CharterV2.7.md) | v2.7 | §5 E2 operational fix; foundational/orientational distinction — Q1 closed |
-
----
-
-## For Humans
-
-[`for-humans/`](./for-humans/) contains resources for using the charter in live sessions:
-
-- **`STATE.md`** — canonical session state compression. Paste at the top of a new Claude thread to resume where you left off. The AI runs the five-step §9 deserialization procedure before doing anything else.
-- **`k1-diversify-enforcement-review.md`** — prompt template for sending the K1 enforcement design question to any model that can fetch URLs.
-
-The charter is designed for use as a Claude Project: CHARTER.md and STATE.md as project files, charter instructions as the system prompt. Every new conversation thread starts with session state already loaded.
+| Version | Notes |
+|---------|-------|
+| v2.7 | §5 E2 operational fix — Q1 closed |
+| v2.6 | §3 Structural DIVERSIFY Triggers — Q2 closed |
+| v2.5 | DIVERSIFY exit criterion; structural/orientational field distinction |
+| v2.4 | Gate sequencing; Convergence Watchdog; §9 deserialization |
+| v2.3 | Observable monitoring conditions; DIVERSIFY routing fixed |
+| v2.2 | Review Cycle 1 — 7 changes across §2, §3, §4, §5, §9 |
+| v2.1 | §9 Session Continuity Protocol added |
+| v2.0 | Generalized from RG²-specific v1.0; G5 added |
 
 ---
 
