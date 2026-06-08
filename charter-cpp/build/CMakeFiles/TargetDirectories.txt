@@ -1,4 +1,0 @@
-/home/user/The-Charter/charter-cpp/build/CMakeFiles/charter.dir
-/home/user/The-Charter/charter-cpp/build/CMakeFiles/charter_demo.dir
-/home/user/The-Charter/charter-cpp/build/CMakeFiles/edit_cache.dir
-/home/user/The-Charter/charter-cpp/build/CMakeFiles/rebuild_cache.dir
