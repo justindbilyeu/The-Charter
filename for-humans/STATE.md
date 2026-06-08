@@ -51,6 +51,7 @@
 | G3 prompt contract finalized | SYNONYM/PARTIAL/MISSING taxonomy. Reproducibility test. G3 + G5 may be dispatched concurrently (both Phase 2 → DIVERSIFY). Verbatim term label passthrough in build_g3_user_message(). | 2026-06-08 |
 | G2 prompt contract finalized | Three-dimension falsifiability framework (population, condition, outcome scope). Falsifiability test as load-bearing criterion. Test spec in user message for D3 only — explicitly fenced from rescuing D1/D2. Failure route RESTART (not DIVERSIFY — see Fix 1 history). | 2026-06-08 |
 | for-humans/STATE.md added to repo | Canonical state in git; Claude Project file is convenience copy for chat thread continuity. | 2026-06-08 |
+| Q4 proposal filed — trigger-differentiated exit | Claude Chat filed `proposals/2026-06-08-claude-chat-q4-diversify-trigger-differentiated-exit.md`. Tier 1 (ST1, Watchdog, G5 failure) → a+b+c; Tier 2 (ST2, ST3, G3 failure) → b+c only. G3/G5 tier assignment is the contestable claim — pending multi-model review. Must resolve before AnthropicLLMInterface changes check_diversify_complete() contract. | 2026-06-08 |
 
 ---
 
@@ -58,10 +59,13 @@
 
 **Single, specific, actionable:**
 
-Implement `AnthropicLLMInterface` — wire G2, G3, G5 against the finalized prompt
-contracts. Separate API calls per gate; G3 + G5 may be dispatched concurrently
-after G2 passes. Integration-test all three against the cold-exposure artifact
-from `main.cpp` before any real research use.
+Q4 must be resolved (multi-model review of `proposals/2026-06-08-claude-chat-q4-diversify-trigger-differentiated-exit.md`)
+before `AnthropicLLMInterface` is implemented — Q4 changes the `check_diversify_complete()` contract
+(must receive triggering condition as input) and `DiversifyExitToken` should record which tier governed the exit.
+
+Once Q4 is closed: implement `AnthropicLLMInterface` — wire G2, G3, G5 against the finalized prompt
+contracts. Separate API calls per gate; G3 + G5 may be dispatched concurrently after G2 passes.
+Integration-test all three against the cold-exposure artifact from `main.cpp` before any real research use.
 
 Gate-specific implementation notes:
 - G2: `FailureRoute::RESTART` — do not copy from G3/G5 template

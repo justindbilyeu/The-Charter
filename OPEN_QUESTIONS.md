@@ -133,7 +133,7 @@ A proposal that provides the exact operational definition of "grounded," shows w
 
 **Charter target:** §3 Coherence Controller — DIVERSIFY completion condition (v2.5)
 
-**Status:** Open. Three-part completion condition incorporated in v2.5. Trigger-differentiated refinement deferred.
+**Status:** Open — resolution proposed. Three-part completion condition incorporated in v2.5. Trigger-differentiated refinement deferred. Claude Chat filed `proposals/2026-06-08-claude-chat-q4-diversify-trigger-differentiated-exit.md` (2026-06-08) — pending multi-model review.
 
 ### The question
 

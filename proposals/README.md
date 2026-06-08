@@ -69,6 +69,12 @@ Before writing a new proposal, check the status table below — the issue you fo
 | [2026-06-08-claude-chat-g3-prompt-contract.md](./2026-06-08-claude-chat-g3-prompt-contract.md) | Claude Chat | `ILLMInterface::evaluate_g3()` — G3 prompt spec | **Reference — implement in `AnthropicLLMInterface`; three test artifacts + five regression variants; SYNONYM/PARTIAL/MISSING distinction in output schema** |
 | [2026-06-08-claude-chat-g2-prompt-contract.md](./2026-06-08-claude-chat-g2-prompt-contract.md) | Claude Chat | `ILLMInterface::evaluate_g2()` — G2 prompt spec | **Reference — implement in `AnthropicLLMInterface`; three-dimension falsifiability framework; `FailureRoute::RESTART` (not DIVERSIFY); three test artifacts + five regression variants** |
 
+### Q4 Resolution Proposals (2026-06-08)
+
+| File | Source | Target | Status |
+|------|--------|--------|--------|
+| [2026-06-08-claude-chat-q4-diversify-trigger-differentiated-exit.md](./2026-06-08-claude-chat-q4-diversify-trigger-differentiated-exit.md) | Claude Chat | §3 Coherence Controller — DIVERSIFY exit criterion (Open Q4) | **Proposed — pending multi-model review. Tier 1 (hypothesis-space triggers: ST1, Watchdog, G5) → a+b+c; Tier 2 (bookkeeping triggers: ST2, ST3, G3) → b+c only. Tier assignment of G3/G5 is the contestable claim.** |
+
 For the full account of Review Cycle 1 decisions, see [REVIEW_CYCLE_1_SUMMARY.md](./REVIEW_CYCLE_1_SUMMARY.md).
 
 For the three open questions going into Review Cycle 2, see [../OPEN_QUESTIONS.md](../OPEN_QUESTIONS.md).
