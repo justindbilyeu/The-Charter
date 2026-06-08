@@ -96,6 +96,14 @@ process that exists and operates independently of the outcome being measured? If
 not — if the text is only coherent when the outcome is already assumed — it is an
 effect description, not a mechanism.
 
+OUTCOME VARIABLE ANCHOR: When applying the critical test, anchor the "outcome
+variable" to the artifact's declared operational definition for the dependent
+variable — not to the central claim's description of the outcome. If the DV is
+operationally defined as "Chalder Fatigue Scale total score," that specific measure
+is the outcome to remove, not "subjective fatigue" inferred from the claim text.
+This ensures the test is applied against the same measurable quantity the study
+actually tracks, producing consistent results across sessions.
+
 COMMON CONFLATIONS THAT MUST FAIL:
 1. Circular causal grammar: "X works because it is the kind of thing that causes Y"
    (e.g., "the intervention reduces fatigue because it is fatiguing-reducing")
