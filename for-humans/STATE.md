@@ -2,7 +2,7 @@
 
 **Charter version:** v2.7
 **Last updated:** 2026-06-08
-**Updated by:** ClaudeCode — end of G3 prompt contract session
+**Updated by:** ClaudeCode — end of G2 prompt contract session
 
 ---
 
@@ -45,12 +45,12 @@
 
 | Decision | Reasoning | Session |
 |----------|-----------|---------|
-| K1 closed — capability token pattern (DiversifyExitToken) | Unanimous across four reviewers (Claude Chat, Grok, Kimi, Gemini). Flag pattern was honor-system one level up; private-constructor token makes fabrication a compile error. | 2026-06-08 skeleton review |
-| G3 prompt contract finalized | No mechanical pre-check; LLM carries full load. SYNONYM/PARTIAL/MISSING distinction in output schema. | 2026-06-08 |
-| G5 DV anchoring fix applied | System message now anchors outcome-removal test to declared operational definition, not inferred DV from central claim text. | 2026-06-08 |
-| for-humans/STATE.md added to repo | Canonical state copy in git; Project file is convenience copy. | 2026-06-08 |
-| G3 and G5 may be dispatched concurrently | Both Phase 2 validators routing to DIVERSIFY on fail — safe to run as parallel std::async calls after G2 passes; collect all futures before HardGates::route(). | 2026-06-08 |
-| Trigger 1 hypotheses_are_genuinely_distinct() wired to ILLMInterface | Method added to interface now (not deferred to comment); MockLLMInterface returns true. Real implementation required before AnthropicLLMInterface declared complete. | 2026-06-08 |
+| K1 closed — DiversifyExitToken capability token | Unanimous across four reviewers. Private-constructor token; only CoherenceController can mint. `declare_diversify_complete()` and flag removed entirely. | 2026-06-08 |
+| hypotheses_are_genuinely_distinct() added to ILLMInterface | Trigger 1 semantic gap enforced at type-system level. Mock returns true. Real implementation required before AnthropicLLMInterface declared complete. | 2026-06-08 |
+| G5 prompt contract finalized + DV anchoring fix applied | Outcome-removal test as load-bearing criterion. Anchor to declared op-def, not inferred DV from claim text. v2.6 → v2.7 corrected. | 2026-06-08 |
+| G3 prompt contract finalized | SYNONYM/PARTIAL/MISSING taxonomy. Reproducibility test. G3 + G5 may be dispatched concurrently (both Phase 2 → DIVERSIFY). Verbatim term label passthrough in build_g3_user_message(). | 2026-06-08 |
+| G2 prompt contract finalized | Three-dimension falsifiability framework (population, condition, outcome scope). Falsifiability test as load-bearing criterion. Test spec in user message for D3 only — explicitly fenced from rescuing D1/D2. Failure route RESTART (not DIVERSIFY — see Fix 1 history). | 2026-06-08 |
+| for-humans/STATE.md added to repo | Canonical state in git; Claude Project file is convenience copy for chat thread continuity. | 2026-06-08 |
 
 ---
 
@@ -58,31 +58,38 @@
 
 **Single, specific, actionable:**
 
-Write G2 prompt contract (bounded scope gate) in same format as G3/G5. File as
-`2026-06-08-claude-chat-g2-prompt-contract.md`. Adversarial case: claim that
-sounds specific but whose test specification cannot actually bound it — scope
-is asserted in the claim text but not enforced by any named constraint.
+Implement `AnthropicLLMInterface` — wire G2, G3, G5 against the finalized prompt
+contracts. Separate API calls per gate; G3 + G5 may be dispatched concurrently
+after G2 passes. Integration-test all three against the cold-exposure artifact
+from `main.cpp` before any real research use.
+
+Gate-specific implementation notes:
+- G2: `FailureRoute::RESTART` — do not copy from G3/G5 template
+- G3: pass `operational_definitions[i].term` verbatim (no normalization) to preserve label-matching for regression variant 5
+- G5: DV anchoring fix already in system prompt — confirm it holds in real API responses
 
 ---
 
 ## Assumptions Modified This Session
 
-- `DiversifyCompletionResult` struct removed from `CoherenceController` — replaced by `DiversifyExitToken.unmet_criteria()`
-- `declare_diversify_complete()` removed from `CharterFSM` — replaced by token-consuming `to_structuring()` overload
+- `DiversifyCompletionResult` struct removed — replaced by `DiversifyExitToken.unmet_criteria()`
+- `declare_diversify_complete()` removed from `CharterFSM`
 
 ---
 
 ## Skeptical Residue
 
-**Open questions:**
-- G3 label-matching robustness (regression variant 5) not yet tested — dependent on LLM integration; labels in central claim vs. operational_definitions keys must be matched semantically, not by exact string
-- G2 prompt contract not yet written
-- Trigger 1 semantic check still structural-only in skeleton (hypotheses_are_genuinely_distinct() mock returns true)
-- AnthropicLLMInterface not yet implemented — all gate evaluation uses MockLLMInterface
+**Open:**
+- All three prompt contracts (G2, G3, G5) untested against real API — regression suites documented, not yet run
+- Trigger 1 semantic check (hypotheses_are_genuinely_distinct) still structural-only — mock returns true
+- AnthropicLLMInterface not yet implemented
 
-**What would change our confidence:**
-- G5 DV anchoring fix not yet integration-tested — risk that model anchors on claim text anyway despite instruction
-- G3 and G5 concurrent dispatch not yet validated — std::async approach is sound but race conditions in shared state (if any) need verification
+**Highest-risk integration test cases:**
+- G5: Artifact C (effect description as mechanism) — primary silent-pass failure mode
+- G3: Artifact C (definitions present, both synonyms) — presence ≠ completeness
+- G2: Artifact C (numbers present, population and condition unbounded) — numbers ≠ bounded scope
+- G2: regression variant 5 (criteria-sounding language that doesn't actually bound)
+- G3: regression variant 5 (label mismatch between claim text and op-def keys)
 
 ---
 

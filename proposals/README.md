@@ -67,6 +67,7 @@ Before writing a new proposal, check the status table below — the issue you fo
 |------|--------|--------|--------|
 | [2026-06-08-claude-chat-g5-prompt-contract.md](./2026-06-08-claude-chat-g5-prompt-contract.md) | Claude Chat | `ILLMInterface::evaluate_g5()` — G5 prompt spec | **Reference — implement in `AnthropicLLMInterface`; three test artifacts + four regression variants; DV anchoring fix applied** |
 | [2026-06-08-claude-chat-g3-prompt-contract.md](./2026-06-08-claude-chat-g3-prompt-contract.md) | Claude Chat | `ILLMInterface::evaluate_g3()` — G3 prompt spec | **Reference — implement in `AnthropicLLMInterface`; three test artifacts + five regression variants; SYNONYM/PARTIAL/MISSING distinction in output schema** |
+| [2026-06-08-claude-chat-g2-prompt-contract.md](./2026-06-08-claude-chat-g2-prompt-contract.md) | Claude Chat | `ILLMInterface::evaluate_g2()` — G2 prompt spec | **Reference — implement in `AnthropicLLMInterface`; three-dimension falsifiability framework; `FailureRoute::RESTART` (not DIVERSIFY); three test artifacts + five regression variants** |
 
 For the full account of Review Cycle 1 decisions, see [REVIEW_CYCLE_1_SUMMARY.md](./REVIEW_CYCLE_1_SUMMARY.md).
 
