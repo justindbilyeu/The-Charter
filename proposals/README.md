@@ -61,6 +61,12 @@ Before writing a new proposal, check the status table below — the issue you fo
 | [2026-06-08-kimi-k1-diversify-enforcement-review.md](./2026-06-08-kimi-k1-diversify-enforcement-review.md) | Kimi | `CharterFSM::declare_diversify_complete()` | **Applied — capability token pattern implemented (Q3/Q4 confirmed)** |
 | [2026-06-08-gemini-k1-diversify-enforcement-review.md](./2026-06-08-gemini-k1-diversify-enforcement-review.md) | Gemini | `CharterFSM::declare_diversify_complete()` | **Applied — capability token pattern implemented (deciding vote; unanimous across all four reviewers)** |
 
+### LLM Backend Integration (2026-06-08)
+
+| File | Source | Target | Status |
+|------|--------|--------|--------|
+| [2026-06-08-claude-chat-g5-prompt-contract.md](./2026-06-08-claude-chat-g5-prompt-contract.md) | Claude Chat | `ILLMInterface::evaluate_g5()` — G5 prompt spec | **Reference — implement in `AnthropicLLMInterface`; three test artifacts + four regression variants included** |
+
 For the full account of Review Cycle 1 decisions, see [REVIEW_CYCLE_1_SUMMARY.md](./REVIEW_CYCLE_1_SUMMARY.md).
 
 For the three open questions going into Review Cycle 2, see [../OPEN_QUESTIONS.md](../OPEN_QUESTIONS.md).
