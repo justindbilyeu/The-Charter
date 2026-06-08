@@ -78,13 +78,41 @@ The triggering condition must be recorded in the session log at DIVERSIFY entry 
 
 ---
 
+## Review Protocol
+
+This section specifies how multi-model review of this proposal should be conducted. The tier assignment (which triggers are Tier 1 vs. Tier 2) is the substantive claim and is the most susceptible to anchoring bias — reviewers who read the proposed mapping before forming their own assessment will tend to endorse it even if their independent reasoning would have differed.
+
+**Required review sequence:**
+
+1. Read the Problem Statement and Current Text sections only. Do not read the Proposed Change section yet.
+2. Assign each of the following triggers independently to Tier 1 (hypothesis-space) or Tier 2 (bookkeeping/currency), with a one-sentence justification for each:
+   - Structural Trigger 1 (fewer than two competing hypotheses)
+   - Structural Trigger 2 (objection register or Failure Mode Probe gap)
+   - Structural Trigger 3 (gate omission — new content since last evaluation)
+   - Convergence Watchdog drift assessment
+   - G3 failure (operational definitions)
+   - G5 failure (mechanism status)
+3. Read the Proposed Change section and note any triggers where your independent assignment differs from the one proposed, and why.
+
+A reviewer whose independent reconstruction matches the proposed mapping is stronger evidence than a reviewer who only endorses after reading the proposal. Disagreements are more informative than agreements.
+
+---
+
 ## Skeptical Residue
 
-**Objection:** The differentiated rule introduces a classification step (which tier?) that the flat rule does not have. This is new surface area for error or gaming — an assistant motivated to exit DIVERSIFY quickly is incentivized to classify the trigger as Tier 2. The guardrail (record trigger at entry, highest tier governs) mitigates this but does not eliminate it: the classification of a trigger into Tier 1 vs. Tier 2 is itself a judgment in borderline cases.
+**Objection 1:** The differentiated rule introduces a classification step (which tier?) that the flat rule does not have. This is new surface area for error or gaming — an assistant motivated to exit DIVERSIFY quickly is incentivized to classify the trigger as Tier 2. The guardrail (record trigger at entry, highest tier governs) mitigates this but does not eliminate it: the classification of a trigger into Tier 1 vs. Tier 2 is itself a judgment in borderline cases.
 
 **Response:** The guardrail makes the tier a function of the recorded entry condition, which is mechanical given the trigger type. The only residual judgment is the fixed mapping of trigger types to tiers, which is set in the charter, not decided per-session. This converts a per-session judgment into a one-time charter decision — the right place for it.
 
-**What would change confidence:** Telemetry from the Charter Machine on hypothesis register composition across sessions. If hypothesis registers do not in fact accumulate low-value hypotheses under the flat rule (i.e., adversarial dilution is rare in practice), the urgency of this change drops and it could be deferred. The proposal assumes Trigger 2 events are frequent enough for dilution to matter; that assumption is testable once the machine runs real sessions.
+**Objection 2 (G3 edge case — unresolved):** The G3→Tier 2 assignment holds cleanly for the standard failure modes: a synonym substituted for a definition, a measurement window omitted, a threshold left unspecified. These are specification gaps — the construct is clear, the definition is just missing or incomplete. Bookkeeping.
+
+But G3 can also fire when a term resists operationalization because the construct itself is contested. "We cannot define fatigue operationally" may mean "we haven't specified the measurement protocol" (bookkeeping) or it may mean "we have not decided what we think fatigue is" (hypothesis-space — the construct identity is part of the claim). In the second case, the G3 failure implicates the explanatory space and G3→Tier 2 is the wrong routing.
+
+**Proposed sub-rule (not yet incorporated):** G3 fires Tier 2 by default. The tier upgrades to Tier 1 if the G3 evaluator records that the operationalization resistance is construct-level rather than specification-level — i.e., the failure is not "definition omitted" but "construct identity contested." This adds one classification judgment per G3 failure, but it is bounded: the G3 prompt contract can be extended to require the evaluator to record this distinction explicitly. Whether the added precision is worth the added complexity is the unresolved question.
+
+**What would change confidence on Objection 2:** A reviewer who independently reconstructs the same G3→Tier 2 default and proposes the same sub-rule — without having read this framing — is evidence the edge case is tractable. A reviewer who argues the sub-rule is unnecessary (clean cases dominate; contested-construct G3 failures are rare) is evidence it can be deferred.
+
+**What would change confidence on the proposal overall:** Telemetry from the Charter Machine on hypothesis register composition across sessions. If hypothesis registers do not in fact accumulate low-value hypotheses under the flat rule (i.e., adversarial dilution is rare in practice), the urgency of this change drops and it could be deferred. The proposal assumes Trigger 2 events are frequent enough for dilution to matter; that assumption is testable once the machine runs real sessions.
 
 ---
 
