@@ -76,6 +76,7 @@ void CharterFSM::to_restart(const std::vector<std::string>& defect_list) {
     validate_transition(state_, State::RESTART);
     had_prior_diversify_or_restart_ = true;
     consecutive_converge_count_ = 0;
+    diversify_complete_declared_ = false;  // RESTART from DIVERSIFY abandons the completion
     std::string annotation = "Defects:";
     for (const auto& d : defect_list) annotation += " [" + d + "]";
     record(State::RESTART, annotation);
@@ -113,7 +114,8 @@ void CharterFSM::declare_diversify_complete() {
         throw InvalidTransitionError(
             "declare_diversify_complete() called outside DIVERSIFY state");
     diversify_complete_declared_ = true;
-    record(State::DIVERSIFY, "DIVERSIFY exit criterion met (v2.5) — ready to return to STRUCTURING");
+    // No history entry here — completion is recorded on the subsequent STRUCTURING entry,
+    // where the caller's reason string carries the exit context (Q3 fix).
 }
 
 bool CharterFSM::watchdog_required() const {
