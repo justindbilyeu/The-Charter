@@ -39,6 +39,14 @@ public:
         const StructuredArtifact& artifact,
         const std::vector<Hypothesis>& existing_hypotheses) = 0;
 
+    // §3 Structural DIVERSIFY Trigger 1 — semantic half
+    // Returns true only if the two hypotheses predict observably different outcomes
+    // under the same conditions. Structural check (differing_prediction non-empty)
+    // is necessary but not sufficient: two hypotheses with distinct labels but the
+    // same prediction direction and magnitude pass structurally but defeat Trigger 1's intent.
+    virtual bool hypotheses_are_genuinely_distinct(
+        const Hypothesis& h1, const Hypothesis& h2) const = 0;
+
     // Convergence Watchdog (§3 v2.4): generate report after 3 consecutive CONVERGEs
     // Report must include: 3 recent claims + objections; 1 new competing hypothesis
     // + discriminating test; drift vs. exhausted-scrutiny assessment
@@ -100,6 +108,11 @@ public:
 
     DriftAssessment assess_drift(const std::string&) override {
         return mock_drift;
+    }
+
+    bool hypotheses_are_genuinely_distinct(
+        const Hypothesis& /*h1*/, const Hypothesis& /*h2*/) const override {
+        return true;  // mock: assume distinct; real implementation requires LLM call
     }
 };
 
