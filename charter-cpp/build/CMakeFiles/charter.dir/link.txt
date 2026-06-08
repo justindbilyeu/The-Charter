@@ -1,0 +1,2 @@
+/usr/bin/ar qc libcharter.a CMakeFiles/charter.dir/src/types.cpp.o CMakeFiles/charter.dir/src/fsm.cpp.o CMakeFiles/charter.dir/src/gates.cpp.o CMakeFiles/charter.dir/src/coherence_controller.cpp.o CMakeFiles/charter.dir/src/session_continuity.cpp.o CMakeFiles/charter.dir/src/llm_interface.cpp.o
+/usr/bin/ranlib libcharter.a

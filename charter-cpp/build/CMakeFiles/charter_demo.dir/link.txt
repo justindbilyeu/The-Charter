@@ -1,0 +1,1 @@
+/usr/bin/c++ -g CMakeFiles/charter_demo.dir/main.cpp.o -o charter_demo  libcharter.a 
