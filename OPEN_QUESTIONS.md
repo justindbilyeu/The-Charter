@@ -160,7 +160,7 @@ Any option must produce exact proposed text if structural change is proposed.
 
 **Target:** `charter-cpp` C++ skeleton — `CharterFSM::declare_diversify_complete()` and `to_structuring()`
 
-**Status:** Open. Option A (flag) implemented on branch `claude/charter-review-1He86`. Gemini K1 review pending.
+**Status:** CLOSED — capability token pattern implemented. All four K1 reviewers (Claude Chat, Grok, Kimi, Gemini) recommended it; Gemini's review was the deciding input. See `proposals/2026-06-08-gemini-k1-diversify-enforcement-review.md`.
 
 ### The question
 

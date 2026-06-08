@@ -126,7 +126,7 @@ CoherenceController::can_converge(
     return { true, "" };
 }
 
-CoherenceController::DiversifyCompletionResult
+DiversifyExitToken
 CoherenceController::check_diversify_complete(
     const std::vector<Hypothesis>& hypotheses_before,
     const std::vector<Hypothesis>& hypotheses_now,
@@ -161,7 +161,7 @@ CoherenceController::check_diversify_complete(
     if (!artifact_revised_or_justified)
         unmet.push_back("(c) artifact not revised and no written justification provided");
 
-    return { unmet.empty(), unmet };
+    return DiversifyExitToken(std::move(unmet));
 }
 
 }  // namespace charter

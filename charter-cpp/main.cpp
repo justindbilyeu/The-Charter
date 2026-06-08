@@ -107,29 +107,29 @@ int main() {
     objections.insert(objections.end(), new_objections.begin(), new_objections.end());
     std::cout << "  Objections generated: " << new_objections.size() << "\n";
 
-    // Check DIVERSIFY exit criterion (v2.5)
+    // Check DIVERSIFY exit criterion (v2.5) — returns an unforgeable DiversifyExitToken.
+    // Only CoherenceController can construct this token; the caller cannot fabricate one.
+    // Token is move-only: pass it directly to to_structuring(), which consumes it.
     ObjectionRegister objections_before_div;
     std::vector<Hypothesis> hypotheses_before_div = { h1 };
-    auto div_complete = cc.check_diversify_complete(
+    auto exit_token = cc.check_diversify_complete(
         hypotheses_before_div, hypotheses,
         objections_before_div, objections,
         /*artifact_revised_or_justified=*/true);
 
-    std::cout << "  DIVERSIFY complete: " << (div_complete.complete ? "yes" : "no");
-    if (!div_complete.complete) {
-        for (const auto& u : div_complete.unmet)
+    std::cout << "  DIVERSIFY complete: " << (exit_token.is_valid() ? "yes" : "no");
+    if (!exit_token.is_valid()) {
+        for (const auto& u : exit_token.unmet_criteria())
             std::cout << "\n    unmet: " << u;
     }
     std::cout << "\n\n";
 
-    // Declare completion to the FSM — required before to_structuring() from DIVERSIFY
-    if (div_complete.complete)
-        fsm.declare_diversify_complete();
-
     // -----------------------------------------------------------------------
-    // Return to STRUCTURING — update artifact with operational definition
+    // Return to STRUCTURING — token is moved into to_structuring(), consumed on entry.
+    // Throws DiversifyIncompleteError if token is invalid (criteria unmet).
     // -----------------------------------------------------------------------
-    fsm.to_structuring("DIVERSIFY complete — artifact revised with operationalized 'fatigue'");
+    fsm.to_structuring(std::move(exit_token),
+        "DIVERSIFY complete — artifact revised with operationalized 'fatigue'");
     print_state(fsm);
 
     artifact.operational_definitions.push_back({
@@ -191,7 +191,7 @@ int main() {
     }
 
     // -----------------------------------------------------------------------
-    // Demonstrate FSM enforcement: DIVERSIFY → GATE_CHECK is illegal
+    // Demonstrate FSM enforcement
     // -----------------------------------------------------------------------
     std::cout << "\n--- Enforcement demo ---\n";
     CharterFSM fsm2;
@@ -199,10 +199,22 @@ int main() {
     fsm2.to_structuring();
     fsm2.to_gate_check();
     fsm2.to_diversify("G3 failure");
+
+    // (1) DIVERSIFY → GATE_CHECK shortcut is illegal
     try {
-        fsm2.to_gate_check();  // illegal — must return to STRUCTURING first
+        fsm2.to_gate_check();
     } catch (const InvalidTransitionError& e) {
-        std::cout << "Caught (expected): " << e.what() << "\n";
+        std::cout << "Caught (expected — no GATE_CHECK shortcut): " << e.what() << "\n";
+    }
+
+    // (2) to_structuring() without a token from DIVERSIFY is caught at runtime.
+    //     The compile-time enforcement is stronger: to_structuring(token, reason)
+    //     cannot compile without a DiversifyExitToken, which only CoherenceController
+    //     can produce — fabrication is a compile error, not a runtime error.
+    try {
+        fsm2.to_structuring("attempted without token");
+    } catch (const DiversifyIncompleteError& e) {
+        std::cout << "Caught (expected — token required): " << e.what() << "\n";
     }
 
     return 0;
