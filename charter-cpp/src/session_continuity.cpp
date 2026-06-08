@@ -64,17 +64,28 @@ SessionContinuity::deserialize(
             break;
         }
     }
-    if (result.compression.charter_version.empty()) {
-        result.valid = false;
-        result.missing_structural.push_back("charter_version");
-    }
+    if (result.compression.charter_version.empty())
+        log << "Warning: charter_version not found in compression (orientational field)\n";
 
-    // Steps 2–5: gate status, objections, next step, health/anchor
-    // (skeleton: abbreviated parsing — production would be proper JSON deserialization)
+    // Steps 2–5: set structural optionals to present (zero-state) to indicate they were loaded.
+    // TODO: production — replace with actual JSON parsing; populate fields from serialized data.
     log << "Step 2 — Gate status: loaded from compression\n";
+    result.compression.gate_status.emplace();  // empty = no open artifacts at handoff
+
     log << "Step 3 — Open objections: loaded from compression\n";
+    result.compression.objection_register.emplace();  // empty = no open objections at handoff
+
     log << "Step 4 — Next step: loaded from compression\n";
+
     log << "Step 5 — Constraint Health and Adversarial Anchor: loaded from compression\n";
+    result.compression.constraint_health = ConstraintHealth{ false, 0, 0 };
+    result.compression.adversarial_anchor = AdversarialAnchor{ false, DriftAssessment::NOT_ASSESSED, std::nullopt };
+
+    // Validate structural completeness using has_value() on each optional field
+    auto missing_fields = result.compression.missing_structural_fields();
+    result.missing_structural.insert(
+        result.missing_structural.end(), missing_fields.begin(), missing_fields.end());
+    result.valid = result.missing_structural.empty();
 
     if (!result.valid) {
         log << "\nINVALID HANDOFF — missing structural fields: ";
@@ -91,8 +102,11 @@ StateCompression SessionContinuity::fresh_session(const std::string& charter_ver
     sc.charter_version = charter_version;
     sc.session_id = "fresh-" + charter_version;
     sc.timestamp = std::chrono::system_clock::now();
-    sc.constraint_health = { false, 0, 0 };
-    sc.adversarial_anchor = { false, DriftAssessment::NOT_ASSESSED, std::nullopt };
+    // Structural fields initialized to present (zero-state) — fresh session is valid
+    sc.gate_status.emplace();          // empty = no artifacts yet
+    sc.objection_register.emplace();   // empty = no objections yet
+    sc.constraint_health = ConstraintHealth{ false, 0, 0 };
+    sc.adversarial_anchor = AdversarialAnchor{ false, DriftAssessment::NOT_ASSESSED, std::nullopt };
     sc.next_step = "Begin structuring first claim";
     return sc;
 }

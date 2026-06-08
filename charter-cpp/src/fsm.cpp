@@ -31,6 +31,7 @@ void CharterFSM::to_diversify(const std::string& violated_condition) {
     validate_transition(state_, State::DIVERSIFY);
     had_prior_diversify_or_restart_ = true;
     consecutive_converge_count_ = 0;
+    drift_suspected_ = false;  // DIVERSIFY satisfies the mandatory post-drift requirement
     record(State::DIVERSIFY, violated_condition);
     state_ = State::DIVERSIFY;
 }

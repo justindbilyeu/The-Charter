@@ -32,7 +32,8 @@ CoherenceController::check_hypothesis_under_specification(
         bool has_level = true;  // enum always has a value
         bool has_iv = !h.independent_variable.empty();
         bool has_dv = !h.dependent_variable.empty();
-        if (has_id && has_level && has_iv && has_dv) ++well_formed;
+        bool has_prediction = !h.differing_prediction.empty();  // v2.5 structural requirement
+        if (has_id && has_level && has_iv && has_dv && has_prediction) ++well_formed;
     }
 
     if (well_formed < 2) {
@@ -40,7 +41,7 @@ CoherenceController::check_hypothesis_under_specification(
             true, 1,
             "Hypothesis Under-Specification: " + std::to_string(well_formed) +
                 " well-formed competing hypothesis/hypotheses; >= 2 required "
-                "(each needs distinct ID, evidence level, named IV and DV)"
+                "(each needs distinct ID, evidence level, named IV, named DV, and differing prediction)"
         };
     }
     return { false, 0, "" };

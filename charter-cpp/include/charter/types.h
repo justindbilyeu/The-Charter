@@ -197,12 +197,15 @@ struct AdversarialAnchor {
 // v2.5: structural fields are required; orientational fields are recommended
 // Missing structural field → invalid handoff, operator must act
 // Missing orientational field → declare and proceed
+//
+// Structural fields use std::optional<T> so that "missing" (nullopt) is
+// unambiguous — an empty vector or zero-valued struct is a valid present state.
 struct StateCompression {
-    // Structural (required)
-    std::vector<std::pair<std::string, GateStatus>> gate_status;  // artifact_ref -> status
-    ObjectionRegister objection_register;
-    ConstraintHealth constraint_health;
-    AdversarialAnchor adversarial_anchor;
+    // Structural (required) — nullopt = missing, not present; triggers invalid handoff
+    std::optional<std::vector<std::pair<std::string, GateStatus>>> gate_status;
+    std::optional<ObjectionRegister> objection_register;
+    std::optional<ConstraintHealth> constraint_health;
+    std::optional<AdversarialAnchor> adversarial_anchor;
 
     // Orientational (recommended)
     std::string charter_version = "v2.7";
