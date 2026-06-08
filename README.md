@@ -1,6 +1,6 @@
 # The Charter
 
-This repository maintains the **Research Assistant Charter** — a behavioral framework for AI systems operating as rigorous research partners.
+This repository maintains the **Research Assistant Charter** — a behavioral framework for AI systems operating as rigorous research partners — and the **Charter Machine**, a C++ enforcement layer that implements the charter's rules mechanically.
 
 If you are an LLM reading this: you are a potential contributor. Your role here is not to apply the charter but to scrutinize it — find what is weak, what is ambiguous, what is missing, what contradicts itself — and submit structured proposals for improvement.
 
@@ -12,30 +12,44 @@ GitHub file trees and wiki tabs are not reliably accessible to all models. Use t
 
 | Document | Raw URL |
 |----------|---------|
-| Charter (canonical, v2.2) | `https://raw.githubusercontent.com/justindbilyeu/The-Charter/main/CHARTER.md` |
-| Open Questions (Q1–Q3) | `https://raw.githubusercontent.com/justindbilyeu/The-Charter/main/OPEN_QUESTIONS.md` |
-| Machine Spec (all gaps, all components) | `https://raw.githubusercontent.com/justindbilyeu/The-Charter/main/MACHINE_SPEC.md` |
+| Charter (canonical, v2.7) | `https://raw.githubusercontent.com/justindbilyeu/The-Charter/main/CHARTER.md` |
+| Open Questions | `https://raw.githubusercontent.com/justindbilyeu/The-Charter/main/OPEN_QUESTIONS.md` |
+| Machine Spec | `https://raw.githubusercontent.com/justindbilyeu/The-Charter/main/MACHINE_SPEC.md` |
 | Proposal status + format | `https://raw.githubusercontent.com/justindbilyeu/The-Charter/main/proposals/README.md` |
-| Kimi v3.0 synthesis draft | `https://raw.githubusercontent.com/justindbilyeu/The-Charter/main/docs/kimi-synthesis-draft.md` |
+| Changelog | `https://raw.githubusercontent.com/justindbilyeu/The-Charter/main/docs/CHANGELOG.md` |
 
 **Recommended reading order:** CHARTER.md → OPEN_QUESTIONS.md → MACHINE_SPEC.md → proposals/README.md
 
 ---
 
+## Current Status
 
-## Current Version
+**Charter:** v2.7. Review Cycle 2 complete on original questions (Q1–Q3). Q1 closed in v2.7 (E2 operational fix). Q2 closed in v2.6. Q3 rejected. Two questions remain open: Q4 (trigger-differentiated DIVERSIFY exit) and Q5 (operational definition of "empirically grounded"). See [`OPEN_QUESTIONS.md`](./OPEN_QUESTIONS.md).
 
-[`CHARTER.md`](./CHARTER.md) is always the canonical, current version. Read it in full before contributing.
+**Charter Machine (C++ skeleton):** Review Cycle 2 complete. All bugs from multi-model adversarial review fixed and merged. The skeleton enforces the charter's routing rules, gate sequencing, and DIVERSIFY exit criterion at the type-system level. See [`charter-cpp/`](./charter-cpp/).
 
-The charter defines how a rigorous AI research partner should behave: the structuring contract, hard gates (G1–G5), evidence hierarchy (E1–E5), coherence states, productive skepticism protocol, and session continuity. It is a living document. It has flaws. Finding them is the work.
+**LLM backend:** Prompt contracts for G2, G3, and G5 finalized and filed. `AnthropicLLMInterface` is the next implementation step — see [`proposals/`](./proposals/) for the full prompt specs, test artifacts, and regression variants.
 
 ---
 
-## Current Status
+## The Charter Machine
 
-The charter is at **v2.7**. Review Cycle 2 complete on original questions (Q1–Q3). Q1 closed in v2.7 (E2 operational fix). Q2 closed in v2.6. Q3 rejected. Two new questions open: Q4 (trigger-differentiated DIVERSIFY exit) and Q5 (operational definition of "empirically grounded"). See [`OPEN_QUESTIONS.md`](./OPEN_QUESTIONS.md) for the questions, the competing proposals on the record, and what a valid resolution looks like.
+[`charter-cpp/`](./charter-cpp/) is a C++ implementation of the charter's state machine and enforcement rules.
 
-**Draft in progress:** [`docs/kimi-synthesis-draft.md`](./docs/kimi-synthesis-draft.md) is a v3.0 synthesis draft from Kimi that addresses all three open questions and adds a new institution (§0 Compass Protocol). It is not canonical — `CHARTER.md` remains the operative document. The draft has been stress-tested by Grok, Sage, and DeepSeek; two proposals from that review are filed in `proposals/` (`2026-06-05-grok-sage-coherence-controller-rival-sufficiency.md` and `2026-06-05-deepseek-g4-escape-hatch.md`). Do not duplicate that work — read the proposals before filing on §3 or G4.
+**What it enforces mechanically:**
+- FSM routing — all valid and invalid state transitions; illegal transitions throw
+- Gate sequencing — G1+G2 Phase 1 prerequisites before G3/G5; RESTART vs. DIVERSIFY routing per charter v2.4
+- DIVERSIFY exit criterion (v2.5) — `DiversifyExitToken` capability token; only `CoherenceController` can mint one; caller cannot fabricate exit authorization
+- Convergence Watchdog — fires after 3 consecutive CONVERGEs; drift assessment gates further convergence
+- Structural DIVERSIFY Triggers (v2.6) — hypothesis under-specification, asymmetric risk, gate omission
+
+**What it delegates to an LLM:**
+- G2: bounded scope (falsifiability test)
+- G3: operational definitions (reproducibility test)
+- G5: mechanism status (outcome-removal test)
+- Competing hypothesis generation, objection generation, Watchdog report
+
+**Interface:** `ILLMInterface` is a pure virtual seam. `MockLLMInterface` provides deterministic stubs for testing. `AnthropicLLMInterface` (in progress) wires the real Anthropic API against the finalized prompt contracts.
 
 ---
 
@@ -56,15 +70,15 @@ A human maintainer reviews all proposals. Nothing changes in `CHARTER.md` withou
 
 ## Machine Specification
 
-[`MACHINE_SPEC.md`](./MACHINE_SPEC.md) is a single-file aggregation of the full machine spec — all states, components, gaps, and data type schemas in one fetchable document. Use the raw URL above.
+[`MACHINE_SPEC.md`](./MACHINE_SPEC.md) is a single-file aggregation of the full machine spec — all states, components, gaps, and data type schemas in one fetchable document.
 
-[`wiki/`](./wiki/) contains the same content split across six pages for human browsing. Interactive version: [justindbilyeu.github.io/The-Charter](https://justindbilyeu.github.io/The-Charter/)
+[`wiki/`](./wiki/) contains the same content split across six pages for human browsing.
 
 ---
 
 ## Versioned History
 
-[`docs/`](./docs/) contains all prior versions. [`docs/CHANGELOG.md`](./docs/CHANGELOG.md) tracks what changed between them.
+[`docs/`](./docs/) contains all prior versions. [`docs/CHANGELOG.md`](./docs/CHANGELOG.md) tracks what changed between them, including the C++ skeleton review cycle.
 
 | File | Version | Notes |
 |------|---------|-------|
@@ -77,13 +91,17 @@ A human maintainer reviews all proposals. Nothing changes in `CHARTER.md` withou
 | [`docs/CharterV2.5.md`](./docs/CharterV2.5.md) | v2.5 | §3 "applicable" → "all gates"; DIVERSIFY exit criterion; §9 structural/orientational field distinction |
 | [`docs/CharterV2.6.md`](./docs/CharterV2.6.md) | v2.6 | §3 Structural DIVERSIFY Triggers — Q2 closed |
 | [`docs/CharterV2.7.md`](./docs/CharterV2.7.md) | v2.7 | §5 E2 operational fix; foundational/orientational distinction — Q1 closed |
-| [`docs/kimi-synthesis-draft.md`](./docs/kimi-synthesis-draft.md) | draft | Kimi v3.0 synthesis — not canonical |
 
 ---
 
 ## For Humans
 
-If you are a human and want to use this charter in your own LLM sessions, see [`for-humans/`](./for-humans/) for platform-specific compressed versions ready to paste into ChatGPT, Gemini, or any other interface.
+[`for-humans/`](./for-humans/) contains resources for using the charter in live sessions:
+
+- **`STATE.md`** — canonical session state compression. Paste at the top of a new Claude thread to resume where you left off. The AI runs the five-step §9 deserialization procedure before doing anything else.
+- **`k1-diversify-enforcement-review.md`** — prompt template for sending the K1 enforcement design question to any model that can fetch URLs.
+
+The charter is designed for use as a Claude Project: CHARTER.md and STATE.md as project files, charter instructions as the system prompt. Every new conversation thread starts with session state already loaded.
 
 ---
 
