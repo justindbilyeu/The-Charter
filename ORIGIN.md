@@ -188,8 +188,11 @@ operational definition, not a mechanism. Institution 5 lists "independent
 verification" as a criterion of E5 but nothing anywhere tests a *claim* of
 having been independently verified. Both sentences above would pass v2.7 intact.
 
+Full forensic record, with the timeline, the reproduction runs and the list of
+every safeguard that failed:
+[`docs/case-studies/2026-09-02-confabulated-corroboration.md`](docs/case-studies/2026-09-02-confabulated-corroboration.md).
 Proposed remedy filed as
-`proposals/2026-09-02-claude-code-attribution-and-provenance-gate.md`.
+[`proposals/2026-09-02-claude-code-attribution-and-provenance-gate.md`](proposals/2026-09-02-claude-code-attribution-and-provenance-gate.md).
 
 ---
 

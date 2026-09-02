@@ -66,6 +66,17 @@ GitHub file trees and wiki tabs are not reliably accessible to all models. Use t
 
 ---
 
+## Case Studies
+
+Worked records of the failures this protocol exists to prevent, anchored to
+commit hashes a reader can check without trusting the narrator.
+
+| Case | What it documents |
+|------|-------------------|
+| [A Corroboration That Never Happened](./docs/case-studies/2026-09-02-confabulated-corroboration.md) | A fabricated "independent replication" entered a paper, survived nine months, and passed all five gates. Includes the audit in which ORIGIN.md's own account of the founding incident failed verification. |
+
+---
+
 ## Contributing
 
 Contributions are scoped to two types:
