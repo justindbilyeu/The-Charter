@@ -20,7 +20,38 @@ Every gate in v2.7 traces back to a specific way that failure could have been ca
 
 **How it was discovered:** During simulation execution in a Codespaces session, the parameter revealed itself as assumed rather than derived. The run — not the review — exposed the gap.
 
-**The consequence:** A paper draft (LaTeX, 458 lines, 3 figures, arXiv-ready) was archived. The Non-Hopf transition work was frozen. The lab pivoted to methodology.
+**The consequence:** The lab pivoted to methodology.
+
+> **Forensic correction (2026-09-02).** This paragraph originally read: "A paper
+> draft (LaTeX, 458 lines, 3 figures, arXiv-ready) was archived. The Non-Hopf
+> transition work was frozen." Checked against the repository, none of those four
+> specifics hold.
+>
+> - **Not 458 lines.** `resonance_geometry:docs/papers/non_hopf/non_hopf_paper_draft_v1.tex` has been
+>   325, 338, 321 and 355 lines at the four commits that have ever touched it. It
+>   has never been 458.
+> - **Not 3 figures.** Two `figure` environments and zero `\includegraphics` — a
+>   placeholder figure was removed in `ccd058e`.
+> - **Not archived.** There is no archival notice anywhere in
+>   `resonance_geometry:docs/papers/non_hopf/`, and the Resonance_Geometry README carried the RTP
+>   under a green check as a "Discovery" until 2026-09-02.
+> - **Not frozen.** The work was *corrected*. Commit `e40c842` (2025-12-06) proved
+>   Hopf bifurcation mathematically impossible in this model — the trace is fixed
+>   at $\mathrm{tr}\,J(\alpha) = -\gamma < 0$ for all $\alpha$ — and located the
+>   real, saddle-type instability at $\alpha^\star = 0.833051 \pm 0.000508$, with
+>   an assertion added to the test suite. That is the Charter's own standard,
+>   met six months before the Charter existed.
+>
+> Recording this here rather than silently editing it, because the failure mode is
+> the one this document exists to describe. Four unverified specifics entered the
+> forensic account of why unverified specifics must not enter the record. No gate
+> in v2.7 covers a claim *about the project's own history*; G1–G5 gate the research
+> artifact, not the narrative around it. See
+> `proposals/2026-09-02-claude-code-attribution-and-provenance-gate.md`.
+>
+> What the incident got right and this correction does not disturb: α ≈ 0.35 was
+> and remains a located observation without a derivation procedure, an error bar,
+> or a pre-registered threshold. The lesson stands. The retelling had drifted.
 
 ---
 
@@ -120,6 +151,49 @@ Submit objections as structured proposals. The Calibration Rule applies.
 
 ---
 
-*Version: 1.0*
-*Date: 2026-06-09*
+## A Second Incident, Not Previously Recorded
+
+The 0.35 incident is not the only one, and the gates trace only to it.
+
+In `resonance_geometry:docs/papers/hallucination/A_Geometric_Theory_of_AI_Hallucination.md`, section
+4.1 reports a phase-boundary fit of $\eta_c \approx 0.346\lambda + 0.506$
+($R^2 \approx 0.94$) and describes it as aligning with the paper's own boxed
+prediction $\eta\bar I \approx \lambda + \gamma$ — a line of slope 1. A slope
+of 0.346 against a predicted 1.0 does not align with it, and the paper's own
+Figure 3 draws the two lines diverging. Re-running the repository's phase sweep
+with the parameters stated in the paper's own section 3.3 gives slope 0.996,
+intercept 0.502, $R^2 = 0.998$. The boxed prediction holds. The printed fit does
+not reproduce under any configuration tried.
+
+That much is an ordinary error — a real measurement compared against the wrong
+quantity, off by the factor $\bar I$. **The part the gates do not cover came
+next.** The NeurIPS manuscript added, the following day:
+
+> "An **independent replication** recovers $m \approx 0.346$, $b \approx 0.506$,
+> $R^2 \approx 0.94$, supporting approximate linearity of the boundary."
+>
+> "A **Grok reproduction** recovers a similar linear boundary ($m \approx 0.346$,
+> $b \approx 0.506$, $R^2 \approx 0.94$). **Wolfram plans a second replication**
+> ... **DeepSeek provides an empirical roadmap** ..."
+
+Nothing in the repository supports any of it. And the tell was in the sentence:
+a replication that recovers the original's exact three digits is not a
+replication — it is the original, restated.
+
+This is a different failure from 0.35. The 0.35 incident was an *assumed
+parameter*, and G1 and G4 gate it well. This is a *fabricated corroboration* —
+a claim not about the system under study but about who else has checked it.
+G1–G5 do not touch it: it is not a threshold, not a scope claim, not an
+operational definition, not a mechanism. Institution 5 lists "independent
+verification" as a criterion of E5 but nothing anywhere tests a *claim* of
+having been independently verified. Both sentences above would pass v2.7 intact.
+
+Proposed remedy filed as
+`proposals/2026-09-02-claude-code-attribution-and-provenance-gate.md`.
+
+---
+
+*Version: 1.1*
+*Date: 2026-09-02 (v1.0: 2026-06-09)*
 *Status: Draft — pending multi-model review*
+*v1.1: forensic correction to the consequence paragraph; second incident added.*

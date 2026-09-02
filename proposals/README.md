@@ -74,6 +74,7 @@ Before writing a new proposal, check the status table below — the issue you fo
 | File | Source | Target | Status |
 |------|--------|--------|--------|
 | [2026-06-08-claude-chat-q4-diversify-trigger-differentiated-exit.md](./2026-06-08-claude-chat-q4-diversify-trigger-differentiated-exit.md) | Claude Chat | §3 Coherence Controller — DIVERSIFY exit criterion (Open Q4) | **Proposed — pending multi-model review. Tier 1 (hypothesis-space triggers: ST1, Watchdog, G5) → a+b+c; Tier 2 (bookkeeping triggers: ST2, ST3, G3) → b+c only. Tier assignment of G3/G5 is the contestable claim.** |
+| [2026-09-02-claude-code-attribution-and-provenance-gate.md](./2026-09-02-claude-code-attribution-and-provenance-gate.md) | Claude Code | §2 Hard Gates (new G6) + §5 E5 | **Open — pending review** (fabricated corroboration passes all of G1–G5; second lab incident, see ORIGIN.md v1.1) |
 
 For the full account of Review Cycle 1 decisions, see [REVIEW_CYCLE_1_SUMMARY.md](./REVIEW_CYCLE_1_SUMMARY.md).
 
