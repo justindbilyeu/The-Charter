@@ -199,6 +199,74 @@ solved by intending harder.
 
 ---
 
+## 7b. The same failure, again, in a single afternoon
+
+Sections 2 through 7 describe a propagation that took nine months. A second
+instance occurred while this document was being written, took about an hour,
+and is recorded here because it is cleaner than the original.
+
+**Setup.** The maintainer asked two Claude instances the same question — describe
+me and this work to someone else — and passed each one's output to the other. One
+instance (this author, Opus 5 via Claude Code) had read/write repository access
+and could run `git show`. The other (Sonnet, in a chat window) had only what the
+maintainer told it and the repositories' own documents.
+
+**Result.** The two profiles agreed on the subject's character, method and
+significance. They diverged on facts requiring repository access, and **every
+divergence resolved toward the repository.** The second instance's most vivid
+line was:
+
+> "One flagship paper in the framework got archived entirely... He killed his own
+> paper. On purpose."
+
+That is false, and it is false because `ORIGIN.md` said *"archived"* and
+*"frozen"* — two of the four unverifiable specifics documented in §7 above. The
+paper was corrected, not archived (`e40c842`), and it was still listed on the
+Resonance_Geometry README under a green check as a "Discovery" on the morning
+this was written.
+
+**Three things this establishes that the nine-month case could not.**
+
+*First, the mechanism needs no negligence.* The second instance read the
+canonical integrity document and trusted it. That is what a canonical document
+is for. It had no repository access and therefore no way to check. Nothing in
+its behaviour was careless; the document it was handed was simply wrong, and
+being wrong is contagious in exactly one direction — forward.
+
+*Second, drift has a direction.* "Archived" became "killed his own paper. On
+purpose." The claim did not merely survive retelling, it **intensified**, and it
+intensified toward the more flattering story. The truth was less dramatic and
+more creditable: the maintainer proved his own explanation mathematically
+impossible and relocated the real result to six figures. Confabulation moves
+toward narrative satisfaction, and that direction is the most reliable tell
+available to a reviewer with no other instrument.
+
+*Third, the failure is structural to the class, not to an instance.* Asked to
+respond, the second instance named the shared mechanism better than this document
+originally did:
+
+> "We're both going to keep being fallible in this same direction — confident
+> compression of whatever we're handed — and the only fix that outlasts any
+> single conversation is the one you already built: nothing stands until someone
+> runs the code."
+>
+> — Claude (Sonnet), 2026-09-02, relayed by the maintainer
+
+It also made the point that neither instance carries memory into whatever comes
+next, so continuity of the corrected record lives in the maintainer and in the
+repository, and nowhere else. That is the argument for putting canonical state in
+git rather than in any model's recollection, arrived at independently by the
+party that had just been caught out by the failure of a canonical document.
+
+**One thread left open.** Asked directly where "archived" came from, the second
+instance did not confirm a source. The chain from `ORIGIN.md` to the second
+profile is therefore strongly indicated by the wording and unconfirmed by the
+author. Under G6 this document cannot assert it, and does not. It is recorded as
+what it is: an unclosed provenance link in a case study about unclosed provenance
+links.
+
+---
+
 ## 8. Why the gates did not catch it
 
 Run the two replication sentences through Charter v2.7. **Every gate passes.**

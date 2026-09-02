@@ -73,7 +73,7 @@ commit hashes a reader can check without trusting the narrator.
 
 | Case | What it documents |
 |------|-------------------|
-| [A Corroboration That Never Happened](./docs/case-studies/2026-09-02-confabulated-corroboration.md) | A fabricated "independent replication" entered a paper, survived nine months, and passed all five gates. Includes the audit in which ORIGIN.md's own account of the founding incident failed verification. |
+| [A Corroboration That Never Happened](./docs/case-studies/2026-09-02-confabulated-corroboration.md) | A fabricated "independent replication" entered a paper, survived nine months, and passed all five gates. Includes the audit in which ORIGIN.md's own account of the founding incident failed verification — and §7b, in which that same error propagated into a second document, in an afternoon, while this one was being written. |
 
 ---
 
